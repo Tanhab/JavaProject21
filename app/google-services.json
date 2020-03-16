@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "201457968228",
+    "firebase_url": "https://java-project-21.firebaseio.com",
+    "project_id": "java-project-21",
+    "storage_bucket": "java-project-21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201457968228:android:230e1c4c5b31e7e8bdeb71",
+        "android_client_info": {
+          "package_name": "com.example.javaproject21"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201457968228-19gj2e078j6dpqlqngpdl4vlcbs48q4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKLGH2BqxZhlzafase6xcxo2jaT0xfmaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201457968228-19gj2e078j6dpqlqngpdl4vlcbs48q4o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
