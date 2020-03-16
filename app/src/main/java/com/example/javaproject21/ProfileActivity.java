@@ -173,7 +173,7 @@ public class ProfileActivity extends AppCompatActivity {
         map.put("name",""+name);
         map.put("BloodGroup",""+bloodGrp);
         map.put("PhoneNo",""+phnNo);
-        //map.put("imageUri",""+uri);
+        map.put("imageUri",""+uri);
         map.put("Email",""+email);
         map.put("Uid",""+FirebaseAuth.getInstance().getCurrentUser().getUid());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -196,9 +196,6 @@ public class ProfileActivity extends AppCompatActivity {
                         e.getLocalizedMessage();
                     }
                 });
-
-
-
 
     }
 
