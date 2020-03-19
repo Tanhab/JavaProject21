@@ -53,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         profilePic=findViewById(R.id.profilePic);
         pd = new ProgressDialog(this);
         pd.setTitle("Updating Profile...");
+        pd.setCancelable(false);
 
 
         storageReference= FirebaseStorage.getInstance().getReference();
@@ -87,36 +88,6 @@ public class ProfileActivity extends AppCompatActivity {
         {
             Log.d(TAG, "saveProfilePic: started imageuri ! null");
 
-
-
-
-            /*final StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/"+imageName+"."+getFileExtension(imageUri));
-            UploadTask uploadTask = ref.putFile(imageUri);
-
-
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return ref.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        addToDatabase(downloadUri);
-                    } else {
-                        // Handle failures
-                        // ...
-                    }
-                }
-            });*/
 
             ref.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
