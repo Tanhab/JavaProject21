@@ -1,14 +1,18 @@
 package com.example.javaproject21;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -31,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText txtEmail,txtPassword;
     private Button btnLogin;
-    private TextView txtReg;
+    private TextView txtReg,txtForgotPassword;
     private FirebaseAuth mAuth;
     SignInButton btnGoogle;
     GoogleSignInClient googleSignInClient;
@@ -46,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         txtReg=findViewById(R.id.txtCreateAccount);
         mAuth = FirebaseAuth.getInstance();
         btnGoogle=findViewById(R.id.btnGoogle);
+        txtForgotPassword=findViewById(R.id.txtForgotPassword);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +97,63 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+        txtForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showForgotDialog();
+            }
+        });
 
     }
+
+    private void showForgotDialog() {
+        AlertDialog.Builder builder= new AlertDialog.Builder(this);
+        builder.setTitle("Recover Password");
+        LinearLayout linearLayout= new LinearLayout(this);
+        final EditText edtEmail = new EditText(this);
+        edtEmail.setHint("Email");
+        edtEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        edtEmail.setMinEms(16);
+
+        linearLayout.addView(edtEmail);
+        linearLayout.setPadding(10,10,10,10);
+        builder.setView(linearLayout);
+        builder.setPositiveButton("Recover", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email= edtEmail.getText().toString().trim();
+                beginRecovary(email);
+            }
+        });builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+
+    }
+
+    private void beginRecovary(String email) {
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(LoginActivity.this, "Recovery Email Sent", Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            Toast.makeText(LoginActivity.this, "Sending Email failed..", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

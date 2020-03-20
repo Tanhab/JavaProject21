@@ -64,7 +64,7 @@
             app:errorEnabled="true"
             app:helperText="N.B:Please use 08:00 AM Format"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Enter Class Starting Time">
+            android:hint="Enter Class Finishing Time">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

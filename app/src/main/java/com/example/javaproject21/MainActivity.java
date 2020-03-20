@@ -38,17 +38,14 @@ public class MainActivity extends AppCompatActivity {
         cardClassRoutine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ClassRoutineActivity.class));
 
             }
         });
         cardExamRoutine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });cardClassRoutine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ExamRoutineActivity.class));
 
             }
         });

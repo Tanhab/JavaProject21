@@ -22,10 +22,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CreateClassRoutineActivity extends AppCompatActivity {
@@ -34,7 +36,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
     private ImageButton btnAddSection;
     private Button btnAddDate,btnOpenDialog,btnSendRoutine;
     private TextView txtRoutineDate,txtSection,txtRoutine;
-    String finaldate,section,startTime,finishTime,className,classDescription,finalText="Classes :\n";
+    String finalDate,section,startTime,finishTime,className,classDescription,finalText="Classes :\n";
     private ClassRoutine classRoutine;
 
     @Override
@@ -79,7 +81,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         btnSendRoutine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(finaldate.length()<1||section.length()<1)
+                if(finalDate.length()<1||section.length()<1)
                 {
                     Toast.makeText(CreateClassRoutineActivity.this, "Date and Section can not be empty", Toast.LENGTH_SHORT).show();
                     return;
@@ -95,6 +97,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         Log.d(TAG, "uploadRoutine: started");
         //TODO: cse18 er bodole class name ber kora lagbe
         classRoutine.setClasses(finalText);
+        setPriority();
         FirebaseFirestore.getInstance().collection("cse18").document(classRoutine.getDate()+classRoutine.getSection())
                 .set(classRoutine).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -102,13 +105,15 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
                 edtSection.setText("");
                 section="";
                 finalText="Classes: \n";
-                finaldate="";
+                finalDate="";
                 classRoutine.setClasses("");
                 classRoutine.setSection("");
                 classRoutine.setDate("");
+
                 txtRoutine.setText(finalText);
                 txtRoutineDate.setText("Date");
                 txtSection.setText("Section");
+                Toast.makeText(CreateClassRoutineActivity.this, "Class Routine Added.", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -118,6 +123,17 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setPriority() {
+        Calendar calendar= Calendar.getInstance();
+        int YEAR = calendar.get(Calendar.YEAR);
+        int MONTH = calendar.get(Calendar.MONTH);
+        int DATE = calendar.get(Calendar.DATE);
+        long a= YEAR*100+MONTH;
+        a= a*100+DATE;
+        classRoutine.setPriority(a);
+
     }
 
     private void handleDateButton() {
@@ -138,7 +154,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
 
                 txtRoutineDate.setText(dateText);
                 classRoutine.setDate(dateText);
-                finaldate=dateText;
+                finalDate=dateText;
             }
         }, YEAR, MONTH, DATE);
 

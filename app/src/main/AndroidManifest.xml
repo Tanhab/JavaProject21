@@ -11,7 +11,10 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateClassRoutineActivity"></activity>
+        <activity android:name=".ExamRoutineActivity"></activity>
+        <activity android:name=".CreateExamRoutineActivity" />
+        <activity android:name=".ClassRoutineActivity" />
+        <activity android:name=".CreateClassRoutineActivity" />
         <activity android:name=".CRActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />

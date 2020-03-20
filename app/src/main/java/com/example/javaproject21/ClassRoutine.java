@@ -1,11 +1,21 @@
 package com.example.javaproject21;
 
 
+import com.google.firebase.Timestamp;
+
 public class ClassRoutine  {
     private static final String TAG = "ClassRoutine";
 
     private String date,section,classes;
+    private long priority;
 
+
+    public ClassRoutine(String date, String section, String classes, long priority) {
+        this.date = date;
+        this.section = section;
+        this.classes = classes;
+        this.priority = priority;
+    }
 
     public ClassRoutine(String date, String section, String classes) {
         this.date = date;
@@ -16,7 +26,13 @@ public class ClassRoutine  {
     public ClassRoutine() {
     }
 
+    public long getPriority() {
+        return priority;
+    }
 
+    public void setPriority(long priority) {
+        this.priority = priority;
+    }
 
     public String getDate() {
         return date;
