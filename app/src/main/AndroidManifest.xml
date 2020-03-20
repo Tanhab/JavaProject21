@@ -11,7 +11,8 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ExamRoutineActivity"></activity>
+        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".ExamRoutineActivity" />
         <activity android:name=".CreateExamRoutineActivity" />
         <activity android:name=".ClassRoutineActivity" />
         <activity android:name=".CreateClassRoutineActivity" />
@@ -26,6 +27,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notify_icon" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>
