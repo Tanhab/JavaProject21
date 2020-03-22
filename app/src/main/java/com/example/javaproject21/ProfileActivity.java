@@ -7,13 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,10 +28,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
@@ -36,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnOpenGallery,btnSaveProfile;
     private CircleImageView profilePic;
     private Uri imageUri;
+    Bitmap thumbBitmap=null;
     public static final int IMAGE_REQUEST= 100;
     ProgressDialog pd;
 
@@ -54,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setTitle("Updating Profile...");
         pd.setCancelable(false);
+
 
 
         storageReference= FirebaseStorage.getInstance().getReference();
@@ -87,45 +97,10 @@ public class ProfileActivity extends AppCompatActivity {
         if(imageUri!=null)
         {
             Log.d(TAG, "saveProfilePic: started imageuri ! null");
-
-
-            ref.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Get a URL to the uploaded content
-                            Log.d(TAG, "onSuccess: started image upload done");
-                            //String uri= taskSnapshot.getStorage().getDownloadUrl().toString();
-                            //addToDatabase(uri);
-                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Log.d(TAG, "onSuccess: started got uri "+ uri);
-                                    addToDatabase(uri);
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    e.getLocalizedMessage();
-                                    e.printStackTrace();
-                                }
-                            });
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
-                            // ...
-                            pd.dismiss();
-                            exception.getLocalizedMessage();
-
-                        }
-                    });
-
-
+            Uri resultUri= imageUri;
+            BackgroundImageResize backgroundImageResize=new BackgroundImageResize(null);
+            backgroundImageResize.execute(imageUri);
+          
         }else {
             //TODO: check for other Info
                 Uri uri= null;
@@ -137,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void addToDatabase(Uri uri) {
         String name = txtName.getText().toString().trim();
-        String bloodGrp= txtBloodGroup.getText().toString().trim();
+        String bloodGrp= txtBloodGroup.getText().toString().trim().toUpperCase();
         String phnNo= txtPhnNo.getText().toString().trim();
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Map<String,Object> map= new HashMap<>();
@@ -149,7 +124,7 @@ public class ProfileActivity extends AppCompatActivity {
         map.put("Uid",""+FirebaseAuth.getInstance().getCurrentUser().getUid());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Users").document(email)
-                .set(map)
+                .update(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -176,6 +151,7 @@ public class ProfileActivity extends AppCompatActivity {
         if(requestCode==IMAGE_REQUEST&& resultCode==RESULT_OK&& data!= null && data.getData()!= null)
         {
             imageUri= data.getData();
+
             Glide.with(this).load(imageUri).placeholder(R.drawable.ic_add_profile_pic).into(profilePic);
         }
     }
@@ -193,4 +169,86 @@ public class ProfileActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageUri));
 
     }
+    public class BackgroundImageResize extends AsyncTask<Uri, Integer, byte[]> {
+
+        Bitmap mBitmap;
+
+        public BackgroundImageResize(Bitmap bitmap) {
+            if(bitmap != null){
+                this.mBitmap = bitmap;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+           // Toast.makeText(getApplicationContext(), "compressing image", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onPreExecute: Compressing started");
+            pd.show();
+
+        }
+
+        @Override
+        protected byte[] doInBackground(Uri... params) {
+            Log.d(TAG, "doInBackground: started.");
+
+            if(mBitmap == null){
+                try{
+                    mBitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), params[0]);
+                }catch (IOException e){
+                    Log.e(TAG, "doInBackground: IOException: " + e.getMessage());
+                }
+            }
+            byte[] bytes = null;
+            bytes = getBytesFromBitmap(mBitmap, 30);
+            return bytes;
+        }
+
+        @Override
+        protected void onPostExecute(byte[] bytes) {
+            super.onPostExecute(bytes);
+            //mUploadBytes = bytes;
+            StorageReference ref= storageReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"."+getFileExtension(imageUri));
+
+            UploadTask uploadTask= ref.putBytes(bytes);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Log.d(TAG, "onSuccess: started got uri "+ uri);
+                            addToDatabase(uri);
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.getLocalizedMessage();
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                    // ...
+                    pd.dismiss();
+                    exception.getLocalizedMessage();
+
+                }
+            });
+
+            //execute the upload task
+
+        }
+    }
+
+    public static byte[] getBytesFromBitmap(Bitmap bitmap, int quality){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality,stream);
+        return stream.toByteArray();
+    }
+
 }

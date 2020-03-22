@@ -20,15 +20,27 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CreateClassRoutineActivity extends AppCompatActivity {
     private static final String TAG = "CreateClassRoutine";
@@ -38,6 +50,8 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
     private TextView txtRoutineDate,txtSection,txtRoutine;
     String finalDate,section,startTime,finishTime,className,classDescription,finalText="Classes :\n";
     private ClassRoutine classRoutine;
+    private RequestQueue mRequestQue;
+    private String URL = "https://fcm.googleapis.com/fcm/send";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +61,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
        btnOpenDialog=findViewById(R.id.btnOpenDialog);
         btnAddDate=findViewById(R.id.btnEnterDate);
         btnAddSection=findViewById(R.id.btnAddSection);
-
+        mRequestQue = Volley.newRequestQueue(this);
         txtRoutineDate=findViewById(R.id.txtRoutineDate);
         txtSection=findViewById(R.id.txtSection);
         txtRoutine=findViewById(R.id.txtRoutine);
@@ -98,10 +112,11 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         //TODO: cse18 er bodole class name ber kora lagbe
         classRoutine.setClasses(finalText);
         setPriority();
-        FirebaseFirestore.getInstance().collection("cse18").document(classRoutine.getDate()+classRoutine.getSection())
+        FirebaseFirestore.getInstance().collection("cse18").document("Data").collection("classRoutines").document(classRoutine.getDate()+classRoutine.getSection())
                 .set(classRoutine).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                sendNotification("Class Routine for "+classRoutine.getDate()+" "+classRoutine.getSection(),finalText);
                 edtSection.setText("");
                 section="";
                 finalText="Classes: \n";
@@ -258,6 +273,55 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
 
 
 
+    }
+    private void sendNotification(String title, String body) {
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("to","/topics/"+"cse18");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title",title);
+            notificationObj.put("body",body);
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","classRoutine");
+
+
+
+            json.put("notification",notificationObj);
+            json.put("data",extraData);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("MUR", "onError: "+error.networkResponse);
+                }
+            }
+            ){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AIzaSyBJDuo2BaJ9bjqLpnGcE_BY4oD282gF64M");
+                    return header;
+                }
+            };
+            mRequestQue.add(request);
+        }
+        catch (JSONException e)
+
+        {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -28,6 +29,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationID = new Random().nextInt(3000);
+        Map<String, String> extraData = remoteMessage.getData();
+
+        String category = extraData.get("category");
 
       /*
         Apps targeting SDK 26 or above (Android O) must implement notification channels and add its notifications
@@ -36,19 +40,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             setupChannels(notificationManager);
         }
-        final Intent intent = new Intent(this, MainActivity.class);
+        Intent intent;
+
+        if (category.equals("classRoutine")) {
+            intent = new Intent(this, ClassRoutineActivity.class);
+
+        }else if (category.equals("examRoutine")) {
+            intent = new Intent(this, ExamRoutineActivity.class);
+
+        }
+        else {
+            intent = new Intent(this, MainActivity.class);
+
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this , 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.notify_icon);
+                R.drawable.classroom);
         String title = remoteMessage.getNotification().getTitle();
         String body = remoteMessage.getNotification().getBody();
 
         Uri notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.notify_icon)
+                .setSmallIcon(R.drawable.classroom)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(title)
                 .setContentText(body)

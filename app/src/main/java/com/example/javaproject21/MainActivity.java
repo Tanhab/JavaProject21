@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         cardResources.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getApplicationContext(),ResourcesActivity.class));
             }
         });
         cardNotification.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        if (getIntent().hasExtra("category")){
+           String name=getIntent().getStringExtra("category");
+            Log.d(TAG, "onCreate: category = "+name);
+           if(name.equals("classRoutine")) {
+               Intent intent = new Intent(getApplicationContext(), ClassRoutineActivity.class);
+               startActivity(intent);
+           }
+        }
 
 
     }
@@ -103,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                             msg = "Subscription to cse18 failed";
                         }
                         Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

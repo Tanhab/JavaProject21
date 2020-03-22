@@ -15,7 +15,7 @@ public class ExamRoutineActivity extends AppCompatActivity {
     private static final String TAG = "ExamRoutineActivity";
     RecyclerView recyclerView;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref= db.collection("cse18").document("ExamRoutines").collection("ExamRoutines");
+    private CollectionReference ref= db.collection("cse18").document("Data").collection("ExamRoutines");
     private ExamRoutineAdapter adapter;
 
     @Override
@@ -34,7 +34,7 @@ public class ExamRoutineActivity extends AppCompatActivity {
                 .setQuery(query,ExamRoutine.class)
                 .build();
         adapter= new ExamRoutineAdapter(options);
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }

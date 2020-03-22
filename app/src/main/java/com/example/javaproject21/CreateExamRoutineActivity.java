@@ -17,11 +17,23 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateExamRoutineActivity extends AppCompatActivity {
     private static final String TAG = "CreateExamRoutineActivi";
@@ -31,6 +43,8 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
     private Button btnSubmit;
     String startTime,startDate;
     long priority;
+    private RequestQueue mRequestQue;
+    private String URL = "https://fcm.googleapis.com/fcm/send";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +69,7 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
                 handleDateButton();
             }
         });
+        mRequestQue = Volley.newRequestQueue(this);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,16 +96,17 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
     private void createExamRoutine() {
         Log.d(TAG, "createExamRoutine: started");
-        String name=edtExamName.getText().toString().trim();
+        final String name=edtExamName.getText().toString().trim();
         String syllabus=edtExamSyllabus.getText().toString().trim();
         String resources=edtExamResource.getText().toString().trim();
-        ExamRoutine examRoutine= new ExamRoutine(name,startDate,startTime,syllabus,resources,priority);
-        FirebaseFirestore.getInstance().collection("cse18").document("ExamRoutines").collection("ExamRoutines")
+        final ExamRoutine examRoutine= new ExamRoutine(name,startDate,startTime,syllabus,resources,priority);
+        FirebaseFirestore.getInstance().collection("cse18").document("Data").collection("ExamRoutines")
                 .document(String.valueOf(System.currentTimeMillis()))
                 .set(examRoutine).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(CreateExamRoutineActivity.this, "Exam Schedule Updated.", Toast.LENGTH_SHORT).show();
+                sendNotification(name+ " Exam at "+ examRoutine.getExamDate(),"Time : "+examRoutine.getExamTime()+" "+examRoutine.getSyllabus());
                 edtExamName.setText("");
                 edtExamResource.setText("");
                 edtExamSyllabus.setText("");
@@ -160,5 +176,54 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
         timePickerDialog.show();
 
+    }
+    private void sendNotification(String title, String body) {
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("to","/topics/"+"cse18");
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title",title);
+            notificationObj.put("body",body);
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","examRoutine");
+
+
+
+            json.put("notification",notificationObj);
+            json.put("data",extraData);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("MUR", "onError: "+error.networkResponse);
+                }
+            }
+            ){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AIzaSyBJDuo2BaJ9bjqLpnGcE_BY4oD282gF64M");
+                    return header;
+                }
+            };
+            mRequestQue.add(request);
+        }
+        catch (JSONException e)
+
+        {
+            e.printStackTrace();
+        }
     }
 }

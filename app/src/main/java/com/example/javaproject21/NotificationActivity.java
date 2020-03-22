@@ -59,6 +59,8 @@ public class NotificationActivity extends AppCompatActivity {
                     edtBody.setFocusable(true);
                 }else {
                     sendNotification(title,body);
+                    edtBody.setText("");
+                    edtTitle.setText("");
                 }
 
             }
@@ -90,7 +92,6 @@ public class NotificationActivity extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
                             Log.d("MUR", "onResponse: ");
                         }
                     }, new Response.ErrorListener() {
@@ -126,7 +127,7 @@ public class NotificationActivity extends AppCompatActivity {
                             msg = "Subscription to cse18 failed";
                         }
                         Log.d(TAG, msg);
-                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

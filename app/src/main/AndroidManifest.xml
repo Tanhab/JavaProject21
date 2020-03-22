@@ -11,7 +11,9 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".ResourcesActivity"></activity>
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".NotificationActivity" />
         <activity android:name=".ExamRoutineActivity" />
         <activity android:name=".CreateExamRoutineActivity" />
         <activity android:name=".ClassRoutineActivity" />
