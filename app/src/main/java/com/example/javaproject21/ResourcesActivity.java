@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -23,10 +25,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResourcesActivity extends AppCompatActivity {
     private static final String TAG = "ResourcesActivity";
@@ -35,11 +40,15 @@ public class ResourcesActivity extends AppCompatActivity {
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
     private CollectionReference ref= db.collection("cse18").document("Data").collection("Folders");
     private FolderAdapter adapter;
+    private ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resources);
         recyclerView=findViewById(R.id.folderRecView);
+        pd = new ProgressDialog(this);
+        pd.setTitle("Please wait...");
+        pd.setCancelable(false);
         fab=findViewById(R.id.fab);
         setupRecView();
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +69,6 @@ public class ResourcesActivity extends AppCompatActivity {
             Button acceptButton = view.findViewById(R.id.btnAddNewFolder);
             Button cancelButton = view.findViewById(R.id.btnCancel);
             final EditText edtFolderName;
-
             edtFolderName=view.findViewById(R.id.edtFolderName);
             final AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setView(view)
@@ -148,6 +156,40 @@ public class ResourcesActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new FolderAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Folder folder= documentSnapshot.toObject(Folder.class);
+                createPath(folder.getFolderName());
+                pd.show();
+            }
+        });
+    }
+
+    private void createPath(final String folderName) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("msg","default");
+        db.collection("cse18").document("Documents").collection(folderName).document("default").set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        pd.dismiss();
+                        Intent intent= new Intent(getApplicationContext(),AllDocumentsActivity.class);
+                        intent.putExtra("folderName",folderName);
+                        startActivity(intent);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(ResourcesActivity.this, "Something went wrong.\nPlease check your internet connection.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
     }
 
     @Override
@@ -161,4 +203,6 @@ public class ResourcesActivity extends AppCompatActivity {
         super.onStop();
         adapter.stopListening();
     }
+
+
 }

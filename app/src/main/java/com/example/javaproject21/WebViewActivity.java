@@ -2,7 +2,10 @@ package com.example.javaproject21;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,7 +21,11 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
         webView=findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://drive.google.com/open?id=1qmaJP9iZ0urFbp_yL1rkoVM42zsEloiM");
+        Intent intent= getIntent();
+        String Url= intent.getStringExtra("Url");
+        Log.d(TAG, "onCreate: url "+ Url);
+       // Uri uri= Uri.parse(Url);
+        webView.loadUrl(Url);
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);

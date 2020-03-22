@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class FolderAdapter extends FirestoreRecyclerAdapter<Folder, FolderAdapter.FolderHolder> {
-
+    private OnItemClickListener listener;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -35,6 +36,7 @@ public class FolderAdapter extends FirestoreRecyclerAdapter<Folder, FolderAdapte
     protected void onBindViewHolder(@NonNull FolderHolder holder, int position, @NonNull Folder model) {
         holder.txtFolderName.setText(model.getFolderName());
 
+
     }
 
     class FolderHolder extends RecyclerView.ViewHolder{
@@ -43,7 +45,24 @@ public class FolderAdapter extends FirestoreRecyclerAdapter<Folder, FolderAdapte
         public FolderHolder(@NonNull View itemView) {
             super(itemView);
             txtFolderName=itemView.findViewById(R.id.txtFolderName);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position=getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION && listener!=null){
+                        listener.OnItemClick(getSnapshots().getSnapshot(position),position);
+                    }
+
+                }
+            });
 
         }
+    }
+    public interface  OnItemClickListener{
+        void OnItemClick(DocumentSnapshot documentSnapshot,int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener=listener;
+
     }
 }

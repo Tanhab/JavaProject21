@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    tools:context=".AllDocumentsActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resources Directory "
+            android:gravity="center"
+            android:id="@+id/text1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/docRecView"
+            android:layout_below="@+id/text1"
+            android:layout_marginTop="60dp"
+            />
+
+
+
+    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:clickable_overlay="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="2dp"
+        app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+        app:sdExpansionMode="top"
+        app:sdMainFabAnimationRotateAngle="90"
+        app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
+        app:sdMainFabOpenedBackgroundColor="@color/colorPrimaryDark"
+        app:sdMainFabClosedSrc="@drawable/ic_add"
+        app:sdMainFabOpenedSrc="@drawable/ic_back"
+        app:sdOverlayLayout="@id/overlay" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
