@@ -100,7 +100,7 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
         String syllabus=edtExamSyllabus.getText().toString().trim();
         String resources=edtExamResource.getText().toString().trim();
         final ExamRoutine examRoutine= new ExamRoutine(name,startDate,startTime,syllabus,resources,priority);
-        FirebaseFirestore.getInstance().collection("cse18").document("Data").collection("ExamRoutines")
+        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("Data").collection("ExamRoutines")
                 .document(String.valueOf(System.currentTimeMillis()))
                 .set(examRoutine).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -181,19 +181,15 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
         JSONObject json = new JSONObject();
         try {
-            json.put("to","/topics/"+"cse18");
+            json.put("to","/topics/"+Utils.getClassName());
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title",title);
             notificationObj.put("body",body);
 
             JSONObject extraData = new JSONObject();
             extraData.put("category","examRoutine");
-
-
-
             json.put("notification",notificationObj);
             json.put("data",extraData);
-
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
                     json,

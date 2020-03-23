@@ -24,12 +24,17 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -122,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String email= edtEmail.getText().toString().trim();
-                beginRecovary(email);
+                beginRecovery(email);
             }
         });builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -134,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void beginRecovary(String email) {
+    private void beginRecovery(String email) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -183,9 +188,17 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                          if(FirebaseAuth.getInstance().getCurrentUser().getMetadata().getCreationTimestamp()==
+                                    FirebaseAuth.getInstance().getCurrentUser().getMetadata().getLastSignInTimestamp())
+                          {
+                              addtoDatabase();
 
-                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                            finish();
+                          }else{
+                              startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                              finish();
+                          }
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -230,5 +243,26 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
         }
+    }
+    private void addtoDatabase() {
+        Log.d(TAG, "addtoDatabase: started");
+        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Map<String,Object> map= new HashMap<>();
+        map.put("Email",email);
+        map.put("currentClass","empty");
+        FirebaseFirestore.getInstance().collection("Users").document(email).set(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

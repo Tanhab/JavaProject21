@@ -16,7 +16,7 @@ public class ClassRoutineActivity extends AppCompatActivity {
     private static final String TAG = "ClassRoutineActivity";
     RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference classRoutineRef=db.collection("cse18").document("Data").collection("classRoutines");///change kora lagbe
+    private CollectionReference classRoutineRef=db.collection(Utils.getClassName()).document("Data").collection("classRoutines");///change kora lagbe
     private ClassRoutineAdapter classRoutineAdapter;
 
 
@@ -47,6 +47,7 @@ public class ClassRoutineActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        classRoutineAdapter.notifyDataSetChanged();
         classRoutineAdapter.startListening();
     }
 

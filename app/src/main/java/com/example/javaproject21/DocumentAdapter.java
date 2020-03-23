@@ -39,6 +39,9 @@ public class DocumentAdapter extends FirestoreRecyclerAdapter<Document, Document
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.document_layout, parent, false);
         return new DocumentHolder(view);
     }
+    public void deleteItem(int position){
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
 
     class DocumentHolder extends RecyclerView.ViewHolder {
         TextView docName, docDate, docUploader;

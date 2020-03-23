@@ -24,7 +24,6 @@ public class FolderAdapter extends FirestoreRecyclerAdapter<Folder, FolderAdapte
     public FolderAdapter(@NonNull FirestoreRecyclerOptions<Folder> options) {
         super(options);
     }
-
     @NonNull
     @Override
     public FolderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

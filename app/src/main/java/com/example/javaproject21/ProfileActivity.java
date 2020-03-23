@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -68,8 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         storageReference= FirebaseStorage.getInstance().getReference();
 
-
-
         btnOpenGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +96,6 @@ public class ProfileActivity extends AppCompatActivity {
         if(imageUri!=null)
         {
             Log.d(TAG, "saveProfilePic: started imageuri ! null");
-            Uri resultUri= imageUri;
             BackgroundImageResize backgroundImageResize=new BackgroundImageResize(null);
             backgroundImageResize.execute(imageUri);
           
@@ -111,17 +109,19 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void addToDatabase(Uri uri) {
+        Log.d(TAG, "addToDatabase: started");
         String name = txtName.getText().toString().trim();
         String bloodGrp= txtBloodGroup.getText().toString().trim().toUpperCase();
         String phnNo= txtPhnNo.getText().toString().trim();
-        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String email= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
         Map<String,Object> map= new HashMap<>();
-        map.put("name",""+name);
-        map.put("BloodGroup",""+bloodGrp);
-        map.put("PhoneNo",""+phnNo);
-        map.put("imageUri",""+uri);
-        map.put("Email",""+email);
-        map.put("Uid",""+FirebaseAuth.getInstance().getCurrentUser().getUid());
+        map.put("name",name);
+        map.put("BloodGroup",bloodGrp);
+        map.put("PhoneNo",phnNo);
+        String url= uri.toString();
+        map.put("imageUri",url);
+        map.put("Email",email);
+        map.put("Uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Users").document(email)
                 .update(map)
@@ -129,17 +129,18 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Started : DocumentSnapshot successfully written!");
-                        pd.dismiss();
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
+                        pd.dismiss();
+                        startActivity(new Intent(getApplicationContext(),ChooseClassActivity.class));
+                            finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
+                        Log.d(TAG, "onFailure: "+e.getMessage());
                         pd.dismiss();
-                        e.getLocalizedMessage();
+                        Toast.makeText(ProfileActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

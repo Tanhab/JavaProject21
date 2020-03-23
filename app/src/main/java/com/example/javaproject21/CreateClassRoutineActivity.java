@@ -65,7 +65,6 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         txtRoutineDate=findViewById(R.id.txtRoutineDate);
         txtSection=findViewById(R.id.txtSection);
         txtRoutine=findViewById(R.id.txtRoutine);
-
         btnSendRoutine=findViewById(R.id.btnSendRoutine);
         classRoutine= new ClassRoutine();
 
@@ -112,7 +111,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         //TODO: cse18 er bodole class name ber kora lagbe
         classRoutine.setClasses(finalText);
         setPriority();
-        FirebaseFirestore.getInstance().collection("cse18").document("Data").collection("classRoutines").document(classRoutine.getDate()+classRoutine.getSection())
+        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("Data").collection("classRoutines").document(classRoutine.getDate()+classRoutine.getSection())
                 .set(classRoutine).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -166,7 +165,6 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
                 calendar1.set(Calendar.MONTH, month);
                 calendar1.set(Calendar.DATE, date);
                 String dateText = DateFormat.format("EEEE, MMM d, yyyy", calendar1).toString();
-
                 txtRoutineDate.setText(dateText);
                 classRoutine.setDate(dateText);
                 finalDate=dateText;
@@ -256,10 +254,6 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -271,14 +265,12 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
 
         alertDialog.show();
 
-
-
     }
     private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {
-            json.put("to","/topics/"+"cse18");
+            json.put("to","/topics/"+Utils.getClassName());
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title",title);
             notificationObj.put("body",body);

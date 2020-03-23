@@ -24,7 +24,6 @@ public class WebViewActivity extends AppCompatActivity {
         Intent intent= getIntent();
         String Url= intent.getStringExtra("Url");
         Log.d(TAG, "onCreate: url "+ Url);
-       // Uri uri= Uri.parse(Url);
         webView.loadUrl(Url);
 
         WebSettings webSettings = webView.getSettings();

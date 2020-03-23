@@ -45,6 +45,7 @@ public class NotificationActivity extends AppCompatActivity {
         edtBody=findViewById(R.id.txtNotificationBodyInput);
         edtTitle=findViewById(R.id.txtTitleInput);
         mRequestQue = Volley.newRequestQueue(this);
+        showDebug();
         subscribeToClass();
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +69,16 @@ public class NotificationActivity extends AppCompatActivity {
 
 
     }
+
+    private void showDebug() {
+        Toast.makeText(this, Utils.getClassName()+"\n"+Utils.getUserName()+"\n"+Utils.getCR(), Toast.LENGTH_LONG).show();
+    }
+
     private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {
-            json.put("to","/topics/"+"cse18");
+            json.put("to","/topics/"+Utils.getClassName());
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title",title);
             notificationObj.put("body",body);
@@ -118,7 +124,7 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
     private void subscribeToClass(){
-        FirebaseMessaging.getInstance().subscribeToTopic("cse18")
+        FirebaseMessaging.getInstance().subscribeToTopic(Utils.getClassName())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

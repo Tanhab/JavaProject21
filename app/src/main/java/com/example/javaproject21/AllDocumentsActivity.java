@@ -1,15 +1,8 @@
 package com.example.javaproject21;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -24,6 +17,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,7 +34,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.leinardi.android.speeddial.FabWithLabelView;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
@@ -59,18 +59,18 @@ public class AllDocumentsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String path = intent.getStringExtra("folderName");
         txtFolderName.setText(path);
-        ref = db.collection("cse18").document("Documents").collection(path);
+        ref = db.collection(Utils.getClassName()).document("Documents").collection(path);
         Log.d(TAG, "onCreate: started intent data " + path);
-
         initSpeedDial(savedInstanceState == null);
         recyclerView = findViewById(R.id.docRecView);
+        query = ref.orderBy("priority", Query.Direction.DESCENDING);
         setupRecView();
 
 
     }
 
     private void setupRecView() {
-        query = ref.orderBy("priority", Query.Direction.DESCENDING);
+
 
         FirestoreRecyclerOptions<Document> options = new FirestoreRecyclerOptions.Builder<Document>()
                 .setQuery(query, Document.class)
@@ -79,6 +79,29 @@ public class AllDocumentsActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AllDocumentsActivity.this);
+                alertDialogBuilder.setTitle("Delete this Document").setMessage("Are you sure ?\n[Of course,you must be the CR :3 }").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.deleteItem(viewHolder.getAdapterPosition());
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        adapter.notifyDataSetChanged();
+                    }
+                }).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
         adapter.setOnItemClickListener(new DocumentAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
@@ -160,10 +183,13 @@ public class AllDocumentsActivity extends AppCompatActivity {
                         return false; // false will close it without animation
                     case R.id.fab_sort_by_date:
                         showToast(actionItem.getLabel(getApplicationContext()) + " clicked!");
+                        sortByDate();
 
                         return false;
                     case R.id.fab_sort_by_name:
                         showToast(actionItem.getLabel(getApplicationContext()) + " clicked!\nClosing without animation.");
+
+                        sortByName();
                         return false; // closes without animation (same as mSpeedDialView.close(false); return false;)
 
                     default:
@@ -172,6 +198,18 @@ public class AllDocumentsActivity extends AppCompatActivity {
                 return true; // To keep the Speed Dial open
             }
         });
+
+    }
+
+    private void sortByName() {
+        query=ref.orderBy("name", Query.Direction.DESCENDING);
+
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortByDate() {
+        query=ref.orderBy("priority", Query.Direction.DESCENDING);
+        adapter.notifyDataSetChanged();
 
     }
 
