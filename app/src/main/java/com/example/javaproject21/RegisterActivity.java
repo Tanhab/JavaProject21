@@ -3,6 +3,7 @@ package com.example.javaproject21;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister;
     TextView txtLoginGo;
     private FirebaseAuth mAuth;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class RegisterActivity extends AppCompatActivity {
         txtLoginGo=findViewById(R.id.txtLoginAccount);
         txtConfirmPassword= findViewById(R.id.txtPasswordConfirm);
         mAuth = FirebaseAuth.getInstance();
+        pd = new ProgressDialog(this);
+        pd.setTitle("Registering User...");
+        pd.setCancelable(false);
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                     txtConfirmPassword.setError("Password didn't match");
                 }else
                 {
+                    pd.show();
                     RegisterUser(email,password);
                 }
             }
@@ -92,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
+                            pd.dismiss();
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -113,12 +120,14 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        pd.dismiss();
                         startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
                 e.printStackTrace();
                 Toast.makeText(RegisterActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }

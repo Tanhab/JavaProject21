@@ -12,7 +12,8 @@
         android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyClassroomActivity"></activity>
+        <activity android:name=".StudentsListActivity"></activity>
+        <activity android:name=".MyClassroomActivity" />
         <activity android:name=".ChooseClassActivity" />
         <activity android:name=".AllDocumentsActivity" />
         <activity android:name=".ResourcesActivity" />

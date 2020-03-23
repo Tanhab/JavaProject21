@@ -107,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
           checkForCR();
       }
 
-
-
     }
 
     private void checkForClassName() {
@@ -168,7 +166,11 @@ public class MainActivity extends AppCompatActivity {
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             String CRName=document.getData().get("currentCR").toString();
+                            String Desc=document.getData().get("description").toString();
+                            String code=document.getData().get("invitationCode").toString();
                             Utils.setCR(CRName);
+                            Utils.setClassDescription(Desc);
+                            Utils.setInvitationCode(code);
                             subscribeToClass();
                         } else {
                             Log.d(TAG, "No such document");
