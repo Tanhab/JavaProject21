@@ -10,89 +10,49 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "MainActivity";
-    private FloatingActionButton btnLogout;
-    private CardView cardClassRoutine,cardExamRoutine,cardNotification,cardResources,cardCR,cardProfile;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private FrameLayout frameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnLogout= findViewById(R.id.btnLogout);
-        cardClassRoutine=findViewById(R.id.cardClassRoutine);
-        cardCR=findViewById(R.id.cardCR);
-        cardExamRoutine=findViewById(R.id.cardExamRoutine);
-        cardNotification=findViewById(R.id.cardNotification);
-        cardResources=findViewById(R.id.cardResources);
-        cardProfile=findViewById(R.id.cardProfile);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Utils.setCR(null);
-                Utils.setClassName(null);
-                Utils.setUserName(null);
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-                finish();
-            }
-        });
-        cardClassRoutine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ClassRoutineActivity.class));
+        init();
+        ActionBarDrawerToggle toggle=   new ActionBarDrawerToggle(this,drawer,
+                R.string.drawer_oprn,R.string.drawer_closed);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
-            }
-        });
-        cardExamRoutine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ExamRoutineActivity.class));
-
-            }
-        });
-        cardResources.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ResourcesActivity.class));
-            }
-        });
-        cardNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),NotificationActivity.class));
-
-            }
-        });
-        cardCR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),CRActivity.class));
-
-            }
-        });
-        cardProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MyClassroomActivity.class));
-
-            }
-        });
+        FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer,new MainFragment());
+        transaction.commit();
 
 
     }
@@ -151,6 +111,47 @@ public class MainActivity extends AppCompatActivity {
             });
 
     }
+    private void init(){
+        Log.d(TAG, "init: mainactivity started");
+        drawer=findViewById(R.id.drawer);
+        navigationView= findViewById(R.id.navigationLayer);
+        frameLayout= findViewById(R.id.fragmentContainer);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.profile:
+                startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                //Toast.makeText(this, "profile selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.logout:
+                logout();
+                //Toast.makeText(this, "logout selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.about:
+                Toast.makeText(this, "about selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.contact:
+                Toast.makeText(this, "contact us selected", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            default:
+                break;
+        }
+        return false;
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Utils.setCR(null);
+        Utils.setClassName(null);
+        Utils.setUserName(null);
+        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        finish();
+    }
+
 
     private void checkForCR() {
         Log.d(TAG, "checkForCR: started");

@@ -93,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
                 app:cardCornerRadius="15dp"
+                android:id="@+id/cardCreateExam"
                 android:layout_margin="15dp"
                 app:cardBackgroundColor="#7ed6df"
                 android:padding="5dp">
@@ -140,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
                 app:cardCornerRadius="15dp"
-                android:id="@+id/cardCreateExam"
+                android:id="@+id/cardChangeCode"
                 android:layout_margin="15dp"
                 app:cardBackgroundColor="#7ed6df"
                 android:padding="5dp">
@@ -191,6 +192,7 @@
                 app:cardCornerRadius="15dp"
                 android:layout_margin="15dp"
                 app:cardBackgroundColor="#7ed6df"
+                android:id="@+id/cardClassControl"
                 android:padding="5dp">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -236,6 +238,7 @@
                 android:elevation="10dp"
                 app:cardCornerRadius="15dp"
                 android:layout_margin="15dp"
+                android:id="@+id/cardCRSettings"
                 app:cardBackgroundColor="#7ed6df"
                 android:padding="5dp">
                 <RelativeLayout

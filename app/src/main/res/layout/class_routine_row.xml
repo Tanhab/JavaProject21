@@ -7,7 +7,7 @@
     android:padding="20dp"
     app:cardCornerRadius="20dp"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="#FFFFE8">
+    app:cardBackgroundColor="#4bcffa">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

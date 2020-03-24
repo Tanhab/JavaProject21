@@ -29,8 +29,5 @@ public class CRActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),CreateClassRoutineActivity.class));
             }
         });
-
-
-
     }
 }

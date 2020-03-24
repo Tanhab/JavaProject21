@@ -5,25 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:background="@drawable/background_black1"
     tools:context=".ClassRoutineActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Class Routine"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:id="@+id/text1"
-        android:textColor="@color/design_default_color_error"
+        android:textColor="#ffffff"
 
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/routineRecView"
+
         android:layout_below="@+id/text1"
         android:layout_marginTop="20dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:focusableInTouchMode="true"
         />
 
