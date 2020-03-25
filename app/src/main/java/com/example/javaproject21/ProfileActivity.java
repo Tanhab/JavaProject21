@@ -110,21 +110,33 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void addToDatabase(Uri uri) {
         Log.d(TAG, "addToDatabase: started");
-        String name = txtName.getText().toString().trim();
-        String bloodGrp= txtBloodGroup.getText().toString().trim().toUpperCase();
-        String phnNo= txtPhnNo.getText().toString().trim();
+//        String name = txtName.getText().toString().trim();
+//        String bloodGrp= txtBloodGroup.getText().toString().trim().toUpperCase();
+//        String phnNo= txtPhnNo.getText().toString().trim();
         String email= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
-        Map<String,Object> map= new HashMap<>();
-        map.put("name",name);
-        map.put("BloodGroup",bloodGrp);
-        map.put("PhoneNo",phnNo);
-        String url= uri.toString();
-        map.put("imageUri",url);
-        map.put("Email",email);
-        map.put("Uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        String url= uri.toString()
+        Student student= Student.getBuilder()
+                .withNickname(txtName.getText().toString().trim())
+                .withPhoneNumber(txtPhnNo.getText().toString().trim())
+                .withEmail(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail())
+                .withBloodGroup(txtBloodGroup.getText().toString().trim().toUpperCase())
+                .withUrl(uri.toString())
+                .withUId(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .build();
+//        Map<String,Object> map= new HashMap<>();
+//        map.put("name",name);
+//        map.put("BloodGroup",bloodGrp);
+//        map.put("PhoneNo",phnNo);
+
+//        map.put("imageUrrui",url);
+//        map.put("Email",email);
+//        map.put("Uid",FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        //TestClass testClass = new TestClass(name, bloodGrp,phnNo,email,url,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        //testClass.toMap();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Users").document(email)
-                .update(map)
+                .update(student.toMap())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
