@@ -145,7 +145,7 @@
                             android:layout_height="100dp"
                             android:scrollbarSize="40dp"
                             app:lottie_autoPlay="true"
-                            app:lottie_fileName="notification.json"
+                            app:lottie_fileName="profile.json"
                             app:lottie_loop="true" />
 
                         <TextView

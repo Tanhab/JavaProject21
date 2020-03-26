@@ -51,10 +51,6 @@ public class StudentsListActivity extends AppCompatActivity  {
                 showStudentInfo(snapshot);
             }
 
-            @Override
-            public void handleDeleteItem(DocumentSnapshot snapshot) {
-
-            }
         });
 
 

@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.replace(R.id.fragmentContainer,new MainFragment());
         transaction.commit();
 
-
     }
 
     @Override

@@ -44,8 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText txtName,txtPhnNo,txtBloodGroup;
     private Button btnOpenGallery,btnSaveProfile;
     private CircleImageView profilePic;
-    private Uri imageUri;
-    Bitmap thumbBitmap=null;
+    private Uri imageUri=null;
     public static final int IMAGE_REQUEST= 100;
     ProgressDialog pd;
 
@@ -118,7 +117,10 @@ public class ProfileActivity extends AppCompatActivity {
         map.put("name",name);
         map.put("BloodGroup",bloodGrp);
         map.put("PhoneNo",phnNo);
-        String url= uri.toString();
+        String url;
+        if(uri!=null){
+             url= uri.toString();
+        }else  url="";
         map.put("imageUri",url);
         map.put("Email",email);
         map.put("Uid",FirebaseAuth.getInstance().getCurrentUser().getUid());

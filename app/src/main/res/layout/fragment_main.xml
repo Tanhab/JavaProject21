@@ -12,11 +12,11 @@
         android:id="@+id/appbar1"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@drawable/head1" />
+        android:background="@drawable/bg3" />
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="136dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/classroom"/>
     <TextView
@@ -24,9 +24,10 @@
         android:layout_height="wrap_content"
         android:text="Class Update"
         android:layout_marginTop="115dp"
-        android:layout_marginLeft="126dp"
+        android:layout_marginStart="20dp"
+        android:textStyle="bold"
         android:textAllCaps="true"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="20sp"/>
 
 

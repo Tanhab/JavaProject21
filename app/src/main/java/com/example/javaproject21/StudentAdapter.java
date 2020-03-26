@@ -45,6 +45,9 @@ StudentListener studentListener;
        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.student_row,parent,false);
        return new StudentViewHolder(view);
     }
+    public void deleteItem(DocumentSnapshot snapshot){
+        snapshot.getReference().delete();
+    }
 
     class StudentViewHolder extends RecyclerView.ViewHolder{
         CircleImageView profilePic;
@@ -65,10 +68,9 @@ StudentListener studentListener;
 
                 }
             });
+
         }
-        public void deleteItem() {
-            studentListener.handleDeleteItem(getSnapshots().getSnapshot(getAdapterPosition()));
-        }
+
 
     }
     public void setOnItemClickListener(StudentListener listener) {
@@ -78,6 +80,6 @@ StudentListener studentListener;
 
     public interface StudentListener {
         public void handleStudent(DocumentSnapshot snapshot);
-        public void handleDeleteItem(DocumentSnapshot snapshot);
+
     }
 }

@@ -4,7 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +28,6 @@ public class MyClassroomActivity extends AppCompatActivity {
     private static final String TAG = "MyClassroomActivity";
 
     private CardView cardLeave,cardClassInfo,cardClassmates,cardTeachers;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +69,40 @@ public class MyClassroomActivity extends AppCompatActivity {
     }
 
     private void openDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MyClassroomActivity.this);
-        String text="Class name : "+Utils.getClassName()+"\nInvitation Code : " +Utils.getInvitationCode()+"\nCurrent CR : "+Utils.getCR()+" \nClass Description : "+Utils.getClassDescription();
-        alertDialogBuilder.setTitle("Classroom Information").setMessage(text).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.classroom_info_dialog, null);
+
+        Button acceptButton = view.findViewById(R.id.btnJoin);
+
+        final TextView txtClassname,txtCurrentCR,txtCode,txtDesc;
+
+        txtClassname = view.findViewById(R.id.txtClassName);
+        txtCode = view.findViewById(R.id.txtInvitationCode);
+        txtCurrentCR = view.findViewById(R.id.txtCurrentCr);
+        txtDesc = view.findViewById(R.id.txtDesc);
+
+        txtClassname.setText(Utils.getClassName());
+        txtCode.setText("Invitation Code : "+Utils.getInvitationCode());
+        txtCurrentCR.setText("CurrentCR : "+Utils.getCR());
+        txtDesc.setText("Description : "+Utils.getClassDescription());
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            alertDialog.dismiss();
+
             }
-        }).show();
+        });
+
+        alertDialog.show();
+
+
     }
 
     private void clearClassnameFromDatabase() {
