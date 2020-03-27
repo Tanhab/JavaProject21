@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     SignInButton btnGoogle;
     GoogleSignInClient googleSignInClient;
     private int RC_SIGN_IN= 001;
+    ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         btnGoogle=findViewById(R.id.btnGoogle);
         txtForgotPassword=findViewById(R.id.txtForgotPassword);
+        pd = new ProgressDialog(this);
+        pd.setTitle("Logging in...");
+        pd.setCancelable(false);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                     txtPassword.setError("Length should at least be 6");
                     txtPassword.setFocusable(true);
                 }else {
+                    pd.show();
                     loginUser(email,password);
                 }
             }
@@ -169,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                pd.show();
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -194,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                               addtoDatabase();
 
                           }else{
+                              pd.dismiss();
                               startActivity(new Intent(LoginActivity.this,MainActivity.class));
                               finish();
                           }
@@ -201,6 +209,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
+                            pd.dismiss();
+                            Toast.makeText(LoginActivity.this, "Sign in failed.Please check your internet connection. ", Toast.LENGTH_SHORT).show();
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
 
                         }
@@ -219,9 +229,11 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            pd.dismiss();
                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
                             finish();
                         } else {
+                            pd.dismiss();
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(),
@@ -250,16 +262,21 @@ public class LoginActivity extends AppCompatActivity {
         Map<String,Object> map= new HashMap<>();
         map.put("Email",email);
         map.put("currentClass","empty");
+        map.put("name","user");
+        map.put("imageUri","empty");
+        map.put("BloodGroup","N/A");
         FirebaseFirestore.getInstance().collection("Users").document(email).set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        pd.dismiss();
                         startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
                 e.printStackTrace();
                 Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }

@@ -1,76 +1,67 @@
 package com.example.javaproject21;
 
-import java.util.HashMap;
-import java.util.Map;
+public class Student {
+    String name,PhoneNo,BloodGroup,Email,imageUri;
 
-public class Student{
-    private String nickname;
-    private String email;
-    private String phoneNumber;
-    private String bloodGroup;
-    private String url;
-    private String uId;
-
-    private Student(Builder builder){
-        this.nickname=builder.nickname;
-        this.email=builder.email;
-        this.phoneNumber=builder.phoneNumber;
-        this.bloodGroup=builder.bloodGroup;
-        this.url=builder.url;
-        this.uId=builder.uId;
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", PhoneNo='" + PhoneNo + '\'' +
+                ", BloodGroup='" + BloodGroup + '\'' +
+                ", Email='" + Email + '\'' +
+                ", imageUri='" + imageUri + '\'' +
+                '}';
     }
 
-    public static Builder getBuilder(){
-        return new Student.Builder();
+    public String getName() {
+        return name;
     }
-    public static class Builder{
-        private String nickname;
-        private String email;
-        private String phoneNumber;
-        private String bloodGroup;
-        private String url;
-        private String uId;
 
-        Builder withNickname(String nickname){
-            this.nickname=nickname;
-            return this;
-        }
-
-        Builder withEmail(String email){
-            this.email=email;
-            return this;
-        }
-
-        Builder withPhoneNumber(String phoneNumber){
-            this.phoneNumber=phoneNumber;
-            return this;
-        }
-
-        Builder withBloodGroup(String bloodGroup){
-            this.bloodGroup=bloodGroup;
-            return this;
-        }
-        Builder withUrl(String url){
-            this.url=url;
-            return this;
-        }
-        Builder withUId(String uId){
-            this.uId=uId;
-            return this;
-        }
-
-        Student build(){
-            return new Student(this);
-        }
+    public void setName(String name) {
+        this.name = name;
     }
-    Map<String, Object> toMap(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("nickname",nickname);
-        map.put("email",email);
-        map.put("phoneNumber",phoneNumber);
-        map.put("bloodGroup",bloodGroup);
-        map.put("url",url);
-        map.put("uId",uId);
-        return map;
+
+    public String getPhoneNo() {
+        return PhoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        PhoneNo = phoneNo;
+    }
+
+    public String getBloodGroup() {
+        return BloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        BloodGroup = bloodGroup;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public Student() {
+    }
+
+    public Student(String name, String phoneNo, String bloodGroup, String email, String imageUri) {
+        this.name = name;
+        PhoneNo = phoneNo;
+        BloodGroup = bloodGroup;
+        Email = email;
+        this.imageUri = imageUri;
     }
 }

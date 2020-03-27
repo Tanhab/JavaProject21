@@ -4,32 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context=".StudentsListActivity">
+    tools:context=".CrSettingsActivity">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="#c7ecee"
+        android:background="#ffd32a"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Students List"
+        android:text="Change Class Representative"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
-        android:textSize="22sp"
-        android:textColor="@android:color/black"
+        android:textSize="20sp"
         android:id="@+id/text1"
+       android:textColor="@android:color/black"
         android:textAlignment="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Appoint one of them as CR-"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:textSize="16sp"
+        android:id="@+id/text2"
+        android:layout_below="@+id/text1"
+
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text1"
-        android:layout_marginTop="20dp"
-        android:padding="20dp"
+        android:layout_below="@+id/text2"
+        android:layout_margin="20dp"
+        android:padding="10dp"
         android:background="@drawable/dialog_background"
         android:id="@+id/recyclerView"
         />
+
 
 </RelativeLayout>

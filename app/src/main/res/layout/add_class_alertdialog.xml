@@ -4,12 +4,14 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-
-    android:padding="10dp">
+android:background="@drawable/dialog_background"
+    android:layout_margin="20dp"
+    android:padding="20dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add A Class"
+        android:textColor="@android:color/black"
         android:layout_gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -121,23 +123,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="20dp"
         >
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Class"
-           android:layout_marginRight="10dp"
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddNewClass"
-            />
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cancel"
-            android:layout_marginLeft="10dp"
-
-            android:id="@+id/btnCancel"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="Create"
+            android:textColor="#EDF6FF"
+            android:theme="@style/AppTheme"
             />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:layout_marginStart="20dp"
+            android:shadowRadius="5"
+            android:text="Cancel"
+            android:textColor="#EDF6FF"
+            android:theme="@style/AppTheme"
+            />
+
     </LinearLayout>
+
 
 
 

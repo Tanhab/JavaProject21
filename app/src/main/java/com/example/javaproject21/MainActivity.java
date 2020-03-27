@@ -34,6 +34,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = "MainActivity";
     private DrawerLayout drawer;
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 finish();
                             }else {
                                 Utils.setClassName(className);
-                                String name = document.getData().get("name").toString();
+                                String name = Objects.requireNonNull(document.getData().get("name")).toString();
                                 Utils.setUserName(name);
                                 checkForCR();
                             }
@@ -121,7 +123,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.profile:
-                startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                Intent intent= new Intent(getApplicationContext(),ProfileActivity.class);
+                intent.putExtra("fromActivity","MainActivity");
+                startActivity(intent);
                 //Toast.makeText(this, "profile selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.logout:
@@ -147,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Utils.setCR(null);
         Utils.setClassName(null);
         Utils.setUserName(null);
+        Utils.setCR2(null);
         startActivity(new Intent(getApplicationContext(),LoginActivity.class));
         finish();
     }
@@ -157,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(Utils.getCR()==null){
 
             String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            DocumentReference docRef = FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("classroomDetails");
+            final DocumentReference docRef = FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("classroomDetails");
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -165,10 +170,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            String CRName=document.getData().get("currentCR").toString();
+                            String CRName= Objects.requireNonNull(document.getData()).get("currentCR").toString();
                             String Desc=document.getData().get("description").toString();
                             String code=document.getData().get("invitationCode").toString();
-                            Utils.setCR(CRName);
+                            String cr2=document.getData().get("currentCR2").toString();
+                             Utils.setCR(CRName);
+                            if(!cr2.equals("n/a")){
+                                Utils.setCR2(cr2);
+                            }
                             Utils.setClassDescription(Desc);
                             Utils.setInvitationCode(code);
                             subscribeToClass();

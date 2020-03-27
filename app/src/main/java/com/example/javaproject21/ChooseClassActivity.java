@@ -307,6 +307,7 @@ public class ChooseClassActivity extends AppCompatActivity {
         map.put("invitationCode",invitationCode);
         map.put("description",classDescription);
         map.put("currentCR",FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        map.put("currentCR2","n/a");
         FirebaseFirestore.getInstance().collection(className).document("classroomDetails").set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

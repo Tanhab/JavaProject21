@@ -47,8 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Uri imageUri=null;
     public static final int IMAGE_REQUEST= 100;
     ProgressDialog pd;
-
     StorageReference storageReference;
+    String fromActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,12 @@ public class ProfileActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setTitle("Updating Profile...");
         pd.setCancelable(false);
+
+        Intent intent= getIntent();
+        if(intent.hasExtra("fromActivity"))
+        {
+            fromActivity= intent.getStringExtra("fromActivity");
+        }
 
 
 
@@ -90,14 +96,12 @@ public class ProfileActivity extends AppCompatActivity {
     private void saveProfilePic()  {
         String imageName= FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.d(TAG, "saveProfilePic: started" +imageUri);
-
-        StorageReference ref= storageReference.child(imageName+"."+getFileExtension(imageUri));
         if(imageUri!=null)
         {
+            StorageReference ref= storageReference.child(imageName+"."+getFileExtension(imageUri));
             Log.d(TAG, "saveProfilePic: started imageuri ! null");
             BackgroundImageResize backgroundImageResize=new BackgroundImageResize(null);
             backgroundImageResize.execute(imageUri);
-          
         }else {
             //TODO: check for other Info
                 Uri uri= null;
@@ -133,8 +137,13 @@ public class ProfileActivity extends AppCompatActivity {
                         Log.d(TAG, "Started : DocumentSnapshot successfully written!");
 
                         pd.dismiss();
-                        startActivity(new Intent(getApplicationContext(),ChooseClassActivity.class));
+                        Log.d(TAG, "onSuccess: fromActivity " + fromActivity);
+                        if(fromActivity==null) {
+                            startActivity(new Intent(getApplicationContext(), ChooseClassActivity.class));
                             finish();
+                        }else {
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

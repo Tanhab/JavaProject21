@@ -59,6 +59,12 @@ public class CRActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ClassControlActivity.class));
             }
         });
+        cardCRSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),CrSettingsActivity.class));
+            }
+        });
 
     }
 
