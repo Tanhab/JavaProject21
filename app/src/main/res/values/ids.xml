@@ -4,8 +4,8 @@
     <item name="fab_add_document" type="id" />
     <item name="fab_sort_by_date" type="id" />
     <item name="fab_sort_by_name" type="id" />
-    <item name="fab_custom_theme" type="id" />
+    <item name="fab_add_date" type="id" />
     <item name="fab_add_action" type="id" />
-    <item name="fab_replace_action" type="id" />
-    <item name="fab_remove_action" type="id" />
+    <item name="fab_add_section" type="id" />
+    <item name="fab_add_time" type="id" />
 </resources>

@@ -2,12 +2,18 @@ package com.example.javaproject21;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +22,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -32,6 +39,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +53,7 @@ import java.util.Map;
 
 public class CreateClassRoutineActivity extends AppCompatActivity {
     private static final String TAG = "CreateClassRoutine";
-    private EditText edtSection;
+    private SpeedDialView mSpeedDialView;
     private ImageButton btnAddSection,btnBack;
     private Button btnAddDate,btnOpenDialog,btnSendRoutine;
     private TextView txtRoutineDate,txtSection,txtRoutine;
@@ -57,10 +66,9 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_class_routine);
-        edtSection=findViewById(R.id.txtSectionInput);
+
        btnOpenDialog=findViewById(R.id.btnOpenDialog);
-        btnAddDate=findViewById(R.id.btnEnterDate);
-        btnAddSection=findViewById(R.id.btnAddSection);
+
         mRequestQue = Volley.newRequestQueue(this);
         txtRoutineDate=findViewById(R.id.txtRoutineDate);
         txtSection=findViewById(R.id.txtSection);
@@ -77,27 +85,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
 
 
 
-        btnAddSection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                section= "Section: "+edtSection.getText().toString().trim();
-                txtSection.setText(section);
-                classRoutine.setSection(section);
-            }
-        });
-        btnAddDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleDateButton();
 
-            }
-        });
-        btnOpenDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
         btnSendRoutine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,8 +97,116 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
                 uploadRoutine();
             }
         });
+        initSpeedDial(savedInstanceState == null);
 
 
+
+    }
+
+    private void initSpeedDial(boolean addActionItems) {{
+        mSpeedDialView = findViewById(R.id.speedDial);
+
+        if (addActionItems) {
+
+
+            Drawable drawable = AppCompatResources.getDrawable(getApplicationContext(), R.drawable.paper);
+            mSpeedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
+                    .fab_add_document, drawable)
+                    .setFabImageTintColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryDark, getTheme()))
+                    .setLabel("Add a class")
+                    .setLabelColor(Color.WHITE)
+                    .setLabelBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent,
+                            getTheme()))
+                    .create());
+
+
+            drawable = AppCompatResources.getDrawable(getApplicationContext(), R.drawable.ic_add_section);
+            mSpeedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_section, drawable)
+                    .setFabBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.yellow,
+                            getTheme()))
+                    .setLabel("Edit section")
+                    .setLabelBackgroundColor(Color.WHITE)
+                    .create());
+
+            mSpeedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_date, R.drawable
+                    .ic_calender)
+                    .setFabBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.browser_actions_bg_grey,
+                            getTheme()))
+                    .setLabel("Edit date")
+                    .setLabelBackgroundColor(Color.YELLOW)
+                    .create());
+
+        }
+
+        //Set main action clicklistener.
+        mSpeedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
+            @Override
+            public boolean onMainActionSelected() {
+
+                return false; // True to keep the Speed Dial open
+            }
+
+            @Override
+            public void onToggleChanged(boolean isOpen) {
+                Log.d(TAG, "Speed dial toggle state changed. Open = " + isOpen);
+            }
+        });
+
+        //Set option fabs clicklisteners.
+        mSpeedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
+            @Override
+            public boolean onActionSelected(SpeedDialActionItem actionItem) {
+                switch (actionItem.getId()) {
+                    case R.id.fab_add_document:
+                        showDialog();
+                         // To close the Speed Dial with animation
+                        return true; // false will close it without animation
+                    case R.id.fab_add_section:
+                            addSectionDialog();
+
+                        return false;
+                    case R.id.fab_add_date:
+                        handleDateButton();
+                        return false; // closes without animation (same as mSpeedDialView.close(false); return false;)
+
+                    default:
+                        break;
+                }
+                return true; // To keep the Speed Dial open
+            }
+        });
+
+    }
+    }
+
+    private void addSectionDialog() {
+androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("Enter Section");
+        LinearLayout linearLayout= new LinearLayout(this);
+        final EditText edtEmail = new EditText(this);
+        edtEmail.setHint("Section");
+        edtEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        edtEmail.setMinEms(16);
+
+        linearLayout.addView(edtEmail);
+        linearLayout.setPadding(20,10,20,10);
+        builder.setView(linearLayout);
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email= edtEmail.getText().toString().trim().toUpperCase();
+                section= "Section: "+email;
+                txtSection.setText(section);
+                classRoutine.setSection(section);
+
+            }
+        });builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private void uploadRoutine() {
@@ -123,7 +219,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 sendNotification("Class Routine for "+classRoutine.getDate()+" "+classRoutine.getSection(),finalText);
-                edtSection.setText("");
+
                 section="";
                 finalText="Classes: \n";
                 finalDate="";
@@ -181,31 +277,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         datePickerDialog.show();
 
     }
-    private String handleTimeButton() {
-        final String[] time = {""};
 
-        Calendar calendar = Calendar.getInstance();
-        int HOUR = calendar.get(Calendar.HOUR);
-        int MINUTE = calendar.get(Calendar.MINUTE);
-        boolean is24HourFormat = DateFormat.is24HourFormat(this);
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                Log.i(TAG, "onTimeSet: " + hour + minute);
-                Calendar calendar1 = Calendar.getInstance();
-                calendar1.set(Calendar.HOUR, hour);
-                calendar1.set(Calendar.MINUTE, minute);
-                time[0] = DateFormat.format("h:mm a", calendar1).toString();
-                //txt.setText(dateText);
-
-            }
-        }, HOUR, MINUTE, is24HourFormat);
-
-        timePickerDialog.show();
-        return time[0];
-
-    }
     void showDialog() {
 
         LayoutInflater inflater = LayoutInflater.from(this);

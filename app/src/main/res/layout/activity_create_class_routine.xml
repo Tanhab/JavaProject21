@@ -1,158 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".CreateClassRoutineActivity">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="5"
-        android:orientation="vertical"
-        android:padding="10dp"
-        >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Preview of Class Routine:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        />
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:layout_margin="15dp"
-        android:background="#c7ecee"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:id="@+id/txtRoutineDate"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtSection"
-                android:text="Section"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:id="@+id/txtRoutine"
-                android:text="Classes :"
-                />
-
-        </LinearLayout>
-    </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:gravity="center"
+        android:background="#3498db"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit next class routine here:"
-            android:textSize="16sp"
-            android:gravity="top"
+            android:layout_centerHorizontal="true"
+            android:text="Create Class Routine"
+            android:textColor="@android:color/black"
+            android:textSize="26sp"
             android:textStyle="bold"
-            android:layout_marginBottom="25dp"
+            android:layout_marginTop="10dp"
             />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:background="@drawable/clipboard"
+                />
+
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_height="495dp"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_marginStart="80dp"
+
             >
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="Enter Section">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtSectionInput"
-                    android:inputType="textCapWords"
-                    >
-
-                </com.google.android.material.textfield.TextInputEditText>
-
-            </com.google.android.material.textfield.TextInputLayout>
-            <ImageButton
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_add_section"
-                android:background="@color/colorPrimary"
-                android:layout_margin="10dp"
-                android:layout_gravity="center"
-                android:id="@+id/btnAddSection"
-                />
-
-
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:text="enter Date "
-                android:id="@+id/btnEnterDate"
-
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Preview of Class Routine:"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
                 />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:layout_margin="15dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:id="@+id/txtRoutineDate"
+                            android:layout_gravity="center_horizontal"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtSection"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:text="Section"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/txtRoutine"
+                        android:text="Classes :"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"
+                        />
+
+                </LinearLayout>
+            </ScrollView>
+
 
         </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Add a New Class"
-            android:id="@+id/btnOpenDialog"
+
+
+        <!-- <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:weightSum="5"
+             android:orientation="vertical"
+             android:padding="10dp"
+             >
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+                 android:layout_gravity="center_horizontal"
+                 android:text="Preview of Class Routine:"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
+                 />
+             <ScrollView
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="2"
+                 android:layout_marginTop="10dp"
+                 android:padding="10dp"
+                 android:layout_margin="15dp"
+                 android:background="#c7ecee"
+                 >
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="vertical"
+                     >
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Date"
+                         android:id="@+id/txtRoutineDate"
+                         android:layout_gravity="center_horizontal"
+                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                         />
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:id="@+id/txtSection"
+                         android:text="Section"
+                         android:layout_gravity="center_horizontal"
+                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                         />
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="5dp"
+                         android:id="@+id/txtRoutine"
+                         android:text="Classes :"
+                         />
+
+                 </LinearLayout>
+             </ScrollView>
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="0dp"
+                 android:layout_weight="3"
+                 android:orientation="vertical"
+                 android:padding="10dp"
+                 android:gravity="center"
+                 >
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Edit next class routine here:"
+                     android:textSize="16sp"
+                     android:gravity="top"
+                     android:textStyle="bold"
+                     android:layout_marginBottom="25dp"
+                     />
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal"
+                     android:layout_marginTop="10dp"
+                     >
+                     <com.google.android.material.textfield.TextInputLayout
+                         android:layout_width="150dp"
+                         android:layout_height="wrap_content"
+                         app:errorEnabled="true"
+                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                         android:hint="Enter Section">
+                         <com.google.android.material.textfield.TextInputEditText
+                             android:layout_width="130dp"
+                             android:layout_height="wrap_content"
+                             android:id="@+id/txtSectionInput"
+                             android:inputType="textCapWords"
+                             >
+
+                         </com.google.android.material.textfield.TextInputEditText>
+
+                     </com.google.android.material.textfield.TextInputLayout>
+                     <ImageButton
+                         android:layout_width="35dp"
+                         android:layout_height="35dp"
+                         android:background="@drawable/back_button"
+                         android:layout_margin="10dp"
+                         android:layout_gravity="center"
+                         android:id="@+id/btnAddSection"
+                         />
+
+
+                     <Button
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="25dp"
+                         android:text="enter Date "
+                         android:id="@+id/btnEnterDate"
+
+                         />
+
+                 </LinearLayout>
+                 <Button
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_horizontal"
+                     android:text="Add a New Class"
+                     android:id="@+id/btnOpenDialog"
+                     />
+
+
+                 <Button
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_horizontal"
+                     android:text="Send Routine"
+                     android:id="@+id/btnSendRoutine"
+                     />
+
+
+             </LinearLayout>
+         </LinearLayout>-->
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/btnBack"
+            android:layout_margin="10dp"
+            android:background="@drawable/back_button"
             />
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Send Routine"
-            android:id="@+id/btnSendRoutine"
-            />
+    </RelativeLayout>
+    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:clickable_overlay="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-    </LinearLayout>
-    </LinearLayout>
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/btnBack"
-        android:layout_margin="10dp"
-        android:background="@drawable/back_button"
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="50dp"
+        app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+        app:sdExpansionMode="top"
+        app:sdMainFabAnimationRotateAngle="90"
+        app:sdMainFabClosedBackgroundColor="#f1c40f"
+        app:sdMainFabOpenedBackgroundColor="@color/colorPrimaryDark"
+        app:sdMainFabClosedSrc="@drawable/ic_add"
+        app:sdMainFabOpenedSrc="@drawable/ic_back"
+        app:sdOverlayLayout="@id/overlay" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Publish Routine"
+        android:textColor="@android:color/white"
+        android:id="@+id/btnSendRoutine"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="25dp"
+        android:background="#8e44ad"
         />
 
 
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
