@@ -39,7 +39,7 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
     private static final String TAG = "CreateExamRoutineActivi";
     private EditText edtExamName,edtExamSyllabus,edtExamResource;
     private TextView txtExamDate,txtExamTime;
-    private ImageButton btnExamDate,btnExamTime;
+    private ImageButton btnExamDate,btnExamTime,btnBack;
     private Button btnSubmit;
     String startTime,startDate;
     long priority;
@@ -88,6 +88,13 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
                 }else{
                     createExamRoutine();
                 }
+            }
+        });
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -41,6 +42,7 @@ public class ResourcesActivity extends AppCompatActivity {
     private CollectionReference ref= db.collection(Utils.getClassName()).document("Data").collection("Folders");
     private FolderAdapter adapter;
     private ProgressDialog pd;
+    ImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,13 @@ public class ResourcesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addFolder();
+            }
+        });
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 

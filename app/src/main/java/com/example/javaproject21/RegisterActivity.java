@@ -119,6 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
         map.put("name","user");
         map.put("imageUri","empty");
         map.put("BloodGroup","N/A");
+        map.put("PhoneNo","N/A");
 
         FirebaseFirestore.getInstance().collection("Users").document(email).set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

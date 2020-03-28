@@ -20,7 +20,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="45dp"
             android:src="@drawable/classroom"
             android:id="@+id/imageProfile"
             />
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/imageProfile"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="50dp"
             android:padding="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -51,24 +51,14 @@
                 android:id="@+id/studentName"
                 android:textColor="#0984e3"
                 />
-
-
-
         </LinearLayout>
-
-
     </RelativeLayout>
-
-
-
-
-
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Class Update"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="135dp"
         android:layout_marginStart="20dp"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -89,12 +79,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="155dp"
+            android:layout_marginTop="165dp"
             android:layout_weight="2"
             android:orientation="horizontal">
 
@@ -318,8 +314,17 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
-
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnNavigation"
+        android:layout_margin="5dp"
+        android:background="@drawable/menu_icon"
+        />
+
 </RelativeLayout>

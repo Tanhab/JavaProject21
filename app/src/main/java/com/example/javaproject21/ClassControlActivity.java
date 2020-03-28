@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +31,20 @@ public class ClassControlActivity extends AppCompatActivity {
     private static final String TAG = "ClassControlActivity";
     RecyclerView recyclerView;
     StudentAdapter adapter;
+    ImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_control);
         recyclerView=findViewById(R.id.recyclerView);
         initRecView();
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
     private void initRecView() {
         Query query= FirebaseFirestore.getInstance().collection("Users")

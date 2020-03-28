@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +26,7 @@ public class StudentsListActivity extends AppCompatActivity  {
     private static final String TAG = "StudentsListActivity";
         RecyclerView recyclerView;
         StudentAdapter adapter;
+        ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,14 @@ public class StudentsListActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_students_list);
         recyclerView=findViewById(R.id.recyclerView);
         initRecView();
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
     }
 

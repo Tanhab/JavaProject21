@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    app:cardCornerRadius="5dp"
+    android:layout_margin="20dp"
+    android:padding="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      android:padding="10dp"
+        android:background="#c8d6e5"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notification Title"
+            android:textColor="@android:color/black"
+            android:gravity="center_horizontal"
+            android:id="@+id/txtNotificationTitle"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Notification message"
+            android:id="@+id/notificationMessage"
+            android:layout_marginTop="15dp"
+            android:textColor="@android:color/black"
+            android:layout_margin="10dp"
+            android:textSize="15sp"
+            /><TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notification Sender"
+        android:id="@+id/notificationSender"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:textSize="15sp"
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notification time"
+            android:id="@+id/notificationDate"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="10dp"
+            />
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

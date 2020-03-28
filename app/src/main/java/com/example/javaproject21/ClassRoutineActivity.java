@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -18,6 +20,7 @@ public class ClassRoutineActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference classRoutineRef=db.collection(Utils.getClassName()).document("Data").collection("classRoutines");///change kora lagbe
     private ClassRoutineAdapter classRoutineAdapter;
+    private ImageButton btnBack;
 
 
     @Override
@@ -27,7 +30,13 @@ public class ClassRoutineActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.routineRecView);
 
         setupRecView();
-
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
     }
 

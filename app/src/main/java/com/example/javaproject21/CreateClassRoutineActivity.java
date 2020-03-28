@@ -45,7 +45,7 @@ import java.util.Map;
 public class CreateClassRoutineActivity extends AppCompatActivity {
     private static final String TAG = "CreateClassRoutine";
     private EditText edtSection;
-    private ImageButton btnAddSection;
+    private ImageButton btnAddSection,btnBack;
     private Button btnAddDate,btnOpenDialog,btnSendRoutine;
     private TextView txtRoutineDate,txtSection,txtRoutine;
     String finalDate,section,startTime,finishTime,className,classDescription,finalText="Classes :\n";
@@ -67,6 +67,13 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         txtRoutine=findViewById(R.id.txtRoutine);
         btnSendRoutine=findViewById(R.id.btnSendRoutine);
         classRoutine= new ClassRoutine();
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
 

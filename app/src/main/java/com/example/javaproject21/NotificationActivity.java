@@ -2,13 +2,22 @@ package com.example.javaproject21;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Notification;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,8 +27,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -27,51 +44,138 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NotificationActivity extends AppCompatActivity {
     private static final String TAG = "NotificationActivity";
-    EditText edtTitle,edtBody;
-    Button btnSend;
+    Button btnOpenDialog;
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
+    RecyclerView recyclerView;
+    NotificationAdapter adapter;
+    ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        btnSend = findViewById(R.id.btnSendNotification);
-        edtBody=findViewById(R.id.txtNotificationBodyInput);
-        edtTitle=findViewById(R.id.txtTitleInput);
+        btnOpenDialog = findViewById(R.id.btnOpenDialog);
+        recyclerView=findViewById(R.id.recyclerView);
         mRequestQue = Volley.newRequestQueue(this);
-        showDebug();
         subscribeToClass();
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        initRecView();
+        btnOpenDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title=edtTitle.getText().toString().trim();
-                String body=edtBody.getText().toString().trim();
-                if(title.length()<1){
-                    edtTitle.setError("Title can't be empty");
-                    edtTitle.setFocusable(true);
-                }else if(body.length()<1){
-                    edtBody.setError("Message can't be empty.");
-                    edtBody.setFocusable(true);
-                }else {
-                    sendNotification(title,body);
-                    edtBody.setText("");
-                    edtTitle.setText("");
-                }
+                openNotiDialog();
 
+            }
+        });
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
 
     }
+    private void initRecView() {
+        Query query=         FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("Data").collection("Notifications")
+                .orderBy("priority",Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Notification> options=new FirestoreRecyclerOptions.Builder<Notification>()
+                .setQuery(query,Notification.class)
+                .build();
+        adapter= new NotificationAdapter(options);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
-    private void showDebug() {
-        Toast.makeText(this, Utils.getClassName()+"\n"+Utils.getUserName()+"\n"+Utils.getCR(), Toast.LENGTH_LONG).show();
+    }
+    private void openNotiDialog() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.add_notification, null);
+
+        Button acceptButton = view.findViewById(R.id.btnSend);
+        Button cancelButton = view.findViewById(R.id.btnCancel);
+        final EditText edtTitle, edtBodey;
+
+        edtTitle = view.findViewById(R.id.txtTitleInput);
+        edtBodey = view.findViewById(R.id.txtNotificationBodyInput);
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "onClick: accept button");
+                if (edtTitle.getText().toString().length() < 1) {
+                    edtTitle.setError("Can't be empty");
+
+                    edtTitle.setFocusable(true);
+                } else if (edtBodey.getText().toString().length() < 1) {
+                    edtBodey.setError("Can't be empty");
+                    edtBodey.setFocusable(true);
+                }else
+                {
+                    String title = edtTitle.getText().toString().trim();
+                    String body = edtBodey.getText().toString().trim();
+
+                    addToDatabase(title,body);
+                    alertDialog.dismiss();
+                }
+
+
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "onClick: cancel button");
+
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+
+
+    }
+
+    private void addToDatabase(final String title, final String body) {
+        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Calendar calendar = Calendar.getInstance();
+        int HOUR = calendar.get(Calendar.HOUR);
+        int MINUTE = calendar.get(Calendar.MINUTE);
+        int YEAR = calendar.get(Calendar.YEAR);
+        int MONTH = calendar.get(Calendar.MONTH);
+        int DATE = calendar.get(Calendar.DATE);
+        long a=YEAR*100+MONTH;
+        a=a*100+DATE;
+        a=a*100+HOUR;
+        a=a*100+MINUTE;
+        String time = DateFormat.format("h:mm a", calendar).toString();
+        String date =DateFormat.format("dd.MM.yy", calendar).toString();
+        date= time + " " + date;
+        Notification notification= new Notification(title,body,date,email,a);
+        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("Data").collection("Notifications")
+                .add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d(TAG, "onSuccess: "+documentReference.toString());
+                sendNotification(title,body);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                Toast.makeText(NotificationActivity.this, "Notification sending failed.Please check your internet connection.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void sendNotification(String title, String body) {
@@ -136,5 +240,17 @@ public class NotificationActivity extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }

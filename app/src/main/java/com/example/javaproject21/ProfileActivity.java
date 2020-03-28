@@ -23,20 +23,19 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import id.zelory.compressor.Compressor;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
@@ -45,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnOpenGallery,btnSaveProfile;
     private CircleImageView profilePic;
     private Uri imageUri=null;
+    String pastUrl,url;
     public static final int IMAGE_REQUEST= 100;
     ProgressDialog pd;
     StorageReference storageReference;
@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnSaveProfile=findViewById(R.id.btnSaveProfile);
         profilePic=findViewById(R.id.profilePic);
         pd = new ProgressDialog(this);
-        pd.setTitle("Updating Profile...");
+
         pd.setCancelable(false);
 
         Intent intent= getIntent();
@@ -73,6 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         storageReference= FirebaseStorage.getInstance().getReference();
+        checkForData();
 
         btnOpenGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pd.setTitle("Updating Profile...");
                 pd.show();
                 Log.d(TAG, "onClick: started save profile");
                 saveProfilePic();
@@ -96,6 +98,8 @@ public class ProfileActivity extends AppCompatActivity {
     private void saveProfilePic()  {
         String imageName= FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.d(TAG, "saveProfilePic: started" +imageUri);
+
+
         if(imageUri!=null)
         {
             StorageReference ref= storageReference.child(imageName+"."+getFileExtension(imageUri));
@@ -104,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             backgroundImageResize.execute(imageUri);
         }else {
             //TODO: check for other Info
-                Uri uri= null;
+                Uri uri= Uri.parse(pastUrl);
             addToDatabase(uri);
         }
 
@@ -121,7 +125,6 @@ public class ProfileActivity extends AppCompatActivity {
         map.put("name",name);
         map.put("BloodGroup",bloodGrp);
         map.put("PhoneNo",phnNo);
-        String url;
         if(uri!=null){
              url= uri.toString();
         }else  url="";
@@ -263,4 +266,40 @@ public class ProfileActivity extends AppCompatActivity {
         return stream.toByteArray();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    private  void checkForData() {
+        pd.setTitle("Please wait..");
+        pd.show();
+        String email= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
+
+
+        FirebaseFirestore.getInstance().collection("Users").document(email).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Student student= documentSnapshot.toObject(Student.class);
+                        assert student != null;
+                        txtName.setText(student.getName());
+                        txtBloodGroup.setText(student.getBloodGroup());
+                        txtPhnNo.setText(student.getPhoneNo());
+                        pastUrl=student.getImageUri();
+                        Glide.with(getApplicationContext()).load(student.getImageUri()).placeholder(R.drawable.proff).into(profilePic);
+                        pd.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                pd.dismiss();
+                Toast.makeText(ProfileActivity.this, "Error fetching profile data.Please check your internet connection", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
 }

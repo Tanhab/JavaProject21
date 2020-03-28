@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -14,6 +16,7 @@ import com.google.firebase.firestore.Query;
 public class ExamRoutineActivity extends AppCompatActivity {
     private static final String TAG = "ExamRoutineActivity";
     RecyclerView recyclerView;
+    private ImageButton btnBack;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
     private CollectionReference ref= db.collection(Utils.getClassName()).document("Data").collection("ExamRoutines");
     private ExamRoutineAdapter adapter;
@@ -24,6 +27,13 @@ public class ExamRoutineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exam_routine);
         recyclerView=findViewById(R.id.examRecView);
         setupRecView();
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
     }
 

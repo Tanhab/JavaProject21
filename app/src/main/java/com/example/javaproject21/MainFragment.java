@@ -5,11 +5,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -29,6 +35,7 @@ public class MainFragment extends Fragment {
     private CardView cardClassRoutine,cardExamRoutine,cardNotification,cardResources,cardCR,cardProfile;
     private CircleImageView imageView;
     private TextView txtStudentName;
+    ImageButton btnNavigation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +51,7 @@ public class MainFragment extends Fragment {
         cardProfile=view.findViewById(R.id.cardProfile);
         imageView=view.findViewById(R.id.imageProfile);
         txtStudentName=view.findViewById(R.id.studentName);
+        btnNavigation=view.findViewById(R.id.btnNavigation);
 
         setupTopView(view);
 
@@ -86,6 +94,21 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 startActivity(new Intent(view.getContext(),MyClassroomActivity.class));
 
+            }
+        });
+        btnNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        btnNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout navDrawer = Objects.requireNonNull(getActivity()).findViewById(R.id.drawer);
+                // If the navigation drawer is not open then open it, if its already open then close it.
+                if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
+                else navDrawer.closeDrawer(GravityCompat.END);
             }
         });
 

@@ -41,18 +41,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             setupChannels(notificationManager);
         }
         Intent intent;
-
-        if (category.equals("classRoutine")) {
-            intent = new Intent(this, ClassRoutineActivity.class);
-
-        }else if (category.equals("examRoutine")) {
-            intent = new Intent(this, ExamRoutineActivity.class);
-
-        }
-        else {
             intent = new Intent(this, MainActivity.class);
 
-        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this , 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);

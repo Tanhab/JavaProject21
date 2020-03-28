@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class AllDocumentsActivity extends AppCompatActivity {
     private SpeedDialView mSpeedDialView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference ref;
+    private ImageButton btnBack;
     //= db.collection("cse18").document("Data").collection("Folders");
     Query query;
     DocumentAdapter adapter;
@@ -65,6 +67,13 @@ public class AllDocumentsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.docRecView);
         query = ref.orderBy("priority", Query.Direction.DESCENDING);
         setupRecView();
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
     }

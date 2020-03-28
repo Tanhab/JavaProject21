@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class MyClassroomActivity extends AppCompatActivity {
     private static final String TAG = "MyClassroomActivity";
 
     private CardView cardLeave,cardClassInfo,cardClassmates,cardTeachers;
+    private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,13 @@ public class MyClassroomActivity extends AppCompatActivity {
         cardClassmates=findViewById(R.id.cardClassmates);
         cardLeave=findViewById(R.id.cardLeave);
         cardTeachers=findViewById(R.id.cardTeachers);
+        btnBack=findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         cardTeachers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
