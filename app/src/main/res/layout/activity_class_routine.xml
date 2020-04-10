@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/exam"
     tools:context=".ClassRoutineActivity"
     >
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:background="@drawable/bg4"
-        />
+        />-->
 
 
     <RelativeLayout
@@ -23,15 +24,16 @@
 
 
     <TextView
+        android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Class Routine"
-        android:gravity="center"
-        android:textSize="28sp"
-        android:textStyle="bold"
         android:layout_marginTop="20dp"
-        android:id="@+id/text1"
-        android:textColor="#ffffff"
+        android:gravity="center"
+        android:text="Class Routine"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="#0000A0"
+        android:textSize="30sp"
+        android:textStyle="bold"
 
         />
     <androidx.recyclerview.widget.RecyclerView
@@ -54,8 +56,8 @@
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
         android:layout_margin="10dp"
-        android:background="@drawable/back_button"
-        android:backgroundTint="@android:color/white"
+        android:background="@drawable/back"
+
         />
 
 

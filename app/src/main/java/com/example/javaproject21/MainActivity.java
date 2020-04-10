@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
         FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer,new MainFragment());
         transaction.commit();
@@ -133,10 +132,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //Toast.makeText(this, "logout selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.about:
-                Toast.makeText(this, "about selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "About us selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.contact:
-                Toast.makeText(this, "contact us selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Contact us selected", Toast.LENGTH_SHORT).show();
 
                 break;
 

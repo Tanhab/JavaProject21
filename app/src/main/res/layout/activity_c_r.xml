@@ -9,17 +9,18 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@drawable/cr_header"
+        android:background="@drawable/cr_super"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="With Great power,\n comes great responsibility "
-        android:textColor="@color/colorPrimary"
+        android:text="With great power,\n comes great responsibility "
+        android:textSize="18sp"
+        android:textColor="#000000"
         android:layout_centerHorizontal="true"
         android:id="@+id/text1"
         android:textStyle="bold|italic"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:gravity="center_horizontal"
         android:layout_marginBottom="60dp"
 
@@ -34,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:background="#95afc0"
+            android:background="#DFE4E8"
 
             android:orientation="vertical"
             android:gravity="center"
@@ -54,10 +55,10 @@
                     android:padding="5dp"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_calender"
-                        android:layout_margin="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/cr_class"
+                        android:layout_margin="10dp"
                         android:id="@+id/imageProfile"
                         />
                     <LinearLayout
@@ -103,10 +104,10 @@
                     android:padding="5dp"
                     >
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/classroom"
-                        android:layout_margin="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/cr_exam"
+                        android:layout_margin="10dp"
                         android:id="@+id/imageProfile1"
                         />
                     <LinearLayout
@@ -151,11 +152,11 @@
                     android:padding="5dp"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
 
-                        android:src="@drawable/classroom"
-                        android:layout_margin="5dp"
+                        android:src="@drawable/cr_ic"
+                        android:layout_margin="10dp"
                         android:id="@+id/imageProfile2"
                         />
                     <LinearLayout
@@ -200,10 +201,10 @@
                     android:padding="5dp"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/classroom"
-                        android:layout_margin="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/cr_cc"
+                        android:layout_margin="10dp"
                         android:id="@+id/imageProfile3"
                         />
                     <LinearLayout
@@ -247,11 +248,11 @@
                     android:padding="5dp"
                     >
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
 
-                        android:src="@drawable/ic_profile_empty"
-                        android:layout_margin="5dp"
+                        android:src="@drawable/cr_cr"
+                        android:layout_margin="10dp"
                         android:id="@+id/imageProfile4"
                         />
                     <LinearLayout
@@ -293,8 +294,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
         android:layout_margin="10dp"
-        android:backgroundTint="@android:color/white"
-        android:background="@drawable/back_button"
+        android:background="@drawable/back2"
         />
 
 

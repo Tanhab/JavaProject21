@@ -28,6 +28,7 @@
         android:id="@+id/navigationLayer"
         app:menu="@menu/navigation_drawer_menu"
         app:headerLayout="@layout/navigation_header"
+        app:itemIconTint="#0E84E1"
         android:layout_gravity="start"
         />
 

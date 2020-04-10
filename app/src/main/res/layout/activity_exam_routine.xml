@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/exam"
     tools:context=".ExamRoutineActivity"
     >
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:background="@drawable/bg4"
-        />
+        />-->
 
 
     <RelativeLayout
@@ -21,32 +22,31 @@
         >
 
 
-
         <TextView
+            android:id="@+id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Exam Routine"
-            android:gravity="center"
-            android:textSize="28sp"
-            android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:id="@+id/text1"
-            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:text="Exam Routine"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="#0000A0"
+            android:textSize="30sp"
+            android:textStyle="bold"
 
             />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/examRecView"
+            android:layout_width="348dp"
+            android:layout_height="552dp"
 
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:fadeScrollbars="true"
             android:layout_below="@+id/text1"
-            android:layout_marginTop="45dp"
-            android:focusableInTouchMode="true"
-            />
+            android:layout_marginTop="35dp"
+            android:fadeScrollbars="true"
+            android:focusableInTouchMode="true" />
     </RelativeLayout>
+
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -54,7 +54,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
         android:layout_margin="10dp"
-        android:background="@drawable/back_button"
+        android:background="@drawable/back"
         />
 
 
