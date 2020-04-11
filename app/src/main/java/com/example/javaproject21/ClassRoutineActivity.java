@@ -28,7 +28,6 @@ public class ClassRoutineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_routine);
         recyclerView=findViewById(R.id.routineRecView);
-
         setupRecView();
         btnBack=findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.example.javaproject21;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,14 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
@@ -85,7 +90,11 @@ public class MainFragment extends Fragment {
         cardCR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isCR())
                 startActivity(new Intent(view.getContext(),CRActivity.class));
+                else{
+                    Toast.makeText(view.getContext(), "Sorry, but you are not a CR.", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -111,9 +120,14 @@ public class MainFragment extends Fragment {
                 else navDrawer.closeDrawer(GravityCompat.END);
             }
         });
-
-
         return  view;
+    }
+
+    private boolean isCR() {
+        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if(Utils.getCR().equals(email)|| Utils.getCR2().equals(email))
+            return  true;
+        else return  false;
     }
 
     private void setupTopView(final View view) {
@@ -125,7 +139,9 @@ public class MainFragment extends Fragment {
                         String name= documentSnapshot.getData().get("name").toString();
                         String imageUrl=documentSnapshot.getData().get("imageUri").toString();
                         txtStudentName.setText(name);
-                        Glide.with(view).load(imageUrl).placeholder(R.drawable.classroom).into(imageView);
+                        Uri uri=Uri.parse(imageUrl);
+                        StorageReference ref= FirebaseStorage.getInstance().getReference().child(imageUrl);
+                        Glide.with(view).setDefaultRequestOptions(new RequestOptions().timeout(30*1000)).load(uri).placeholder(R.drawable.classroom).into(imageView);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

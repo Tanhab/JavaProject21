@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             backgroundImageResize.execute(imageUri);
         }else {
             //TODO: check for other Info
-                Uri uri= Uri.parse(pastUrl);
+               Uri uri= Uri.parse(pastUrl);
             addToDatabase(uri);
         }
 
@@ -223,7 +223,8 @@ public class ProfileActivity extends AppCompatActivity {
         protected void onPostExecute(byte[] bytes) {
             super.onPostExecute(bytes);
             //mUploadBytes = bytes;
-            StorageReference ref= storageReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"."+getFileExtension(imageUri));
+            final String name=FirebaseAuth.getInstance().getCurrentUser().getUid()+"."+getFileExtension(imageUri);
+            StorageReference ref= storageReference.child(name);
 
             UploadTask uploadTask= ref.putBytes(bytes);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

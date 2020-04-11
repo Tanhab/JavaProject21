@@ -130,7 +130,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
 
             mSpeedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_date, R.drawable
                     .ic_calender)
-                    .setFabBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.browser_actions_bg_grey,
+                    .setFabBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.material_on_background_emphasis_high_type,
                             getTheme()))
                     .setLabel("Edit date")
                     .setLabelBackgroundColor(Color.YELLOW)

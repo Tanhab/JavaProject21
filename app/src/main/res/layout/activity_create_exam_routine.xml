@@ -6,12 +6,32 @@
     android:layout_height="match_parent"
 
     tools:context=".CreateExamRoutineActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@drawable/blue_background"
+        />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="650dp"
+            android:background="@drawable/exam_routine_bg"
+            />
+
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="495dp"
+        android:layout_centerInParent="true"
         android:orientation="vertical"
         android:padding="20dp"
-        android:gravity="center_horizontal"
+        android:layout_marginStart="105dp"
         >
 
 
@@ -19,9 +39,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create An Exam Schedule"
-        style="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
         android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         />
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -60,6 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Exam Date:"
+        android:textColor="@android:color/black"
         android:textStyle="bold|italic"
         />
     <LinearLayout
@@ -90,6 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Exam Time:"
+        android:textColor="@android:color/black"
         android:textStyle="bold|italic"
         />
     <LinearLayout
@@ -110,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enter time"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:id="@+id/txtExamTime"
 
             />
@@ -138,6 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/btnExamRoutineSubmit"
         />
 

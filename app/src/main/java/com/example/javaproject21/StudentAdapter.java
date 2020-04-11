@@ -16,7 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentAdapter extends FirestoreRecyclerAdapter<Student, StudentAdapter.StudentViewHolder> {
-StudentListener studentListener;
+private StudentListener studentListener;
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.

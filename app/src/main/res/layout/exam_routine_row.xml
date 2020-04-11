@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="5dp"
         >
         <TextView
             android:layout_width="match_parent"
@@ -20,7 +21,7 @@
             android:layout_marginTop="5dp"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:fontFamily="monospace"
             android:gravity="center"
             android:id="@+id/text1"
@@ -35,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textSize="16sp"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textStyle="bold|italic"
                 android:id="@+id/txtDate"
                 android:layout_marginStart="8dp"
@@ -44,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Time "
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:layout_marginStart="8dp"
                 android:textSize="16sp"
                 android:textStyle="bold|italic"
@@ -58,7 +59,7 @@
             android:layout_marginLeft="8dp"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:layout_marginTop="10dp"
             android:text="Exam Name :"
             android:id="@+id/txtExamNameRow"
@@ -67,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
@@ -80,7 +81,7 @@
             android:lines="3"
             android:layout_marginLeft="8dp"
             android:id="@+id/txtExamSyllabusRow"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:text="Syllabus here"
             />
         <TextView
@@ -88,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:text="Exam Resources:"
@@ -101,7 +102,7 @@
             android:layout_marginStart="8dp"
             android:id="@+id/txtResourcesRow"
             android:text="Not available."
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             />
     </LinearLayout>
 

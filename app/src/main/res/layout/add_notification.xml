@@ -28,7 +28,8 @@
             app:counterEnabled="true"
             app:counterMaxLength="30"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:hint="Enter Notification Title">
+            android:hint="Enter Notification Title"
+            app:hintTextColor="@android:color/black">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,11 +46,13 @@
             android:layout_height="wrap_content"
             app:errorEnabled="true"
             android:layout_marginTop="10dp"
+            app:hintTextColor="@android:color/black"
+
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:hint="Enter Notification Message">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:id="@+id/txtNotificationBodyInput"
                 android:inputType="text"
                 >

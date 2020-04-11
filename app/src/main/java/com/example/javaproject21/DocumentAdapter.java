@@ -3,6 +3,7 @@ package com.example.javaproject21;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class DocumentAdapter extends FirestoreRecyclerAdapter<Document, Document
         holder.docName.setText(model.getName());
         holder.docUploader.setText("Uploader: " + model.getUploader());
 
+
     }
 
     @NonNull
@@ -45,12 +47,14 @@ public class DocumentAdapter extends FirestoreRecyclerAdapter<Document, Document
 
     class DocumentHolder extends RecyclerView.ViewHolder {
         TextView docName, docDate, docUploader;
+        ImageButton btnCopyLink;
 
         public DocumentHolder(@NonNull View itemView) {
             super(itemView);
             docName = itemView.findViewById(R.id.docName);
             docDate = itemView.findViewById(R.id.docDate);
             docUploader = itemView.findViewById(R.id.docUploadedBy);
+            btnCopyLink=itemView.findViewById(R.id.btnCopyLink);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -60,11 +64,21 @@ public class DocumentAdapter extends FirestoreRecyclerAdapter<Document, Document
                     }
                 }
             });
+            btnCopyLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position=getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION && listener!=null){
+                        listener.onCopyButtonPressed(getSnapshots().getSnapshot(position),position);
+                    }
+                }
+            });
         }
     }
 
     public interface OnItemClickListener {
         void OnItemClick(DocumentSnapshot documentSnapshot, int position);
+        void onCopyButtonPressed(DocumentSnapshot snapshot, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

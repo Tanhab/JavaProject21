@@ -2,6 +2,9 @@ package com.example.javaproject21;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +29,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.util.Util;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -97,9 +101,16 @@ public class AllDocumentsActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AllDocumentsActivity.this);
-                alertDialogBuilder.setTitle("Delete this Document").setMessage("Are you sure ?\n[Of course,you must be the CR :3 }").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setTitle("Delete this Document").setMessage("Are you sure ?\n[Of course,you must be the CR ]").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        adapter.deleteItem(viewHolder.getAdapterPosition());
+                        String email=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                        if(Utils.getCR2().equals(email)|| Utils.getCR().equals(email)) adapter.deleteItem(viewHolder.getAdapterPosition());
+                        else
+                        {
+                            adapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                            Toast.makeText(AllDocumentsActivity.this, "Sorry, you are not a CR", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -116,6 +127,16 @@ public class AllDocumentsActivity extends AppCompatActivity {
             public void OnItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Document document = documentSnapshot.toObject(Document.class);
                 startWebView(document.getUrl());
+            }
+
+            @Override
+            public void onCopyButtonPressed(DocumentSnapshot snapshot, int position) {
+                Document document = snapshot.toObject(Document.class);
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("document url", document.getUrl());
+                assert clipboard != null;
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(AllDocumentsActivity.this, "Document Link copied to clipboard.", Toast.LENGTH_SHORT).show();
             }
         });
     }
