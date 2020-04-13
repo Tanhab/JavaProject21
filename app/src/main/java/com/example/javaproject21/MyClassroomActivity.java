@@ -49,13 +49,13 @@ public class MyClassroomActivity extends AppCompatActivity {
         cardTeachers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getApplicationContext(),TeacherCourseActivity.class));
             }
         });
         cardLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearClassnameFromDatabase();
+                confirmLeave();
 
             }
         });
@@ -75,6 +75,33 @@ public class MyClassroomActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void confirmLeave() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.leave_confirmity_dialog, null);
+
+        Button yesButton = view.findViewById(R.id.btnYes);
+        Button noButton = view.findViewById(R.id.btnNo);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .create();
+
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                clearClassnameFromDatabase();
+            }
+        });
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private void openDialog() {

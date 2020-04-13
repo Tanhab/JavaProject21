@@ -137,6 +137,56 @@
                     </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                app:cardCornerRadius="15dp"
+                android:layout_margin="10dp"
+                android:id="@+id/cardCreateTeacherCourse"
+                app:cardBackgroundColor="#7ed6df"
+                android:padding="5dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    >
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/cr_books"
+                        android:layout_margin="10dp"
+                        android:id="@+id/imageProfile6"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/imageProfile6"
+                        android:layout_marginLeft="10dp"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Create course information"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Set the name of the course,name of the teacher who will take the course,its code and credit."
+                            android:layout_marginTop="5dp"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

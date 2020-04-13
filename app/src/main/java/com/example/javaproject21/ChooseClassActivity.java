@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -93,16 +94,12 @@ public class ChooseClassActivity extends AppCompatActivity {
                     edtInvitationCode.setError("Can't be empty");
                 }else
                 {
-                    String className,classDescription,uniName,invitationCode;
-                    className=edtClassroomName.getText().toString().trim();
-                    classDescription=edtDesc.getText().toString().trim();
-                    uniName=edtUniName.getText().toString().trim().toUpperCase();
-                    invitationCode=edtInvitationCode.getText().toString().trim();
-                    className= className+"_"+uniName;
-                    pd.show();
-                    checkForName(className,invitationCode,classDescription);
-                    Log.d(TAG, "onClick: started final text= "+invitationCode);
+
+                    showConfirmDialog(edtClassroomName,edtInvitationCode,edtUniName,edtDesc);
                     alertDialog.dismiss();
+
+
+
                 }
             }
         });
@@ -118,6 +115,57 @@ public class ChooseClassActivity extends AppCompatActivity {
         alertDialog.show();
 
     }
+
+    private void showConfirmDialog(EditText edtClassroomName, EditText edtInvitationCode,EditText edtUniName,EditText edtDesc) {
+
+        LayoutInflater inflater1 = LayoutInflater.from(this);
+        View view1 = inflater1.inflate(R.layout.add_classroom_confirmity_dialog, null);
+
+        Button YesButton = view1.findViewById(R.id.btnYES);
+        Button NoButton = view1.findViewById(R.id.btnNO);
+
+        final TextView txtVClassname,txtVCode,txtVDes;
+
+        txtVClassname = view1.findViewById(R.id.txtClassName);
+        txtVCode = view1.findViewById(R.id.txtInvitationCode);
+        txtVDes = view1.findViewById(R.id.txtDesc);
+
+        String classroomName;
+        final String className,classDescription,uniName,invitationCode;
+        classroomName=edtClassroomName.getText().toString().trim();
+        classDescription=edtDesc.getText().toString().trim();
+        uniName=edtUniName.getText().toString().trim().toUpperCase();
+        invitationCode=edtInvitationCode.getText().toString().trim();
+        className= classroomName+"_"+uniName;
+
+        txtVClassname.setText("Classroom name : " +className);
+        txtVCode.setText("Invitation Code : " + invitationCode);
+        txtVDes.setText("Description : "+classDescription);
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setView(view1)
+                .create();
+
+        YesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pd.show();
+                checkForName(className,invitationCode,classDescription);
+                Log.d(TAG, "onClick: started final text= "+invitationCode);
+                alertDialog.dismiss();
+            }
+        });
+
+        NoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+    }
+
     private void showJoinDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.join_classroom_dialog, null);

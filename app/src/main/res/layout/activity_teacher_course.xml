@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBF199"
-    tools:context=".StudentsListActivity">
-
-
+    android:background="@drawable/teacher"
+    tools:context=".TeacherCourseActivity"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,15 +15,14 @@
         android:padding="20dp"
         >
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Students List"
+            android:text="Teachers and Courses"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
             android:textSize="25sp"
-            android:textColor="@android:color/black"
+            android:textColor="#0D5288"
             android:id="@+id/text1"
             android:textAlignment="center"
             />
@@ -32,6 +30,7 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text1"
+            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
 
             android:padding="10dp"
@@ -49,7 +48,8 @@
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
         android:layout_margin="10dp"
-        android:background="@drawable/back2"
+        android:background="@drawable/back"
         />
+
 
 </RelativeLayout>

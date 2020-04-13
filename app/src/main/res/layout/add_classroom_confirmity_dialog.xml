@@ -5,61 +5,78 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="#ffeaa7"
+    android:background="#D5A7EF"
     android:layout_margin="20dp"
     >
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/classroom_info"
-        android:layout_gravity="center_horizontal"
-        />
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/confused"
+        android:layout_gravity="center"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="My Classroom"
+        android:text="Are you sure you want to create this classroom?"
         android:textSize="22sp"
         android:layout_marginTop="10dp"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:id="@+id/txtClassName"
         />
+
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:text="Classroom name :"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:id="@+id/txtClassName"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Invitation code :"
         android:textStyle="bold"
         android:textSize="14sp"
         android:id="@+id/txtInvitationCode"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="CurrentCR :"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:id="@+id/txtCurrentCr"
-        /><TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Description :"
+   <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="Description :"
     android:lines="2"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:id="@+id/txtDesc"
+    android:textStyle="bold"
+    android:textSize="14sp"
+    android:id="@+id/txtDesc"
+    />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YES"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btnYES"
+        android:layout_marginTop="10dp"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok"
+        android:text="NO"
+        android:layout_marginLeft="20dp"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/btnJoin"
+        android:id="@+id/btnNO"
         android:layout_marginTop="10dp"
         />
 
+</LinearLayout>
 
 </LinearLayout>

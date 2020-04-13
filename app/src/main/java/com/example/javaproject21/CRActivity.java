@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class CRActivity extends AppCompatActivity {
     private static final String TAG = "CRActivity";
-    private CardView cardCreateRoutine,cardCreateExam,cardChangeInvitationCode,cardClassControl,cardCRSettings;
+    private CardView cardCreateRoutine,cardCreateExam,cardChangeInvitationCode,cardClassControl,cardCRSettings,cardTeacherCourse;
     private ImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class CRActivity extends AppCompatActivity {
         cardChangeInvitationCode=findViewById(R.id.cardChangeCode);
         cardClassControl=findViewById(R.id.cardClassControl);
         cardCRSettings=findViewById(R.id.cardCRSettings);
+        cardTeacherCourse=findViewById(R.id.cardCreateTeacherCourse);
 
         cardCreateExam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,12 @@ public class CRActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),CreateClassRoutineActivity.class));
+            }
+        });
+        cardTeacherCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),CreateTeacherCourseActivity.class));
             }
         });
         cardChangeInvitationCode.setOnClickListener(new View.OnClickListener() {
