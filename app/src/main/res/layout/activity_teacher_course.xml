@@ -15,6 +15,12 @@
         android:padding="20dp"
         >
 
+       <!-- &lt;!&ndash;<ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/sir">&ndash;&gt;
+
+        </ImageView>-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
