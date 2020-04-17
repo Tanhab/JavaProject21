@@ -6,19 +6,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@drawable/doc"
     tools:context=".AllDocumentsActivity">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:background="@drawable/bg4"
-        />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Folder name"
             android:gravity="center"
             android:id="@+id/text1"
-            android:layout_marginTop="20dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
             android:textColor="@android:color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             />
@@ -58,7 +57,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
         android:layout_margin="10dp"
-        android:background="@drawable/back_button"
+        android:background="@drawable/back1"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

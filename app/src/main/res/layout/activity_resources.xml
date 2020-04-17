@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFCDE"
+    android:background="@drawable/res"
     tools:context=".ResourcesActivity">
     <TextView
         android:layout_width="match_parent"
@@ -12,10 +12,10 @@
         android:text="Folders"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:textColor="#1955EA"
+        android:textColor="#009688"
         android:fontFamily="monospace"
         android:id="@+id/text1"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         android:textAllCaps="true"
         />
@@ -44,7 +44,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
         android:layout_margin="10dp"
-        android:background="@drawable/back"
+        android:background="@drawable/back1"
         />
 
 

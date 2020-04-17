@@ -1,27 +1,25 @@
 package com.example.javaproject21;
 
 public class ExamRoutine {
-    private String examName,examDate,examTime,syllabus,resources;
+    private String exams, examDate;
     private long priority;
 
-    public ExamRoutine(String examName, String examDate, String examTime, String syllabus, String resources, long priority) {
-        this.examName = examName;
+    public ExamRoutine(String exams, String examDate, long priority) {
+        this.exams = exams;
         this.examDate = examDate;
-        this.examTime = examTime;
-        this.syllabus = syllabus;
-        this.resources = resources;
+
         this.priority = priority;
     }
 
     public ExamRoutine() {
     }
 
-    public String getExamName() {
-        return examName;
+    public String getExams() {
+        return exams;
     }
 
-    public void setExamName(String examName) {
-        this.examName = examName;
+    public void setExams(String exams) {
+        this.exams = exams;
     }
 
     public String getExamDate() {
@@ -32,29 +30,6 @@ public class ExamRoutine {
         this.examDate = examDate;
     }
 
-    public String getExamTime() {
-        return examTime;
-    }
-
-    public void setExamTime(String examTime) {
-        this.examTime = examTime;
-    }
-
-    public String getSyllabus() {
-        return syllabus;
-    }
-
-    public void setSyllabus(String syllabus) {
-        this.syllabus = syllabus;
-    }
-
-    public String getResources() {
-        return resources;
-    }
-
-    public void setResources(String resources) {
-        this.resources = resources;
-    }
 
     public long getPriority() {
         return priority;
@@ -67,11 +42,8 @@ public class ExamRoutine {
     @Override
     public String toString() {
         return "ExamRoutine{" +
-                "examName='" + examName + '\'' +
+                "exams='" + exams + '\'' +
                 ", examDate='" + examDate + '\'' +
-                ", examTime='" + examTime + '\'' +
-                ", syllabus='" + syllabus + '\'' +
-                ", resources='" + resources + '\'' +
                 ", priority=" + priority +
                 '}';
     }

@@ -31,7 +31,6 @@ public class Notification {
         this.title = title;
         this.body = body;
         this.date = date;
-
         this.sender = sender;
         this.priority = priority;
     }

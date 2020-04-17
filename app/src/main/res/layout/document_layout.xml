@@ -9,7 +9,7 @@
     android:layout_margin="10dp"
     android:layout_marginBottom="10dp"
     android:layout_marginEnd="20dp"
-    app:cardBackgroundColor="#FFFF90"
+    app:cardBackgroundColor="#9ACDF6"
     android:padding="0dp">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/paper"
+            android:src="@drawable/paperdoc"
             android:layout_margin="5dp"
             android:id="@+id/image"
             />
@@ -69,7 +69,7 @@
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_copy"
+            android:background="@drawable/copy"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="5dp"

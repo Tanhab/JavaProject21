@@ -26,30 +26,27 @@ public class ExamRoutineAdapter extends FirestoreRecyclerAdapter<ExamRoutine, Ex
     @Override
     protected void onBindViewHolder(@NonNull ExamRoutineholder holder, int position, @NonNull ExamRoutine model) {
         holder.txtDate.setText(model.getExamDate());
-        holder.txtTime.setText(model.getExamTime());
-        holder.txtExamName.setText("Exam Name :"+model.getExamName());
-        holder.txtExamSyllabus.setText(model.getSyllabus());
-        if(model.getResources()!=null) holder.txtResources.setText(model.getResources());
+        holder.txtExams.setText(model.getExams());
+
 
     }
 
     @NonNull
     @Override
     public ExamRoutineholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.exam_routine_row,parent,false);
-       return new ExamRoutineholder(view);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.exam_routine_row,parent,false);
+        return new ExamRoutineholder(view);
     }
 
     class ExamRoutineholder extends RecyclerView.ViewHolder{
-        TextView txtDate,txtTime,txtExamName,txtExamSyllabus,txtResources;
+        TextView txtDate,txtExams;
 
         public ExamRoutineholder(@NonNull View itemView) {
             super(itemView);
             txtDate=itemView.findViewById(R.id.txtDate);
-            txtExamName=itemView.findViewById(R.id.txtExamNameRow);
-            txtTime=itemView.findViewById(R.id.txtTimeRow);
-            txtExamSyllabus=itemView.findViewById(R.id.txtExamSyllabusRow);
-            txtResources=itemView.findViewById(R.id.txtResourcesRow);
+            txtExams=itemView.findViewById(R.id.txtExams);
+
+
 
 
         }

@@ -20,6 +20,8 @@
         android:text="Name"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
         android:id="@+id/txtName"
         />
     <LinearLayout
@@ -34,12 +36,14 @@
             android:layout_height="wrap_content"
             android:text="Blood Group :"
             android:textStyle="bold"
+            android:textColor="#0B24CA"
             android:textSize="16dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Not available"
+            android:textColor="@android:color/black"
             android:layout_marginStart="10dp"
             android:id="@+id/txtBloodGroup"
             android:textSize="16sp"
@@ -57,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone no :"
+            android:textColor="#0B24CA"
             android:textStyle="bold"
             android:textSize="16dp"
             />
@@ -64,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Not available"
+            android:textColor="@android:color/black"
             android:layout_marginStart="10dp"
             android:id="@+id/txtPhoneNo"
             android:textSize="16sp"
@@ -83,6 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email :"
+            android:textColor="#0B24CA"
             android:textStyle="bold"
             android:textSize="16dp"
             />
@@ -91,6 +98,7 @@
             android:layout_height="wrap_content"
             android:text="Not available"
             android:layout_marginStart="10dp"
+            android:textColor="@android:color/black"
             android:id="@+id/txtEmail"
             android:textSize="16sp"
 

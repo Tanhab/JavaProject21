@@ -8,6 +8,9 @@
 
     tools:context=".CreateExamRoutineActivity">
 
+
+
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,13 +18,19 @@
         android:layout_centerInParent="true"
         android:orientation="vertical"
         >
+
+
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="650dp"
+            android:layout_height="630dp"
             android:background="@drawable/exam_routine_bg"
             />
 
+
+
     </RelativeLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="495dp"
@@ -31,150 +40,125 @@
         android:layout_marginStart="105dp"
         >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Preview of Exam Routine:"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_margin="15dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/txtRoutineDate"
+                    android:layout_gravity="center_horizontal"
+                    />
+                <!-- <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/txtSection"
+                     android:textSize="18sp"
+                     android:textStyle="bold"
+                     android:textColor="@android:color/black"
+                     android:text="Section"
+                     android:layout_gravity="center_horizontal"
+                     />-->
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/txtRoutine"
+                    android:text="Exams :"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:clickable_overlay="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+        app:sdExpansionMode="top"
+        app:sdMainFabAnimationRotateAngle="90"
+        app:sdMainFabClosedBackgroundColor="#3165F3"
+        app:sdMainFabClosedSrc="@drawable/ic_add"
+        app:sdMainFabOpenedBackgroundColor="@color/colorPrimaryDark"
+        app:sdMainFabOpenedSrc="@drawable/ic_back"
+        app:sdOverlayLayout="@id/overlay" />
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/backButton"
+        android:layout_margin="10dp"
+        android:background="@drawable/back"
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create An Exam Schedule"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
+        android:layout_marginTop="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textColor="#1842AE"
         android:textStyle="bold"
         />
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        android:layout_marginTop="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Enter Exam Name">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtExamNameInput"
-            android:inputType="textCapWords"
-            >
 
-        </com.google.android.material.textfield.TextInputEditText>
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Enter Exam Syllabus">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtExamSyllabusInput"
-            android:inputType="textCapWords"
-            >
-
-        </com.google.android.material.textfield.TextInputEditText>
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Exam Date:"
-        android:textColor="@android:color/black"
-        android:textStyle="bold|italic"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        >
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_calender"
-            android:background="@color/colorPrimary"
-            android:id="@+id/btnExamDate"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Date"
-            android:layout_marginLeft="15dp"
-            android:id="@+id/txtExamDate"
-
-            />
-
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Exam Time:"
-        android:textColor="@android:color/black"
-        android:textStyle="bold|italic"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        >
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_clock"
-            android:background="@color/colorPrimary"
-            android:id="@+id/btnExamTime"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter time"
-            android:layout_marginStart="15dp"
-            android:id="@+id/txtExamTime"
-
-            />
-
-    </LinearLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        android:layout_marginTop="10dp"
-        app:helperText="*(optional)"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Enter Exam Resources*">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtExamResourcesInput"
-            android:inputType="textCapWords"
-            >
-
-        </com.google.android.material.textfield.TextInputEditText>
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/btnExamRoutineSubmit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="  Publish Exam Schedule  "
+        android:textColor="@android:color/white"
+        android:id="@+id/btnSendRoutine"
+        android:layout_marginBottom="25dp"
+        android:background="#EF54E5"
         />
-
-</LinearLayout>
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/btnBack"
-        android:layout_margin="10dp"
-        android:background="@drawable/back"
-        />
-
-
 
 
 </RelativeLayout>
