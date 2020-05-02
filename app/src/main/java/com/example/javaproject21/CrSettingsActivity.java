@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -62,15 +64,25 @@ public class CrSettingsActivity extends AppCompatActivity {
     }
 
     private void ChangeCRDialog(final DocumentSnapshot snapshot) {
-        String[]  listItems= new String[]{"Make him/her other CR","Make him/her CR and leave CRship."};
+        String[]  listItems;
+        boolean ck=false;
+        Log.d(TAG, "ChangeCRDialog: cr2 = " +Utils.getCR2());
+        if(Utils.getCR2().equals("n/a")){
+        listItems = new String[]{"Make him/her other CR","Make him/her CR and leave CRship."};
+
+        }else{
+            ck=true;
+            listItems= new String[]{"Make him/her CR and leave CRship."};
+        }
         final AlertDialog.Builder builder= new AlertDialog.Builder(CrSettingsActivity.this)
                 .setTitle("Choose an option")
                 .setIcon(R.drawable.classroom);
         AlertDialog dialog= builder.create();
+        final boolean finalCk = ck;
         builder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                    DoOperation(which,snapshot);
+                    DoOperation(which,snapshot, finalCk);
                     dialog.dismiss();
 
             }
@@ -87,15 +99,15 @@ public class CrSettingsActivity extends AppCompatActivity {
 
     }
 
-    private void DoOperation(int which, DocumentSnapshot snapshot) {
-        Student student= snapshot.toObject(Student.class);
-        if(which==0)
+    private void DoOperation(int which, DocumentSnapshot snapshot, boolean finalCk) {
+        final Student student= snapshot.toObject(Student.class);
+        if(which==0&& !finalCk)
         {
-            if(Utils.getCR2()!=null&& Utils.getCR()!=null){
+            if(!Utils.getCR2().equals("n/a")&& !Utils.getCR().equals("n/a")){
                 Toast.makeText(this, "Sorry,only two Class Representative is allowed", Toast.LENGTH_SHORT).show();
 
             }else{
-                if(Utils.getCR()==null){
+                if(Utils.getCR().equals("n/a")){
                     assert student != null;
                     addCR1(student);
                 }else{
@@ -111,17 +123,22 @@ public class CrSettingsActivity extends AppCompatActivity {
            if(Utils.getCR().equals(email)) {
                assert student != null;
                map.put("currentCR",student.getEmail());
+               Utils.setCR(student.getEmail());
            }
            else {
                assert student != null;
                map.put("currentCR2",student.getEmail());
+               Utils.setCR2(student.getEmail());
            }
 
-            FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("classroomDetails").update(map)
+            FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).update(map)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+
                             Toast.makeText(CrSettingsActivity.this, "Class Representative added.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            finish();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -133,13 +150,47 @@ public class CrSettingsActivity extends AppCompatActivity {
             });
 
 
+        }else if(which==0&& finalCk){
+            String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+            Map<String,Object>map= new HashMap<>();
+            if(Utils.getCR().equals(email)) {
+                assert student != null;
+                map.put("currentCR",student.getEmail());
+                Utils.setCR(student.getEmail());
+
+            }
+            else {
+                assert student != null;
+                map.put("currentCR2",student.getEmail());
+                Utils.setCR2(student.getEmail());
+            }
+
+            FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).update(map)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Toast.makeText(CrSettingsActivity.this, "Class Representative added."+Utils.getCR(), Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            finish();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(CrSettingsActivity.this, "CR changing Failed.Please check your internet connection.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
     private void addCR1(Student student) {
         Map<String,Object>map= new HashMap<>();
         map.put("currentCR",student.getEmail());
-        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("classroomDetails")
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
                 .update(map).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -153,10 +204,10 @@ public class CrSettingsActivity extends AppCompatActivity {
             }
         });
     }
-    private void addCR2(Student student) {
+    private void addCR2(final Student student) {
         Map<String,Object>map= new HashMap<>();
         map.put("currentCR2",student.getEmail());
-        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("classroomDetails")
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
                 .update(map).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -166,7 +217,10 @@ public class CrSettingsActivity extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(CrSettingsActivity.this, "Class Representative added.", Toast.LENGTH_SHORT).show();
+                Utils.setCR2(student.getEmail());
+                Toast.makeText(CrSettingsActivity.this, "Class Representative added."+Utils.getCR2(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onSuccess: cr = "+ Utils.getCR2());
+
             }
         });
     }

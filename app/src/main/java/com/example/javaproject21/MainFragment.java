@@ -37,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainFragment extends Fragment {
     private static final String TAG = "MainFragment";
 
-    private CardView cardClassRoutine,cardExamRoutine,cardNotification,cardResources,cardCR,cardProfile;
+    private CardView cardClassRoutine,cardExamRoutine,cardNotification,cardResources,cardSocial,cardProfile;
     private CircleImageView imageView;
     private TextView txtStudentName;
     ImageButton btnNavigation;
@@ -49,7 +49,7 @@ public class MainFragment extends Fragment {
          final View view=inflater.inflate(R.layout.fragment_main, container, false);
 
         cardClassRoutine=view.findViewById(R.id.cardClassRoutine);
-        cardCR=view.findViewById(R.id.cardCR);
+        cardSocial=view.findViewById(R.id.cardSocial);
         cardExamRoutine=view.findViewById(R.id.cardExamRoutine);
         cardNotification=view.findViewById(R.id.cardNotification);
         cardResources=view.findViewById(R.id.cardResources);
@@ -87,14 +87,15 @@ public class MainFragment extends Fragment {
 
             }
         });
-        cardCR.setOnClickListener(new View.OnClickListener() {
+        cardSocial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCR())
-                startActivity(new Intent(view.getContext(),CRActivity.class));
+                /*if(isCR())
+                startActivity(new Intent(view.getContext(),ProfileActivity.class));
                 else{
                     Toast.makeText(view.getContext(), "Sorry, but you are not a CR.", Toast.LENGTH_LONG).show();
-                }
+                }*/
+                startActivity(new Intent(view.getContext(),TimelineActivity.class));
 
             }
         });
@@ -132,11 +133,12 @@ public class MainFragment extends Fragment {
 
     private void setupTopView(final View view) {
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        assert email != null;
         FirebaseFirestore.getInstance().collection("Users").document(email).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String name= documentSnapshot.getData().get("name").toString();
+                        String name= documentSnapshot.getData().get("nickName").toString();
                         String imageUrl=documentSnapshot.getData().get("imageUri").toString();
                         txtStudentName.setText(name);
                         Uri uri=Uri.parse(imageUrl);

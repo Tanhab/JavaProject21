@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class CreateTeacherCourseActivity extends AppCompatActivity {
 
-    private TextView txtCourseName,txtCourseTeacher,txtCourseCode,txtCourseCredit;
+    private EditText txtCourseName,txtCourseTeacher,txtCourseCode,txtCourseCredit,txtPost;
     private Button submitBtn;
     private ImageButton bckBtn;
     long priority;
@@ -31,6 +32,7 @@ public class CreateTeacherCourseActivity extends AppCompatActivity {
         txtCourseTeacher=findViewById(R.id.txtTeacherNameInput);
         txtCourseCode=findViewById(R.id.txtCourseCodeInput);
         txtCourseCredit=findViewById(R.id.txtCourseCreditInput);
+        txtPost=findViewById(R.id.txtTeacherDesignationInput);
 
 
         submitBtn=findViewById(R.id.btnSubmit);
@@ -68,12 +70,19 @@ public class CreateTeacherCourseActivity extends AppCompatActivity {
         String cTeacher = txtCourseTeacher.getText().toString().trim();
         String cCode = txtCourseCode.getText().toString().trim();
         String cCredit = txtCourseCredit.getText().toString().trim();
+        String post= txtPost.getText().toString().toUpperCase();
 
-        TeacherCourse teacherCourse =new TeacherCourse(cName,cTeacher,cCode,cCredit,priority);
-        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("Data").collection("Teachers&courses").document(teacherCourse.getCourseName()+teacherCourse.getCourseTeacher()+teacherCourse.getCourseCode()+teacherCourse.getCourseCredit())
+        TeacherCourse teacherCourse =new TeacherCourse(cName,cTeacher,cCode,cCredit,post,priority);
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Teachers&courses").document(teacherCourse.getCourseName()+teacherCourse.getCourseTeacher()+teacherCourse.getCourseCode()+teacherCourse.getCourseCredit())
                 .set(teacherCourse).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                txtCourseCode.setText("");
+                txtCourseCredit.setText("");
+                txtCourseName.setText("");
+                txtCourseTeacher.setText("");
+                txtPost.setText("");
+
                 Toast.makeText(CreateTeacherCourseActivity.this, "Course info Updated.", Toast.LENGTH_SHORT).show();
 
 

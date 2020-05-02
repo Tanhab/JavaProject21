@@ -141,7 +141,7 @@ public class CRActivity extends AppCompatActivity {
     private void changeCode(String code) {
         Map<String ,Object> map=new HashMap<>();
         map.put("invitationCode",code);
-        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("classroomDetails").update(map)
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).update(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

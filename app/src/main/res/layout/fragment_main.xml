@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
     >
     <ImageView
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Welcome,"
+
                 android:textStyle="bold"
                 android:textSize="20sp"
                android:textColor="@android:color/black"
@@ -46,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="User"
+
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:id="@+id/studentName"
@@ -54,16 +57,19 @@
         </LinearLayout>
     </RelativeLayout>
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Class Update"
-        android:layout_marginTop="135dp"
         android:layout_marginStart="20dp"
-        android:textStyle="bold"
+        android:layout_marginTop="135dp"
+        android:fontFamily="@font/black_ops_one"
+        android:text="Class Update"
         android:textAllCaps="true"
         android:textColor="@android:color/black"
-        android:textSize="20sp"/>
+        android:textSize="19sp"
+        />
+
 
 
     <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -170,7 +176,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardCR"
+                    android:id="@+id/cardNotification"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_margin="20dp"
@@ -186,19 +192,19 @@
 
                         <com.airbnb.lottie.LottieAnimationView
 
-                            android:layout_gravity="center"
                             android:layout_width="80dp"
-                            android:layout_height="80dp"
+                            android:layout_height="85dp"
+                            android:layout_gravity="center"
                             android:scrollbarSize="40dp"
                             app:lottie_autoPlay="true"
-                            app:lottie_fileName="cr.json"
+                            app:lottie_fileName="notification.json"
                             app:lottie_loop="true" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="CR Zone"
-                            android:textStyle="bold" />
+                            android:text="Notification"
+                            android:textStyle="bold"/>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -213,7 +219,7 @@
                 android:layout_weight="1">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardNotification"
+                    android:id="@+id/cardSocial"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_margin="20dp"
@@ -234,14 +240,14 @@
                             android:layout_height="80dp"
                             android:scrollbarSize="40dp"
                             app:lottie_autoPlay="true"
-                            app:lottie_fileName="notification.json"
+                            app:lottie_fileName="social.json"
                             app:lottie_loop="true" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:text="Notification"/>
+                            android:text="Social"/>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -300,7 +306,7 @@
                             android:layout_height="80dp"
                             android:scrollbarSize="40dp"
                             app:lottie_autoPlay="true"
-                            app:lottie_fileName="profile.json"
+                            app:lottie_fileName="myclassroom.json"
                             app:lottie_loop="true" />
 
                         <TextView

@@ -7,15 +7,34 @@
 android:background="@drawable/dialog_background"
     android:layout_margin="20dp"
     android:padding="20dp">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add A Class"
-        android:textColor="@android:color/black"
         android:layout_gravity="center"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:text="Enter Classes"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:hint="Enter all classes with time">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtAllCLasses"
+            android:lines="4"
+
+            >
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +42,9 @@ android:background="@drawable/dialog_background"
         android:layout_marginTop="10dp"
         >
 
-        <com.google.android.material.textfield.TextInputLayout
+
+
+       <!-- <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
@@ -42,14 +63,14 @@ android:background="@drawable/dialog_background"
         </com.google.android.material.textfield.TextInputLayout>
 
 
-       <!-- <ImageButton
+       &lt;!&ndash; <ImageButton
             android:id="@+id/btnStartingTime"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/ic_clock" />-->
+            android:src="@drawable/ic_clock" />&ndash;&gt;
 
     </LinearLayout>
 
@@ -77,14 +98,14 @@ android:background="@drawable/dialog_background"
             </com.google.android.material.textfield.TextInputEditText>
 
         </com.google.android.material.textfield.TextInputLayout>
-        <!--<ImageButton
+        &lt;!&ndash;<ImageButton
             android:id="@+id/btnFinishingTime"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/ic_clock" />-->
+            android:src="@drawable/ic_clock" />&ndash;&gt;
 
     </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -118,7 +139,7 @@ android:background="@drawable/dialog_background"
 
         </com.google.android.material.textfield.TextInputEditText>
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -152,6 +173,8 @@ android:background="@drawable/dialog_background"
             android:textColor="#EDF6FF"
             android:theme="@style/AppTheme"
             />
+
+    </LinearLayout>
 
     </LinearLayout>
 

@@ -39,7 +39,7 @@ public class ResourcesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private FloatingActionButton fab;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref= db.collection(Utils.getClassName()).document("Data").collection("Folders");
+    private CollectionReference ref= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Folders");
     private FolderAdapter adapter;
     private ProgressDialog pd;
     ImageButton btnBack;
@@ -179,7 +179,9 @@ public class ResourcesActivity extends AppCompatActivity {
     private void createPath(final String folderName) {
         Map<String,Object> map = new HashMap<>();
         map.put("msg","default");
-        db.collection(Utils.getClassName()).document("Documents").collection(folderName).document("default").set(map)
+        //db.collection(Utils.getClassName()).document("Documents").collection(folderName).document("default").set(map)
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Documents").document("default")
+                .set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

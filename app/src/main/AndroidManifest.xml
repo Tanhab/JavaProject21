@@ -12,7 +12,11 @@
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateTeacherCourseActivity"></activity>
+        <activity android:name=".CreateEventActivity"></activity>
+        <activity android:name=".StudentsListSearchActivity" />
+        <activity android:name=".CreatePollActivity" />
+        <activity android:name=".CreatePostActivity" />
+        <activity android:name=".CreateTeacherCourseActivity" />
         <activity android:name=".TeacherCourseActivity" />
         <activity android:name=".CrSettingsActivity" />
         <activity android:name=".ClassControlActivity" />
@@ -31,6 +35,9 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
+        <activity
+            android:name=".TimelineActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,6 +60,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

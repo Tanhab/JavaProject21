@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".CreatePostActivity">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/view1"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plan A Event"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:gravity="center_horizontal"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:layout_marginTop="10dp"
+        android:id="@+id/text1"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view1"
+
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#f2f3f5"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/profile_placeholder"
+                    android:layout_margin="10dp"
+                    android:id="@+id/postProfilePic"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_toEndOf="@+id/postProfilePic"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="5dp"
+                    android:id="@+id/txtName"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="date"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:layout_toEndOf="@+id/postProfilePic"
+                    android:layout_below="@+id/txtName"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/txtDate"
+                    android:layout_marginBottom="20dp"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtDate"
+                    android:id="@+id/edtEventName"
+                    android:background="@drawable/search_layout"
+                    android:hint="Event Name"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:textColorHint="@color/colorPrimary"
+                    android:padding="10dp"
+                    android:layout_marginTop="15dp"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edtEventName"
+                    android:id="@+id/edtEventPlace"
+                    android:background="@drawable/search_layout"
+                    android:hint="Event Place"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:textColorHint="@color/colorPrimary"
+                    android:padding="10dp"
+                    android:layout_marginTop="15dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Event Time:"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/text3"
+                    android:layout_below="@+id/edtEventPlace"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_clock"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:id="@+id/btnTimePicker"
+                    android:layout_below="@+id/text3"
+                    android:layout_toEndOf="@+id/text3"
+                    android:layout_marginStart="10dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/btnDatePicker"
+                    android:layout_below="@+id/text3"
+                    android:text="choose a time "
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/txtTimeChosen"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Event Date:"
+                    android:fontFamily="@font/nunito_sans_semibold"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/text2"
+                    android:layout_below="@+id/txtTimeChosen"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_calender"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:id="@+id/btnDatePicker"
+                    android:layout_below="@+id/text2"
+                    android:layout_toEndOf="@+id/text2"
+                    android:layout_marginStart="10dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/btnDatePicker"
+                    android:layout_below="@+id/text2"
+                    android:text="choose a date "
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/txtDateChosen"
+                    android:layout_marginBottom="20dp"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtDateChosen"
+                    android:padding="10dp"
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"
+
+                    android:hint="Write something about this event"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/edtMessage"
+                    android:background="@drawable/search_layout"
+                    android:layout_marginBottom="15dp"
+                    android:lines="3"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@android:color/black"
+                    android:layout_below="@+id/edtMessage"
+                    android:id="@+id/view2"
+                    android:layout_marginBottom="10dp"
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/view2"
+                    android:layout_alignParentEnd="true"
+                    android:textAllCaps="false"
+                    android:text="Post in Class Timeline"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/btnPost"
+                    />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+
+</RelativeLayout>

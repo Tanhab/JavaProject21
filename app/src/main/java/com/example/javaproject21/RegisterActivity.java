@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             pd.dismiss();
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, "Authentication failed.\nIf you already have an account with this email, please login.",
                                     Toast.LENGTH_SHORT).show();
 
                         }
@@ -120,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
         map.put("imageUri","empty");
         map.put("BloodGroup","N/A");
         map.put("PhoneNo","N/A");
-
+        map.put("nickName","user");
         FirebaseFirestore.getInstance().collection("Users").document(email).set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

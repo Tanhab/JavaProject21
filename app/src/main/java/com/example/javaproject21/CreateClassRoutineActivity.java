@@ -10,6 +10,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -37,7 +38,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
@@ -67,7 +70,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_class_routine);
 
-       btnOpenDialog=findViewById(R.id.btnOpenDialog);
+       //btnOpenDialog=findViewById(R.id.btnOpenDialog);
 
         mRequestQue = Volley.newRequestQueue(this);
         txtRoutineDate=findViewById(R.id.txtRoutineDate);
@@ -113,7 +116,7 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
             mSpeedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
                     .fab_add_document, drawable)
                     .setFabImageTintColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryDark, getTheme()))
-                    .setLabel("Add a class")
+                    .setLabel("Edit Classes")
                     .setLabelColor(Color.WHITE)
                     .setLabelBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent,
                             getTheme()))
@@ -213,12 +216,35 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
         Log.d(TAG, "uploadRoutine: started");
         //TODO: cse18 er bodole class name ber kora lagbe
         classRoutine.setClasses(finalText);
+        Calendar calendar = Calendar.getInstance();
+        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        int HOUR = calendar.get(Calendar.HOUR);
+        int MINUTE = calendar.get(Calendar.MINUTE);
+        int YEAR = calendar.get(Calendar.YEAR);
+        int MONTH = calendar.get(Calendar.MONTH);
+        int DATE = calendar.get(Calendar.DATE);
+        int SECOND= calendar.get(Calendar.SECOND);
+        long a=YEAR*100+MONTH;
+        a=a*100+DATE;
+        a=a*100+HOUR;
+        a=a*100+MINUTE;
+        a=a*100+SECOND;
+        String time = DateFormat.format("h:mm a", calendar).toString();
+        String date =DateFormat.format("dd.MM.yy", calendar).toString();
+        String postId=email+ String.valueOf(a);
+        date= time + " " + date;
+            //public ClassRoutine(String routineDate, String section, String classes, String sender, String imageUri, String message, String date, String postID, long priority) ;
+
+            ClassRoutine classRoutine1= new ClassRoutine(finalDate,section,finalText,Utils.getUserName(),Utils.getImageUri(),
+                    "",date,postId,a);
         setPriority();
-        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("Data").collection("classRoutines").document(classRoutine.getDate()+classRoutine.getSection())
-                .set(classRoutine).addOnSuccessListener(new OnSuccessListener<Void>() {
+        final String finalDate1 = date;
+        final long finalA = a;
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("ClassRoutines").document(classRoutine.getDate()+classRoutine.getSection())
+                .set(classRoutine1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                sendNotification("Class Routine for "+classRoutine.getDate()+" "+classRoutine.getSection(),finalText);
+                sendNotificationData("Class Routine for "+classRoutine.getDate(), finalDate1, finalA,finalText);
 
                 section="";
                 finalText="Classes: \n";
@@ -285,12 +311,11 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
 
         Button acceptButton = view.findViewById(R.id.btnAddNewClass);
         Button cancelButton = view.findViewById(R.id.btnCancel);
-        final EditText edtClassName,edtDesc;
-                final EditText edtStartTime,edtFinishTime;
-        edtClassName=view.findViewById(R.id.txtClassInput);
-        edtDesc=view.findViewById(R.id.txtDescInput);
-        edtStartTime=view.findViewById(R.id.edtStartingTime);
-        edtFinishTime=view.findViewById(R.id.edtFinishingTime);
+        final EditText edtClasses;
+      //  edtClassName=view.findViewById(R.id.txtClassInput);
+      //  edtDesc=view.findViewById(R.id.txtDescInput);
+       // edtStartTime=view.findViewById(R.id.edtStartingTime);
+       edtClasses=view.findViewById(R.id.txtAllCLasses);
         final AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
@@ -301,24 +326,20 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
             @Override
             public void onClick(View view) {
                 Log.e(TAG, "onClick: accept button");
-                if(edtStartTime.getText().toString().length()<1)
+                if(edtClasses.getText().toString().length()<1)
                 {
-                    edtStartTime.setError("Can't be empty");
-                }else if(edtFinishTime.getText().toString().length()<1)
-                {
-                    edtFinishTime.setError("Can't be empty");
-                }else if(edtClassName.getText().toString().length()<1)
-                {
-                    edtClassName.setError("Can't be empty");
+                    edtClasses.setError("Can't be empty");
                 }else
                 {
-                    className=edtClassName.getText().toString().trim();
+                    /*className=edtClassName.getText().toString().trim();
                     classDescription=edtDesc.getText().toString().trim();
                     startTime=edtStartTime.getText().toString().trim();
                     finishTime=edtFinishTime.getText().toString().trim();
                     if(classDescription.length()>0)
                         finalText= finalText+ startTime+" - "+finishTime+" : " + className +" ["+classDescription+"]\n";
-                    else finalText= finalText+ startTime+" - "+finishTime+" : " + className +"\n";
+                    else finalText= finalText+ startTime+" - "+finishTime+" : " + className +"\n";*/
+                    finalText=edtClasses.getText().toString();
+
                     txtRoutine.setText(finalText);
                     /*List<String> tempClasses= classRoutine.getClasses();
                     tempClasses.add(finalText);
@@ -345,11 +366,30 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
         alertDialog.show();
 
     }
+    private void sendNotificationData(final String s, String date, long priority, final String message) {
+        Notification notification= new Notification(s,date,Utils.getUserName(),Utils.getImageUri(),"ClassRoutine",priority);
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
+                .add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                sendNotification(s,message);
+                Intent intent= new Intent(getApplicationContext(),ClassRoutineActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
     private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {
-            json.put("to","/topics/"+Utils.getClassName());
+            json.put("to","/topics/"+Utils.getTopic());
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title",title);
             notificationObj.put("body",body);

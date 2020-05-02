@@ -1,17 +1,27 @@
 package com.example.javaproject21;
 
 public class TeacherCourse {
-    private String courseName,courseTeacher,courseCode,courseCredit;
+    private String courseName,courseTeacher,courseCode,courseCredit,teacherDesignation;
     private long priority;
 
+    public String getTeacherDesignation() {
+        return teacherDesignation;
+    }
 
-    public TeacherCourse(String courseName, String courseTeacher, String courseCode, String courseCredit,long priority) {
+    public void setTeacherDesignation(String teacherDesignation) {
+        this.teacherDesignation = teacherDesignation;
+    }
+
+    public TeacherCourse(String courseName, String courseTeacher, String courseCode, String courseCredit, String teacherDesignation, long priority) {
         this.courseName = courseName;
         this.courseTeacher = courseTeacher;
         this.courseCode = courseCode;
         this.courseCredit = courseCredit;
+        this.teacherDesignation = teacherDesignation;
         this.priority = priority;
     }
+
+
 
     public TeacherCourse() {
     }

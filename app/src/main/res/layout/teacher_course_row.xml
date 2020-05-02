@@ -3,17 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="10dp"
-    app:cardCornerRadius="10dp"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="#51BDED"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="15dp"
     android:padding="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+
         >
 
         <LinearLayout
@@ -23,15 +21,17 @@
             android:layout_margin="5dp"
             android:padding="5dp"
             android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Course name"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textSize="20sp"
+                android:fontFamily="@font/nunito_sans_bold"
                 android:id="@+id/courseName"
                 />
 
@@ -39,7 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Course Teacher: "
-                android:textColor="@android:color/white"
+                android:fontFamily="@font/roboto"
+                android:textColor="@android:color/black"
                 android:layout_marginTop="16dp"
                 android:textSize="16sp"
                 android:id="@+id/teacherName"
@@ -47,13 +48,15 @@
 
 
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Course code: "
-                android:textColor="@android:color/white"
-                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/courseCode"
                 />
 
@@ -61,10 +64,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Course credit: "
-                android:textColor="@android:color/white"
-               android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@android:color/black"               android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:id="@+id/courseCredit"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teacher's Designation: "
+                android:fontFamily="@font/roboto"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/teacherDesignation"
                 />
 
 

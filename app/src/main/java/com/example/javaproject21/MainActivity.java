@@ -1,6 +1,7 @@
 package com.example.javaproject21;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,10 +42,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private FrameLayout frameLayout;
+    private ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        pd=new ProgressDialog(this);
+        pd.setTitle("Please wait...");
+        pd.setCancelable(false);
         init();
         ActionBarDrawerToggle toggle=   new ActionBarDrawerToggle(this,drawer,
                 R.string.drawer_oprn,R.string.drawer_closed);
@@ -61,16 +66,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStart() {
         super.onStart();
       if(Utils.getClassName()==null) {
+          pd.show();
           checkForClassName();
       }else
       {
+
           checkForCR();
       }
 
     }
 
     private void checkForClassName() {
-
             String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
             DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(email);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -81,13 +87,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             String className=document.getData().get("currentClass").toString();
+                            String name = Objects.requireNonNull(document.getData().get("name")).toString();
+                            String nickName = Objects.requireNonNull(document.getData().get("nickName")).toString();
                             if(className.equals("empty")){
+                                pd.dismiss();
                                 startActivity(new Intent(getApplicationContext(),ChooseClassActivity.class));
                                 finish();
-                            }else {
+                            }else if(name.equals("user")||nickName.equals("user")){
+                                Toast.makeText(MainActivity.this, "Please provide required information in profile.", Toast.LENGTH_SHORT).show();
+                                Intent intent= new Intent(getApplicationContext(),ProfileActivity.class);
+                                intent.putExtra("fromActivity","mainActivity");
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            else {
+
                                 Utils.setClassName(className);
-                                String name = Objects.requireNonNull(document.getData().get("name")).toString();
                                 Utils.setUserName(name);
+                                Utils.setNickName(nickName);
+
+
+                                String imageUri=document.getData().get("imageUri").toString();
+                                Utils.setImageUri(imageUri);
+
                                 checkForCR();
                             }
 
@@ -96,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
+                        pd.dismiss();
                        if(getConnectionType(MainActivity.this)==0){
                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                            alertDialogBuilder.setTitle("No Internet").setMessage("Please connect to internet for full functionality")
@@ -121,21 +145,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
-            case R.id.profile:
-                Intent intent= new Intent(getApplicationContext(),ProfileActivity.class);
+            case R.id.crZone:
+                /*Intent intent= new Intent(getApplicationContext(),CRActivity.class);
                 intent.putExtra("fromActivity","MainActivity");
-                startActivity(intent);
+                startActivity(intent);*/
+                if(isCR())
+                    startActivity(new Intent(getApplicationContext(),CRActivity.class));
+                else{
+                    Toast.makeText(getApplicationContext(), "Sorry, but you are not a CR.", Toast.LENGTH_LONG).show();
+                }
                 //Toast.makeText(this, "profile selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.logout:
-                logout();
+                unsubscribeToClass();
+
                 //Toast.makeText(this, "logout selected", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.about:
-                Toast.makeText(this, "About us selected", Toast.LENGTH_SHORT).show();
+            case R.id.profile:
+               // Toast.makeText(this, "About us selected", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                intent.putExtra("fromActivity","MainActivity");
+                startActivity(intent);
                 break;
             case R.id.contact:
-                Toast.makeText(this, "Contact us selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "About us selected", Toast.LENGTH_SHORT).show();
 
                 break;
 
@@ -151,7 +184,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Utils.setClassName(null);
         Utils.setUserName(null);
         Utils.setCR2(null);
-        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+
+        Utils.setImageUri("empty");
+        Intent intent= new Intent(getApplicationContext(),LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
     }
 
@@ -161,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(Utils.getCR()==null){
 
             String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            final DocumentReference docRef = FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("classroomDetails");
+            final DocumentReference docRef = FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -174,17 +211,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             String code=document.getData().get("invitationCode").toString();
                             String cr2=document.getData().get("currentCR2").toString();
                              Utils.setCR(CRName);
+                             Utils.setCR2("n/a");
                             if(!cr2.equals("n/a")){
                                 Utils.setCR2(cr2);
                             }
                             Utils.setClassDescription(Desc);
                             Utils.setInvitationCode(code);
-                            subscribeToClass();
+                            checkForNames();
+
                         } else {
                             Log.d(TAG, "No such document");
                             checkForCR();
                         }
                     } else {
+                        pd.dismiss();
                         Log.d(TAG, "get failed with ", task.getException());
                     }
                 }
@@ -192,16 +232,99 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         }
 
+    private void checkForNames() {
 
+        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(email);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        String className = document.getData().get("currentClass").toString();
+                        String name = Objects.requireNonNull(document.getData().get("name")).toString();
+                        String nickName = Objects.requireNonNull(document.getData().get("nickName")).toString();
+                         if (name.equals("user") || nickName.equals("user")) {
+                            Toast.makeText(MainActivity.this, "Please provide required information in profile.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            intent.putExtra("fromActivity", "mainActivity");
+                            startActivity(intent);
+                            finish();
+                        } else {
+
+                            Utils.setClassName(className);
+                            Utils.setUserName(name);
+                            Utils.setNickName(nickName);
+
+
+                            String imageUri = document.getData().get("imageUri").toString();
+                            Utils.setImageUri(imageUri);
+
+                            subscribeToClass();
+                        }
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    pd.dismiss();
+                }
+            }
+    });
+    }
+
+    String  compute_hash(String s) {
+     int p = 31;
+     int m =(int) 1e9 + 9;
+        long  hash_value = 0;
+        long  p_pow = 1;
+        int n=s.length();
+        for (int i=0;i<n;i++) {
+            char c=s.charAt(i);
+            hash_value = (hash_value + (c - 'a' + 1) * p_pow) % m;
+            p_pow = (p_pow * p) % m;
+        }
+        hash_value=Math.abs(hash_value);
+        return String.valueOf(hash_value);
+    }
 
     private void subscribeToClass(){
-        FirebaseMessaging.getInstance().subscribeToTopic(Utils.getClassName())
+        String topic=compute_hash(Utils.getClassName());
+        Log.d(TAG, "subscribeToClass: topic "+ topic);
+        Utils.setTopic(topic);
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Subscribe to "+Utils.getClassName()+" done";
+                        String msg = "Subscribe to "+Utils.getTopic()+" done";
+
+                        pd.dismiss();
                         if (!task.isSuccessful()) {
+                            pd.dismiss();
                             msg = "Subscription to cse18 failed";
+                        }
+                        Log.d(TAG, msg);
+                       // Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }  private void unsubscribeToClass(){
+        String topic=Utils.getTopic();
+        Log.d(TAG, "unsubscribeToClass: topic "+ topic);
+
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "unSubscribe to "+Utils.getTopic()+" done";
+                        Utils.setTopic("");
+                        logout();
+
+                        if (!task.isSuccessful()) {
+
+                            msg = "unSubscription to cse18 failed";
                         }
                         Log.d(TAG, msg);
                        // Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
@@ -237,5 +360,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         return result;
+    }
+    private boolean isCR() {
+        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if(Utils.getCR().equals(email)|| Utils.getCR2().equals(email))
+            return  true;
+        else return  false;
     }
 }

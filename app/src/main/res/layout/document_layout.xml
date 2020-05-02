@@ -4,12 +4,12 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="10dp"
-    app:cardCornerRadius="5dp"
+
     android:layout_marginStart="20dp"
     android:layout_margin="10dp"
     android:layout_marginBottom="10dp"
     android:layout_marginEnd="20dp"
-    app:cardBackgroundColor="#9ACDF6"
+
     android:padding="0dp">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,10 +17,11 @@
         android:padding="10dp"
 
 
+
         >
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:src="@drawable/paperdoc"
             android:layout_margin="5dp"
             android:id="@+id/image"
@@ -31,7 +32,7 @@
             android:layout_toEndOf="@+id/image"
             android:layout_toStartOf="@+id/btnCopyLink"
             android:layout_marginStart="10dp"
-            android:layout_margin="5dp"
+
             android:layout_marginEnd="10dp"
             android:padding="10dp"
             android:id="@+id/linearLayout"
@@ -42,8 +43,9 @@
                 android:layout_height="wrap_content"
                 android:text="Document Name"
                 android:textStyle="bold"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/roboto"
                 android:id="@+id/docName"
                 />
             <TextView
@@ -52,6 +54,7 @@
                 android:text="Document Created"
                 android:layout_marginTop="5dp"
                 android:textColor="@android:color/black"
+                android:fontFamily="@font/roboto"
                 android:textSize="14sp"
                 android:id="@+id/docDate"
                 />
@@ -60,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:text="Document Uploaded by"
+                android:fontFamily="@font/roboto"
                 android:id="@+id/docUploadedBy"
                 />
 
@@ -71,9 +75,17 @@
             android:layout_height="40dp"
             android:background="@drawable/copy"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
             android:id="@+id/btnCopyLink"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Copy Link"
+            android:layout_below="@+id/btnCopyLink"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/black"
             />
 
 

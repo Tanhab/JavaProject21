@@ -24,19 +24,20 @@ public class TeacherCourseAdapter extends FirestoreRecyclerAdapter<TeacherCourse
         holder.txtCourseTeacher.setText("Course Teacher: " + model.getCourseTeacher());
         holder.txtCourseCode.setText("Course Code: " + model.getCourseCode());
         holder.txtCourseCredit.setText("Course Credit: " + model.getCourseCredit());
+        holder.txtDesignation.setText("Teacher's Designation: "+model.getTeacherDesignation());
 
     }
 
     @NonNull
     @Override
-    public TeacherCourseAdapter.TeacherCourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TeacherCourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_course_row,parent,false);
-        return new TeacherCourseAdapter.TeacherCourseHolder(view);
+        return new TeacherCourseHolder(view);
     }
 
 
     class TeacherCourseHolder extends RecyclerView.ViewHolder{
-        TextView txtCourseName,txtCourseTeacher,txtCourseCode,txtCourseCredit;
+        TextView txtCourseName,txtCourseTeacher,txtCourseCode,txtCourseCredit,txtDesignation;
 
         public TeacherCourseHolder(@NonNull View itemView) {
             super(itemView);
@@ -44,6 +45,7 @@ public class TeacherCourseAdapter extends FirestoreRecyclerAdapter<TeacherCourse
             txtCourseTeacher=itemView.findViewById(R.id.teacherName);
             txtCourseCode=itemView.findViewById(R.id.courseCode);
             txtCourseCredit=itemView.findViewById(R.id.courseCredit);
+            txtDesignation=itemView.findViewById(R.id.teacherDesignation);
         }
     }
 

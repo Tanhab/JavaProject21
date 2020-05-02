@@ -56,6 +56,7 @@ public class AllDocumentsActivity extends AppCompatActivity {
     DocumentAdapter adapter;
     private RecyclerView recyclerView;
     TextView txtFolderName;
+    String folderName;
     ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +65,13 @@ public class AllDocumentsActivity extends AppCompatActivity {
         txtFolderName=findViewById(R.id.text1);
         Intent intent = getIntent();
         String path = intent.getStringExtra("folderName");
+        folderName=path;
         txtFolderName.setText(path);
-        ref = db.collection(Utils.getClassName()).document("Documents").collection(path);
+        ref = db.collection("Classrooms").document(Utils.getClassName()).collection("Documents");
         Log.d(TAG, "onCreate: started intent data " + path);
         initSpeedDial(savedInstanceState == null);
         recyclerView = findViewById(R.id.docRecView);
-        query = ref.orderBy("priority", Query.Direction.DESCENDING);
+        query = ref.orderBy("priority", Query.Direction.DESCENDING).whereEqualTo("folder",path);
         setupRecView();
         btnBack=findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -307,7 +309,7 @@ public class AllDocumentsActivity extends AppCompatActivity {
         a = a * 100 + DATE;
         String date = DateFormat.format("dd.MM.yy", calendar).toString();
         String name = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        Document document = new Document(docName, date, url, name, a);
+        Document document = new Document(docName, date, url, Utils.getUserName(),folderName, a);
         ref.add(document).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {

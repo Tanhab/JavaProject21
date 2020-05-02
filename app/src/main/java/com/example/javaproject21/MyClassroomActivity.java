@@ -17,10 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +65,7 @@ public class MyClassroomActivity extends AppCompatActivity {
         cardClassmates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),StudentsListActivity.class));
+                startActivity(new Intent(getApplicationContext(),StudentsListSearchActivity.class));
 
 
             }
@@ -92,7 +95,11 @@ public class MyClassroomActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                clearClassnameFromDatabase();
+                String email=FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                if(Utils.getCR().equals(email)||Utils.getCR2().equals(email)){
+                    showCrChangeDialog();
+                }else
+                unsubscribeToClass();
             }
         });
         noButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +109,28 @@ public class MyClassroomActivity extends AppCompatActivity {
             }
         });
         alertDialog.show();
+    }
+
+    private void showCrChangeDialog() {
+        final AlertDialog alertDialog;
+        alertDialog=new AlertDialog.Builder(this)
+                .setTitle("Caution")
+                .setMessage("Sorry,you can not leave classroom as long as you are a Class representative.Pass the duty to others then leave classroom.")
+                .setPositiveButton("Goto CR Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(),CrSettingsActivity.class));
+                        dialog.dismiss();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        alertDialog.show();
+
     }
 
     private void openDialog() {
@@ -155,7 +184,9 @@ public class MyClassroomActivity extends AppCompatActivity {
                 Utils.setClassDescription(null);
                 Utils.setCR2(null);
                 Utils.setInvitationCode(null);
-                startActivity(new Intent(getApplicationContext(),ChooseClassActivity.class));
+                Intent intent=new Intent(getApplicationContext(),ChooseClassActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
 
 
@@ -169,5 +200,26 @@ public class MyClassroomActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void unsubscribeToClass(){
+        String topic=Utils.getTopic();
+        Log.d(TAG, "unsubscribeToClass: topic "+ topic);
+
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "unSubscribe to "+Utils.getTopic()+" done";
+                        Utils.setTopic("");
+                        clearClassnameFromDatabase();
+
+                        if (!task.isSuccessful()) {
+
+                            msg = "unSubscription to cse18 failed";
+                        }
+                        Log.d(TAG, msg);
+                        // Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

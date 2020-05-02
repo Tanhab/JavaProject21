@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/black_ops_one</item>
+        <item>@font/nunito_sans</item>
+        <item>@font/nunito_sans_bold</item>
+        <item>@font/nunito_sans_semibold</item>
+        <item>@font/permanent_marker</item>
+        <item>@font/roboto</item>
+        <item>@font/roboto_mono_medium</item>
+    </array>
+</resources>

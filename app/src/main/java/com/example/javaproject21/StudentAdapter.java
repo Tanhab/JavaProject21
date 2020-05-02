@@ -1,8 +1,10 @@
 package com.example.javaproject21;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +18,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentAdapter extends FirestoreRecyclerAdapter<Student, StudentAdapter.StudentViewHolder> {
-private StudentListener studentListener;
+
+private Context context;
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
@@ -31,10 +34,7 @@ private StudentListener studentListener;
 
     @Override
     protected void onBindViewHolder(@NonNull StudentViewHolder holder, int position, @NonNull Student model) {
-        Glide.with(holder.itemView).load(model.imageUri).placeholder(R.drawable.ic_profile_empty).into(holder.profilePic);
-        holder.txtName.setText(model.getName());
-        holder.txtEmail.setText(model.getEmail());
-        holder.txtBloodGroup.setText(model.getBloodGroup());
+        holder.setDetails(context,model.getName(),model.getBio(),model.getImageUri());
 
 
     }
@@ -42,7 +42,8 @@ private StudentListener studentListener;
     @NonNull
     @Override
     public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.student_row,parent,false);
+       View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.search_student_item,parent,false);
+       context=parent.getContext();
        return new StudentViewHolder(view);
     }
     public void deleteItem(DocumentSnapshot snapshot){
@@ -50,15 +51,12 @@ private StudentListener studentListener;
     }
 
     class StudentViewHolder extends RecyclerView.ViewHolder{
-        CircleImageView profilePic;
-        TextView txtName,txtEmail,txtBloodGroup;
+
+        View mView;
 
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
-            profilePic=itemView.findViewById(R.id.imageProfile);
-            txtBloodGroup=itemView.findViewById(R.id.bloodGroup);
-            txtEmail=itemView.findViewById(R.id.studentEmail);
-            txtName=itemView.findViewById(R.id.studentName);
+            mView=itemView;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -70,9 +68,27 @@ private StudentListener studentListener;
             });
 
         }
+        public void setDetails(Context ctx, String userName, String userStatus, String userImage){
+
+            TextView user_name = (TextView) mView.findViewById(R.id.name_text);
+            TextView user_status = (TextView) mView.findViewById(R.id.status_text);
+            ImageView user_image = (ImageView) mView.findViewById(R.id.profile_image);
+
+
+            user_name.setText(userName);
+            user_status.setText(userStatus);
+
+            Glide.with(ctx).load(userImage).into(user_image);
+
+
+        }
+
+
 
 
     }
+
+    private StudentListener studentListener;
     public void setOnItemClickListener(StudentListener listener) {
         this.studentListener = listener;
 

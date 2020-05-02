@@ -73,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
+        android:fontFamily="@font/nunito_sans_semibold"
         android:text="Forgot password?Reset here"/>
 
 
@@ -95,6 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
+        android:fontFamily="@font/nunito_sans_semibold"
         android:text="Don't have an account?Create one here"
         android:layout_marginTop="10dp"
         android:id="@+id/txtCreateAccount"

@@ -1,18 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
+    android:background="#BCD6ED"
     tools:context=".MyClassroomActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
 
-    <ImageView
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Classroom"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:id="@+id/heading_label"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/permanent_marker"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:padding="10dp"
+        android:layout_below="@+id/heading_label"
+        android:text="I consider the world, this Earth, to be like a school, and our life the classrooms."
+        android:textSize="18sp"
+        android:id="@+id/quote"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnBack"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/back_white2"
+        android:backgroundTint="@android:color/black"
+        />
+
+    <!--<ImageView
         android:id="@+id/appbar1"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:background="@drawable/header4" />
+        android:background="@drawable/header4" />-->
 
 
 
@@ -20,13 +62,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/quote">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="175dp"
+
             android:layout_weight="2"
             android:gravity="center"
             android:orientation="horizontal">
@@ -67,6 +110,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Classroom Info"
+                            android:fontFamily="@font/nunito_sans_semibold"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -100,6 +145,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Teachers &amp; courses"
+                            android:fontFamily="@font/nunito_sans_semibold"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -145,6 +192,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="classmates"
+                            android:fontFamily="@font/nunito_sans_semibold"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -177,6 +226,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Leave classroom"
+                            android:fontFamily="@font/nunito_sans_semibold"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -189,13 +240,6 @@
         </LinearLayout>
 
     </LinearLayout>
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/btnBack"
-        android:layout_margin="10dp"
-        android:background="@drawable/back1"
-        />
-</RelativeLayout>
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
@@ -53,7 +56,7 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private Button btnSchedule;
     private TextView txtRoutineDate,txtSection,txtRoutine;
-    String finalDate,examSection,startTime,finishTime,examName,examSyllabus,examResource,finalText="Exams :\n";
+    String finalDate,examSection,startTime,finishTime,examName,examSyllabus,finalText="\nExams :\n";
     private ExamRoutine examRoutine;
     long priority;
     private RequestQueue mRequestQue;
@@ -200,12 +203,12 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
         Button acceptButton = view.findViewById(R.id.btnAddNewExam);
         Button cancelButton = view.findViewById(R.id.btnCancel);
-        final EditText edtExamName,edtSyllabus,edtRes,edtSection;
+        final EditText edtExamName,edtSyllabus,edtSection;
         final EditText edtStartTime,edtFinishTime;
         edtExamName=view.findViewById(R.id.txtClassInput);
         edtSection=view.findViewById(R.id.txtSectionInput);
         edtSyllabus=view.findViewById(R.id.txtSyllabusInput);
-        edtRes=view.findViewById(R.id.txtResInput);
+       // edtRes=view.findViewById(R.id.txtResInput);
         edtStartTime=view.findViewById(R.id.edtStartingTime);
         edtFinishTime=view.findViewById(R.id.edtFinishingTime);
         final AlertDialog alertDialog = new AlertDialog.Builder(this)
@@ -236,15 +239,11 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
                 {
                     examName=edtExamName.getText().toString().trim();
                     examSyllabus=edtSyllabus.getText().toString().trim();
-                    examResource=edtRes.getText().toString().trim();
+
                     examSection=edtSection.getText().toString().trim();
                     startTime=edtStartTime.getText().toString().trim();
                     finishTime=edtFinishTime.getText().toString().trim();
-                    if(examResource.length()>0)
-                        finalText= finalText+ startTime+" - "+finishTime+" : " + examName +"\n"
-                                + "Section: "+examSection +"\n"
-                                + examSyllabus + "\n" + examResource + "\n";
-                    else finalText= finalText+ startTime+" - "+finishTime+" : " + examName +"\n"  + "Section: "+examSection +"\n" + "Syllabus: " +examSyllabus + "\n";
+                    finalText= finalText+ startTime+" - "+finishTime+" : " + examName +"\n"  + "Section: "+examSection +"\n" + "Syllabus: " +examSyllabus + "\n";
                     txtRoutine.setText(finalText);
                     /*List<String> tempClasses= classRoutine.getClasses();
                     tempClasses.add(finalText);
@@ -278,13 +277,32 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
         examRoutine.setExams(finalText);
         setPriority();
-        FirebaseFirestore.getInstance().collection(Utils.getClassName()).document("Data").collection("ExamRoutines")
-                .document(String.valueOf(System.currentTimeMillis()))
-                .set(examRoutine).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Calendar calendar = Calendar.getInstance();
+        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        int HOUR = calendar.get(Calendar.HOUR);
+        int MINUTE = calendar.get(Calendar.MINUTE);
+        int YEAR = calendar.get(Calendar.YEAR);
+        int MONTH = calendar.get(Calendar.MONTH);
+        int DATE = calendar.get(Calendar.DATE);
+        int SECOND= calendar.get(Calendar.SECOND);
+        long a=YEAR*100+MONTH;
+        a=a*100+DATE;
+        a=a*100+HOUR;
+        a=a*100+MINUTE;
+        a=a*100+SECOND;
+        String time = DateFormat.format("h:mm a", calendar).toString();
+        String date =DateFormat.format("dd.MM.yy", calendar).toString();
+        String postId=email+ String.valueOf(a);
+        date= time + " " + date;
+        //    public ExamRoutine(String exams, String examDate, long priority, String sender, String imageUri, String message, String date, String postID) {
+        ExamRoutine examRoutine2=new ExamRoutine(finalText,finalDate,a,Utils.getUserName(),Utils.getImageUri(),"",date,postId);
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("ExamRoutine")
+                .document(postId)
+                .set(examRoutine2).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(CreateExamRoutineActivity.this, "Exam Schedule Updated.", Toast.LENGTH_SHORT).show();
-                sendNotification(" Exam routine for "+ examRoutine.getExamDate(),finalText);
+                sendNotificationData(" Exam routine for "+ examRoutine.getExamDate(),finalDate,priority,finalText);
 
                 finalText="Exams: \n";
                 finalDate="";
@@ -364,19 +382,42 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
          timePickerDialog.show();
 
      }*/
+    private void sendNotificationData(final String s, String date, long priority, final String message) {
+        Notification notification= new Notification(s,date,Utils.getUserName(),Utils.getImageUri(),"ExamRoutine",priority);
+        FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
+                .add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                sendNotification(s,message);
+                Intent intent= new Intent(getApplicationContext(),ExamRoutineActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
     private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {
-            json.put("to","/topics/"+Utils.getClassName());
+            json.put("to","/topics/"+Utils.getTopic());
             JSONObject notificationObj = new JSONObject();
             notificationObj.put("title",title);
             notificationObj.put("body",body);
 
             JSONObject extraData = new JSONObject();
-            extraData.put("category","examRoutine");
+            extraData.put("category","classRoutine");
+
+
+
             json.put("notification",notificationObj);
             json.put("data",extraData);
+
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
                     json,

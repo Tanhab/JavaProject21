@@ -1,10 +1,27 @@
 package com.example.javaproject21;
 
 public class Document {
-    String name,date,url,uploader;
+    String name,date,url,uploader,folder;
     long priority;
 
     public Document() {
+    }
+
+    public Document(String name, String date, String url, String uploader, String folder, long priority) {
+        this.name = name;
+        this.date = date;
+        this.url = url;
+        this.uploader = uploader;
+        this.folder = folder;
+        this.priority = priority;
+    }
+
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
     }
 
     public Document(String name, String date, String url, String uploader, long priority) {

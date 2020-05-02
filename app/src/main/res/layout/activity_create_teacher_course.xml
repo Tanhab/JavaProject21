@@ -4,8 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tea1"
+    android:background="#BCD6ED"
     tools:context=".CreateTeacherCourseActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create A Course\n Information"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,17 +28,7 @@
         >
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create A Course Information"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="20sp"
-            android:textColor="#E91E63"
-            android:textStyle="bold"
-            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,12 +51,30 @@
             android:layout_height="wrap_content"
             app:errorEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Enter name of course teacher">
+            android:hint="Enter course teacher's name">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtTeacherNameInput"
                 android:inputType="text"
+
+                >
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+<com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Enter teacher's Designation">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTeacherDesignationInput"
+                android:inputType="text"
+
                 >
 
             </com.google.android.material.textfield.TextInputEditText>
@@ -73,6 +92,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtCourseCodeInput"
             android:inputType="text"
+
             >
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -90,18 +110,26 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtCourseCreditInput"
                 android:inputType="text"
+
                 >
 
             </com.google.android.material.textfield.TextInputEditText>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/buttonshape_main"
+            android:layout_marginTop="20dp"
+            android:textColor="#fff"
+            android:fontFamily="@font/nunito_sans_bold"
             android:text="Submit"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/btnSubmit"
+            android:layout_gravity="center"
+
+
+
             />
 
     </LinearLayout>

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-   android:background="#E6ECAA"
+   android:background="@drawable/dialog_background"
     android:padding="20dp"
     android:layout_margin="10dp">
     <TextView
@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:text="Create A Classroom"
         android:layout_gravity="center"
-        android:textColor="#182EA8"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/nunito_sans_semibold"
         android:textSize="20sp"
         android:textStyle="bold"
         />
@@ -26,17 +27,24 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             app:errorEnabled="true"
             app:helperText="N.B. Please use short form i.e. cse18 etc."
             app:counterEnabled="true"
             android:layout_marginTop="10dp"
+            app:helperTextTextColor="@android:color/black"
+
+
             app:counterMaxLength="10"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:hint="Enter ClassRoom Name">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:id="@+id/edtClassroomName"
+
+
 
                 >
 
@@ -61,13 +69,15 @@
             app:counterEnabled="true"
             app:counterMaxLength="7"
             android:layout_marginTop="10dp"
+            app:helperTextTextColor="@android:color/black"
             app:helperText="N.B:Please use short form like SUST etc."
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:hint="Enter Your University Name">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtUniName"
+
 
                 >
 
@@ -83,12 +93,14 @@
         app:helperText="N.B. at least 6 characters which will be required to join this class"
         app:errorEnabled="true"
         android:layout_marginTop="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperTextTextColor="@android:color/black"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
         android:hint="Enter Classroom Invitation Code">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edtInvitationCode"
+
 
             >
 
@@ -100,13 +112,15 @@
         android:layout_height="wrap_content"
         app:errorEnabled="true"
         android:layout_marginTop="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:helperTextTextColor="@android:color/black"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
         android:hint="Enter Classroom description(optional)">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtClassroomDesc"
             android:inputType="text"
+
             >
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -116,33 +130,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         >
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddNewClassroom"
+            android:text="Create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="5"
-            android:text="Create"
-            android:textColor="#EDF6FF"
-            android:theme="@style/AppTheme"
+            android:background="@drawable/buttonshape_main"
+            android:layout_marginStart="20dp"
+            android:textColor="#fff"
+            android:fontFamily="@font/nunito_sans_bold"
+
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancel"
+            android:text="Cancel"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
+            android:background="@drawable/buttonshape_main"
             android:layout_marginStart="20dp"
-            android:shadowRadius="5"
-            android:text="Cancel"
-            android:textColor="#EDF6FF"
-            android:theme="@style/AppTheme"
+            android:textColor="#fff"
+            android:fontFamily="@font/nunito_sans_bold"
             />
 
     </LinearLayout>

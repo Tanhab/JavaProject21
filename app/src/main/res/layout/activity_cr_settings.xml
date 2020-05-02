@@ -4,20 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffd32a"
+
     tools:context=".CrSettingsActivity">
 
-
-        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Change Class Representative"
+        android:fontFamily="@font/nunito_sans_semibold"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
         android:textSize="20sp"
         android:id="@+id/text1"
-       android:textColor="@android:color/black"
+       android:textColor="@color/colorPrimary"
         android:textAlignment="center"
         />
     <TextView
@@ -28,6 +27,7 @@
         android:layout_marginTop="15dp"
         android:textSize="16sp"
         android:id="@+id/text2"
+        android:textColor="@android:color/black"
         android:gravity="center_horizontal"
         android:layout_below="@+id/text1"
 
@@ -38,17 +38,18 @@
         android:layout_below="@+id/text2"
         android:layout_margin="20dp"
         android:padding="10dp"
-        android:background="#F4CA8B"
         android:id="@+id/recyclerView"
         />
     <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
-        android:layout_margin="10dp"
-        android:background="@drawable/back2"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/back_white2"
+        android:backgroundTint="@color/colorPrimary"
         />
 
 

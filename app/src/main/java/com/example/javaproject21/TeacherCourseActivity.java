@@ -17,7 +17,7 @@ public class TeacherCourseActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference teacherCourseRef=db.collection(Utils.getClassName()).document("Data").collection("Teachers&courses");///change kora lagbe
+    private CollectionReference teacherCourseRef=FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Teachers&courses");///change kora lagbe
     private TeacherCourseAdapter teacherCourseAdapter;
     private ImageButton btnBack;
 

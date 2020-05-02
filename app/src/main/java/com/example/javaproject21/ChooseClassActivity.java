@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import java.util.Map;
 public class ChooseClassActivity extends AppCompatActivity {
     private static final String TAG = "ChooseClassActivity";
     private CardView cardNewClassroom,cardJoinClass;
+    ImageButton btnLogout;
     ProgressDialog pd;
 
     @Override
@@ -40,6 +42,7 @@ public class ChooseClassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_class);
         cardNewClassroom=findViewById(R.id.cardCrateAClassroom);
         cardJoinClass=findViewById(R.id.cardJoinClassroom);
+        btnLogout=findViewById(R.id.btnLogout);
         pd = new ProgressDialog(this);
         pd.setTitle("Please wait...");
         pd.setCancelable(false);
@@ -58,7 +61,26 @@ public class ChooseClassActivity extends AppCompatActivity {
 
             }
         });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
 
+    }
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Utils.setCR(null);
+        Utils.setClassName(null);
+        Utils.setUserName(null);
+        Utils.setCR2(null);
+
+        Utils.setImageUri("empty");
+        Intent intent= new Intent(getApplicationContext(),LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
     void showCreateClassDialog() {
 
@@ -221,6 +243,7 @@ public class ChooseClassActivity extends AppCompatActivity {
 
     private void findClassroom(final String className, final String code) {
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("Classrooms").document(className);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -245,7 +268,8 @@ public class ChooseClassActivity extends AppCompatActivity {
     }
 
     private void checkForInvitationCode(final String className, final String code) {
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection(className).document("classroomDetails");
+        //DocumentReference docRef = FirebaseFirestore.getInstance().collection(className).document("classroomDetails");
+        DocumentReference docRef= FirebaseFirestore.getInstance().collection("Classrooms").document(className);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -288,6 +312,7 @@ public class ChooseClassActivity extends AppCompatActivity {
                 pd.dismiss();
                 Utils.setClassName(className);
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
 
 
             }
@@ -356,7 +381,8 @@ public class ChooseClassActivity extends AppCompatActivity {
         map.put("description",classDescription);
         map.put("currentCR",FirebaseAuth.getInstance().getCurrentUser().getEmail());
         map.put("currentCR2","n/a");
-        FirebaseFirestore.getInstance().collection(className).document("classroomDetails").set(map)
+        //changed
+        FirebaseFirestore.getInstance().collection("Classrooms").document(className).set(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

@@ -1,15 +1,21 @@
 package com.example.javaproject21;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -18,7 +24,7 @@ public class ExamRoutineActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private ImageButton btnBack;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref= db.collection(Utils.getClassName()).document("Data").collection("ExamRoutines");
+    private CollectionReference ref= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("ExamRoutine");
     private ExamRoutineAdapter adapter;
 
     @Override
@@ -47,6 +53,29 @@ public class ExamRoutineActivity extends AppCompatActivity {
         //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        Log.d(TAG, "setupRecView: number of rec view "+adapter.getItemCount());
+        adapter.setOnItemClickListener(new ExamRoutineAdapter.ExamListener() {
+            @Override
+            public void handleStudent(final DocumentSnapshot snapshot) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ExamRoutineActivity.this);
+                alertDialogBuilder.setTitle("Delete this Document").setMessage("Are you sure ?").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        snapshot.getReference().delete().addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        adapter.notifyDataSetChanged();
+                    }
+                }).show();
+            }
+        });
     }
 
     @Override

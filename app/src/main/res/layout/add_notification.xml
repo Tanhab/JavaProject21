@@ -20,26 +20,11 @@
             android:textStyle="bold"
             android:textSize="20sp"
             />
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            android:layout_marginTop="25dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="30"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:hint="Enter Notification Title"
-            app:hintTextColor="@android:color/black">
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtTitleInput"
-                android:inputType="text"
-                >
-
-            </com.google.android.material.textfield.TextInputEditText>
-
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint=""
+                />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

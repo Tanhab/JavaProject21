@@ -5,14 +5,14 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:padding="20dp"
-    android:background="@drawable/dialog_background"
+    android:background="@android:color/white"
     android:layout_margin="20dp">
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/profilePic"
         android:layout_marginTop="10dp"
-        android:src="@drawable/ic_profile_empty"
+        android:src="@drawable/prof"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -20,8 +20,9 @@
         android:text="Name"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
+        android:fontFamily="@font/nunito_sans_semibold"
         android:textStyle="bold"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         android:id="@+id/txtName"
         />
     <LinearLayout
@@ -34,18 +35,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Blood Group :"
+            android:text="Nick Name :"
+            android:fontFamily="@font/nunito_sans_semibold"
             android:textStyle="bold"
-            android:textColor="#0B24CA"
-            android:textSize="16dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Not available"
-            android:textColor="@android:color/black"
             android:layout_marginStart="10dp"
-            android:id="@+id/txtBloodGroup"
+            android:id="@+id/txtNickname"
             android:textSize="16sp"
 
             />
@@ -54,14 +55,117 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blood Group :"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not available"
+            android:layout_marginStart="10dp"
+            android:id="@+id/txtBloodGroup"
+            android:textSize="16sp"
+
+            />
+    </LinearLayout><LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hometown : "
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not available"
+            android:layout_marginStart="10dp"
+            android:id="@+id/txtHometown"
+            android:textSize="16sp"
+
+            />
+    </LinearLayout><LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address:"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not available"
+            android:layout_marginStart="10dp"
+            android:id="@+id/txtAddress"
+            android:textSize="16sp"
+
+            />
+    </LinearLayout><LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Birthday :"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not available"
+            android:layout_marginStart="10dp"
+            android:id="@+id/txtBirthday"
+            android:textSize="16sp"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone no :"
-            android:textColor="#0B24CA"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@android:color/black"
             android:textStyle="bold"
             android:textSize="16dp"
             />
@@ -69,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Not available"
-            android:textColor="@android:color/black"
+
             android:layout_marginStart="10dp"
             android:id="@+id/txtPhoneNo"
             android:textSize="16sp"
@@ -81,7 +185,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hobbies :"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not available"
+            android:layout_marginStart="10dp"
+            android:id="@+id/txtHobbies"
+            android:textSize="16sp"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
         >
@@ -89,7 +219,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email :"
-            android:textColor="#0B24CA"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@android:color/black"
             android:textStyle="bold"
             android:textSize="16dp"
             />
@@ -98,11 +229,11 @@
             android:layout_height="wrap_content"
             android:text="Not available"
             android:layout_marginStart="10dp"
-            android:textColor="@android:color/black"
             android:id="@+id/txtEmail"
             android:textSize="16sp"
 
             />
     </LinearLayout>
+
 
 </LinearLayout>
