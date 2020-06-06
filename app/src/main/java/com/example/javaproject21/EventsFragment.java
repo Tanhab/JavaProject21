@@ -21,12 +21,30 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 
+/**
+ * The class for Events fragment.
+ */
 public class EventsFragment extends Fragment {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "EventsFragment";
+    /**
+     * The Recycler view variable.
+     */
     RecyclerView recyclerView;
+    /**
+     * The object of EventAdapter.
+     */
     EventAdapter adapter;
+    /**
+     * The FloatingActionButton variable.
+     */
     FloatingActionButton fab;
 
+    /**
+     * Instantiates a new Events fragment.
+     */
     public EventsFragment() {
         // Required empty public constructor
     }
@@ -48,7 +66,13 @@ public class EventsFragment extends Fragment {
         initRecView();
         return view;
     }
-    private void initRecView() {
+
+    /**
+     * This method sets the adaptor to the recycler view of the events activity where
+     * the newer events remain front by priority and on click delete button an alert dialog
+     * is formed on confirming the deletion .
+     */
+private void initRecView() {
         Query query=         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Events")
                 .orderBy("priority",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Event> options=new FirestoreRecyclerOptions.Builder<Event>()

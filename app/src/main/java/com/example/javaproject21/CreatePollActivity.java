@@ -40,20 +40,83 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class for Create poll activity.
+ */
 public class CreatePollActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "CreatePollActivity";
 
-    private TextView txtName,txtDate,txtOptions;
-    private CircleImageView profilePic;
-    private EditText edtMessage,edtOption;
-    private Button btnAddPost;
-    private ImageButton btnAddOption;
-    String finaltext,pollId,email,notificationDate;
+    /**
+     * The TextView for name.
+     */
+private TextView txtName;
+    /**
+     * TextView for date.
+     */
+private TextView txtDate;
+    /**
+     * TextView for options.
+     */
+private TextView txtOptions;
+    /**
+     * The CircularImageView for Profile pic.
+     */
+private CircleImageView profilePic;
+    /**
+     * The EditText for message.
+     */
+private EditText edtMessage;
+    /**
+     * The Edit Text for option.
+     */
+    private EditText edtOption;
+    /**
+     * The Button for add post.
+     */
+private Button btnAddPost;
+    /**
+     * The ImageButton for add option.
+     */
+private ImageButton btnAddOption;
+    /**
+     * The String for Finaltext.
+     */
+    String finaltext;
+    /**
+     * The String for Poll id.
+     */
+    String pollId;
+    /**
+     * The String for Email.
+     */
+    String email;
+    /**
+     * The String for Notification date.
+     */
+    String notificationDate;
+    /**
+     * The String for Notification priority.
+     */
     long notificationPriority;
+    /**
+     * The ProgressDialog variable.
+     */
     ProgressDialog pd;
+    /**
+     * The list variable for Final list.
+     */
     List<PollOption> finalList;
-    private RequestQueue mRequestQue;
-    private String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The RequestQueue variable.
+     */
+private RequestQueue mRequestQue;
+    /**
+     * The String for Url.
+     */
+private String URL = "https://fcm.googleapis.com/fcm/send";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +190,13 @@ public class CreatePollActivity extends AppCompatActivity {
         });
     }
 
-    private void addPoll(String msg) {
+    /**
+     * This method creates poll by taking an object from the poll class
+     * and the poll is being added to the database.
+     *
+     * @param msg the message for the poll
+     */
+private void addPoll(String msg) {
         pd.show();
         Calendar calendar = Calendar.getInstance();
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -167,7 +236,13 @@ public class CreatePollActivity extends AppCompatActivity {
 
     }
 
-    private void updatePollOptions(final String message) {
+    /**
+     * This method updates the options of the poll that has been created to the
+     * database.
+     *
+     * @param message the message of the poll.
+     */
+private void updatePollOptions(final String message) {
         for (PollOption p : finalList){
             FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Polls").document(pollId).
                     collection("Options")
@@ -194,7 +269,17 @@ public class CreatePollActivity extends AppCompatActivity {
         }
         sendNotificationData(Utils.getUserName()+" created a poll",notificationDate,notificationPriority,message);
     }
-    private void sendNotificationData(final String s, String date, long priority, final String message) {
+
+    /**
+     * This method send data to an object of the notification class and another
+     * method is called to send the notification to all the users.
+     *
+     * @param s        the title of the notification
+     * @param date     the date of the notification
+     * @param priority the priority of the notification
+     * @param message  the message of the notification
+     */
+private void sendNotificationData(final String s, String date, long priority, final String message) {
         Notification notification= new Notification(s,date,Utils.getUserName(),Utils.getImageUri(),"PollFragment",priority);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
                 .add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -216,7 +301,14 @@ public class CreatePollActivity extends AppCompatActivity {
             }
         });
     }
-    private void sendNotification(String title, String body) {
+
+    /**
+     * This method sends notification to all the users under the classroom.
+     *
+     * @param title the title of the notification
+     * @param body  the body of the notification
+     */
+private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {

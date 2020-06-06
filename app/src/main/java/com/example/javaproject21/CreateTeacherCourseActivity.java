@@ -15,11 +15,42 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * The class for Create teacher course activity.
+ */
 public class CreateTeacherCourseActivity extends AppCompatActivity {
 
-    private EditText txtCourseName,txtCourseTeacher,txtCourseCode,txtCourseCredit,txtPost;
-    private Button submitBtn;
-    private ImageButton bckBtn;
+    /**
+     * The EditText for course name.
+     */
+private EditText txtCourseName;
+    /**
+     * The EditText for course teacher.
+     */
+private EditText txtCourseTeacher;
+    /**
+     * The EditText for course code.
+     */
+private EditText txtCourseCode;
+    /**
+     * The EditText for course credit.
+     */
+private EditText txtCourseCredit;
+    /**
+     * The EditText for post.
+     */
+private EditText txtPost;
+    /**
+     * The Button for Submit.
+     */
+private Button submitBtn;
+    /**
+     * The ImageButton for back.
+     */
+private ImageButton bckBtn;
+    /**
+     * The long variable for Priority.
+     */
     long priority;
 
 
@@ -64,7 +95,10 @@ public class CreateTeacherCourseActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadInfo() {
+    /**
+     * This method uploads all the information of teacher and course to the database under the classroom.
+     */
+private void uploadInfo() {
 
         String cName = txtCourseName.getText().toString().trim();
         String cTeacher = txtCourseTeacher.getText().toString().trim();

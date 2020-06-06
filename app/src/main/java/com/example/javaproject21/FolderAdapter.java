@@ -12,14 +12,20 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+/**
+ * The adapter class of folder.
+ */
 public class FolderAdapter extends FirestoreRecyclerAdapter<Folder, FolderAdapter.FolderHolder> {
+    /**
+     * The object of OnItemClickListener interface.
+     */
     private OnItemClickListener listener;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}* for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public FolderAdapter(@NonNull FirestoreRecyclerOptions<Folder> options) {
         super(options);
@@ -38,9 +44,20 @@ public class FolderAdapter extends FirestoreRecyclerAdapter<Folder, FolderAdapte
 
     }
 
+    /**
+     * The holder class to hold the view in recycler view.
+     */
     class FolderHolder extends RecyclerView.ViewHolder{
+        /**
+         * The TextView type variable folder name.
+         */
         TextView txtFolderName;
 
+        /**
+         * Instantiates a new Folder holder.
+         *
+         * @param itemView the item view of the holder
+         */
         public FolderHolder(@NonNull View itemView) {
             super(itemView);
             txtFolderName=itemView.findViewById(R.id.txtFolderName);
@@ -57,9 +74,26 @@ public class FolderAdapter extends FirestoreRecyclerAdapter<Folder, FolderAdapte
 
         }
     }
+
+    /**
+     * The interface On item click listener.
+     */
     public interface  OnItemClickListener{
+        /**
+         * The abstract method onItemClick of the interface which will handle the function of the item
+         * if it is clicked
+         *
+         * @param documentSnapshot the document snapshot
+         * @param position         the position
+         */
         void OnItemClick(DocumentSnapshot documentSnapshot,int position);
     }
+
+    /**
+     * Set on item click listener.
+     *
+     * @param listener the listener
+     */
     public void setOnItemClickListener(OnItemClickListener listener){
         this.listener=listener;
 

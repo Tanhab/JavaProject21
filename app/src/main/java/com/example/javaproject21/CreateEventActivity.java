@@ -42,16 +42,87 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class for Create event activity.
+ */
 public class CreateEventActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "CreateEventActivity";
 
-    private EditText edtEventName,edtEventPlace,edtMsg;
-    private TextView txtShowDate,txtShowTime,username,mdate;
-    private ImageButton btnDate,btnTime;
-    private String eventDate,eventTime;
+
+    /**
+     * The Edit Text for event name.
+     */
+    private   EditText edtEventName;
+
+    /**
+     * The Edit Text for event place.
+     */
+    private EditText edtEventPlace;
+
+    /**
+     * The Edit Text for message.
+     */
+    private EditText edtMsg;
+
+    /**
+     * The TextView for show date.
+     */
+    private  TextView txtShowDate;
+
+    /**
+     * The TextView for show time.
+     */
+    private  TextView txtShowTime;
+
+    /**
+     * The TextView for Username.
+     */
+    private TextView username;
+
+    /**
+     * The TextView for date.
+     */
+    private TextView mdate;
+
+    /**
+     * The ImageButton for date.
+     */
+    private ImageButton btnDate;
+    /**
+     * The ImageButton for time.
+     */
+    private ImageButton btnTime;
+
+    /**
+     * The String for Event date.
+     */
+    private String eventDate;
+    /**
+     * The String for time.
+     */
+    private String eventTime;
+
+    /**
+     * The Button for post.
+     */
     private Button btnPost;
+
+    /**
+     * The RequestQueue variable.
+     */
     private RequestQueue mRequestQue;
+
+    /**
+     * The String for Url.
+     */
     private String URL = "https://fcm.googleapis.com/fcm/send";
+
+    /**
+     * The CircularImageView for Profile pic.
+     */
     private CircleImageView profilePic;
 
     @Override
@@ -118,7 +189,16 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
 
-    private void createEvent(String name, String place, final String msg) {
+
+    /**
+     * This method creates event by taking an object from the event class
+     * and the event is being added to the database.
+     *
+     * @param name  the name of the event
+     * @param place the place of the event
+     * @param msg   the message of the event
+     */
+   private void createEvent(String name, String place, final String msg) {
         Calendar calendar = Calendar.getInstance();
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         int HOUR = calendar.get(Calendar.HOUR);
@@ -156,6 +236,17 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
     }
+
+
+    /**
+     * This method send data to an object of the notification class and another
+     * method is called to send the notification to all the users.
+     *
+     * @param s        the title of the notification
+     * @param date     the date of the notification
+     * @param priority the priority of the notification
+     * @param message  the message of the notification
+     */
     private void sendNotificationData(final String s, String date, long priority, final String message) {
         Notification notification= new Notification(s,date,Utils.getUserName(),Utils.getImageUri(),"EventsFragment",priority);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
@@ -176,6 +267,14 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * This method sends notification to all the users under the classroom.
+     *
+     * @param title the title of the notification
+     * @param body  the body of the notification
+     */
     private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
@@ -226,6 +325,11 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
+
+
+    /**
+     * This method handles the date button by taking an object from date picker dialog.
+     */
     private void handleDateButton() {
         Calendar calendar = Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
@@ -253,6 +357,11 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
 
+
+
+    /**
+     * This method handles the time button by taking an object from time picker dialog.
+     */
     private void handleTimeButton() {
         Calendar calendar = Calendar.getInstance();
         int HOUR = calendar.get(Calendar.HOUR);

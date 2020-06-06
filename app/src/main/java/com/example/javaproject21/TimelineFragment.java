@@ -33,17 +33,47 @@ import java.util.Calendar;
 import java.util.List;
 
 
+/**
+ * The class for Timeline fragment.
+ */
 public class TimelineFragment extends Fragment {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "TimelineFragment";
-    private FirebaseAuth firebaseAuth;
-    private DocumentReference firebaseFirestore= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName());
-    private RecyclerView recyclerView;
-    private List<Post> postList;
-    private CollectionReference classRoutineRef;
+    /**
+     * The FirebaseAuth variable.
+     */
+private FirebaseAuth firebaseAuth;
+    /**
+     *  DocumentReference variable for class name.
+     */
+private DocumentReference firebaseFirestore= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName());
+    /**
+     * The Recycler view variable.
+     */
+private RecyclerView recyclerView;
+    /**
+     * The array list variable for Post list.
+     */
+private List<Post> postList;
+    /**
+     * The CollectionReference variable.
+     */
+private CollectionReference classRoutineRef;
+    /**
+     * The  FloatingActionButton variable.
+     */
     FloatingActionButton fab;
 
+    /**
+     * The Post recycler adapter.
+     */
     PostRecyclerAdapter postRecyclerAdapter;
 
+    /**
+     * Instantiates a new Timeline fragment.
+     */
     public TimelineFragment() {
         // Required empty public constructor
     }
@@ -70,7 +100,13 @@ public class TimelineFragment extends Fragment {
 
         return view;
     }
-    private void setupRecView() {
+
+    /**
+     * This method sets up the adapter to the recycler view of
+     * the timeline fragment and on click of an item an alert dialog is
+     * created on confirmation of deletion of the post.
+     */
+private void setupRecView() {
         Query query= classRoutineRef.orderBy("priority", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Post> options= new FirestoreRecyclerOptions.Builder<Post>()

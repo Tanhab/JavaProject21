@@ -54,16 +54,90 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The class for Create class routine activity.
+ */
 public class CreateClassRoutineActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "CreateClassRoutine";
-    private SpeedDialView mSpeedDialView;
-    private ImageButton btnAddSection,btnBack;
-    private Button btnAddDate,btnOpenDialog,btnSendRoutine;
-    private TextView txtRoutineDate,txtSection,txtRoutine;
-    String finalDate,section,startTime,finishTime,className,classDescription,finalText="Classes :\n";
-    private ClassRoutine classRoutine;
-    private RequestQueue mRequestQue;
-    private String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The SpeedDialView variable.
+     */
+private SpeedDialView mSpeedDialView;
+    /**
+     * The add section button.
+     */
+private ImageButton btnAddSection;
+    /**
+     * The back button.
+     */
+    private ImageButton  btnBack;
+    /**
+     * The Button for add date.
+     */
+private Button btnAddDate;
+    /**
+     * The Button for open dialog.
+     */
+    private Button  btnOpenDialog;
+    /**
+     * The Button for send routine.
+     */
+    private Button btnSendRoutine;
+    /**
+     * The TextView for routine date.
+     */
+private TextView txtRoutineDate;
+    /**
+     * The TextView for section.
+     */
+    private TextView txtSection;
+    /**
+     * The TextView for routine.
+     */
+    private TextView txtRoutine;
+    /**
+     * The String for Final date.
+     */
+    String finalDate;
+    /**
+     * The String for Section.
+     */
+    String section;
+    /**
+     * The String for Start time.
+     */
+    String startTime;
+    /**
+     * The String for Finish time.
+     */
+    String finishTime;
+    /**
+     * The String for Class name.
+     */
+    String className;
+    /**
+     * The String for Class description.
+     */
+    String classDescription;
+    /**
+     * The String for Final text.
+     */
+    String finalText="Classes :\n";
+    /**
+     * The ClassRoutine object.
+     */
+private ClassRoutine classRoutine;
+    /**
+     * The RequestQueue variable.
+     */
+private RequestQueue mRequestQue;
+    /**
+     * The String for Url.
+     */
+private String URL = "https://fcm.googleapis.com/fcm/send";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +180,13 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
 
     }
 
-    private void initSpeedDial(boolean addActionItems) {{
+    /**
+     * This method handles the functionality of the floating action button where speedDial
+     * has been set.3 items: edit classes, edit section and edit date are included
+     *
+     * @param addActionItems boolean variable if true the action items will be added
+     */
+private void initSpeedDial(boolean addActionItems) {{
         mSpeedDialView = findViewById(R.id.speedDial);
 
         if (addActionItems) {
@@ -182,7 +262,11 @@ public class CreateClassRoutineActivity extends AppCompatActivity {
     }
     }
 
-    private void addSectionDialog() {
+    /**
+     * This method creates an alert dialog to enter the section of the classes
+     * and sets the section into the class routine.
+     */
+private void addSectionDialog() {
 androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle("Enter Section");
         LinearLayout linearLayout= new LinearLayout(this);
@@ -212,7 +296,11 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
         builder.create().show();
     }
 
-    private void uploadRoutine() {
+    /**
+     * This method  uploads the class routine to the database by
+     * the date priority and calls a method for sending notification.
+     */
+private void uploadRoutine() {
         Log.d(TAG, "uploadRoutine: started");
         //TODO: cse18 er bodole class name ber kora lagbe
         classRoutine.setClasses(finalText);
@@ -268,7 +356,11 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
         });
     }
 
-    private void setPriority() {
+    /**
+     * This method handles the priority of the class routine.The new
+     * routine comes first.
+     */
+private void setPriority() {
         Calendar calendar= Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
         int MONTH = calendar.get(Calendar.MONTH);
@@ -279,7 +371,10 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
 
     }
 
-    private void handleDateButton() {
+    /**
+     * This methods handles the date of the class routine by creating datePickerDialog.
+     */
+private void handleDateButton() {
         Calendar calendar = Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
         int MONTH = calendar.get(Calendar.MONTH);
@@ -304,6 +399,10 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
 
     }
 
+    /**
+     * This method creates an alert dialog for entering the classes with time
+     * in a certain date for the class routine.
+     */
     void showDialog() {
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -366,7 +465,17 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
         alertDialog.show();
 
     }
-    private void sendNotificationData(final String s, String date, long priority, final String message) {
+
+    /**
+     * This method sends the all the data of the class routine to an object of notification class
+     * and the user is taken to the ClassRoutineActivity
+     *
+     * @param s        the title of the notification for class routine
+     * @param date     the date of the class routine
+     * @param priority the priority of the class routine
+     * @param message  the body of the notification for class routine
+     */
+private void sendNotificationData(final String s, String date, long priority, final String message) {
         Notification notification= new Notification(s,date,Utils.getUserName(),Utils.getImageUri(),"ClassRoutine",priority);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
                 .add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -385,7 +494,14 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
             }
         });
     }
-    private void sendNotification(String title, String body) {
+
+    /**
+     * This method sends notification to all the students under the classroom.
+     *
+     * @param title the title of the notification
+     * @param body  the body of the notification
+     */
+private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {

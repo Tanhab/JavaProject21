@@ -30,10 +30,29 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class for choosing class activity.
+ */
 public class ChooseClassActivity extends AppCompatActivity {
-    private static final String TAG = "ChooseClassActivity";
-    private CardView cardNewClassroom,cardJoinClass;
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "ChooseClassActivity";
+    /**
+     * The CardView type variable for new classroom.
+     */
+private CardView cardNewClassroom;
+    /**
+     * The CardView type variable for join class.
+     */
+private CardView cardJoinClass;
+    /**
+     * The ImageButton for logout.
+     */
     ImageButton btnLogout;
+    /**
+     * The ProgressDialog variable.
+     */
     ProgressDialog pd;
 
     @Override
@@ -69,7 +88,11 @@ public class ChooseClassActivity extends AppCompatActivity {
         });
 
     }
-    private void logout() {
+
+    /**
+     * This method handles the logging out from the page.
+     */
+private void logout() {
         FirebaseAuth.getInstance().signOut();
         Utils.setCR(null);
         Utils.setClassName(null);
@@ -82,6 +105,12 @@ public class ChooseClassActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    /**
+     * This method creates the alertDialog for creating a new classroom
+     * where various data are given input to and sends to the confirm
+     * alert dialog if accept button is pressed.
+     */
     void showCreateClassDialog() {
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -138,7 +167,17 @@ public class ChooseClassActivity extends AppCompatActivity {
 
     }
 
-    private void showConfirmDialog(EditText edtClassroomName, EditText edtInvitationCode,EditText edtUniName,EditText edtDesc) {
+    /**
+     * This method creates the alertDialog for confirming if the user wants to create
+     * the class with the data he has given as input. If the yes button is pressed
+     * then the class name is sent for checking.
+     *
+     * @param edtClassroomName  the classroom name
+     * @param edtInvitationCode the invitation code of the classroom
+     * @param edtUniName        the university name
+     * @param edtDesc           the description of the classroom
+     */
+private void showConfirmDialog(EditText edtClassroomName, EditText edtInvitationCode,EditText edtUniName,EditText edtDesc) {
 
         LayoutInflater inflater1 = LayoutInflater.from(this);
         View view1 = inflater1.inflate(R.layout.add_classroom_confirmity_dialog, null);
@@ -188,7 +227,12 @@ public class ChooseClassActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void showJoinDialog() {
+    /**
+     * This method creates the alertDialog for joining a classroom
+     * where classroom name and invitation code are given as input and sends
+     * the data to find the classroom.
+     */
+private void showJoinDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.join_classroom_dialog, null);
 
@@ -241,7 +285,15 @@ public class ChooseClassActivity extends AppCompatActivity {
 
     }
 
-    private void findClassroom(final String className, final String code) {
+    /**
+     * This method searches for the class in the database.
+     * If exists it then sends for checking the invitation code otherwise
+     * a toast appears telling the unavailability of the class.
+     *
+     * @param className the name of the classroom
+     * @param code      the invitation code of the classroom
+     */
+private void findClassroom(final String className, final String code) {
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("Classrooms").document(className);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -267,7 +319,15 @@ public class ChooseClassActivity extends AppCompatActivity {
         });
     }
 
-    private void checkForInvitationCode(final String className, final String code) {
+    /**
+     * This method matches the invitation code of the joining class in the database.
+     * If the code matches then sends for checking the invitation code otherwise
+     * a toast appears telling the unavailability of the class.
+     *
+     * @param className the name of the class
+     * @param code      the invitation of the class
+     */
+private void checkForInvitationCode(final String className, final String code) {
         //DocumentReference docRef = FirebaseFirestore.getInstance().collection(className).document("classroomDetails");
         DocumentReference docRef= FirebaseFirestore.getInstance().collection("Classrooms").document(className);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -301,7 +361,13 @@ public class ChooseClassActivity extends AppCompatActivity {
         });
     }
 
-    private void addClassToUserDatabase(final String className) {
+    /**
+     * This method adds class to the user database.
+     *
+     * @param className the name of the class
+     */
+//private
+    void addClassToUserDatabase(final String className) {
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Map<String,Object>map=new HashMap<>();
         map.put("currentClass",className);
@@ -328,7 +394,16 @@ public class ChooseClassActivity extends AppCompatActivity {
 
     }
 
-    private void checkForName(final String className, final String invitationCode, final String classDescription) {
+    /**
+     * This method checks whether a class already exits with the same classname.
+     *If such doesn't exit then the information are sent for creating a new
+     * class otherwise a toast is shown telling the inconvenience.
+     *
+     * @param className        the name of the class
+     * @param invitationCode   the invitation code of the class
+     * @param classDescription the class description
+     */
+private void checkForName(final String className, final String invitationCode, final String classDescription) {
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("Classrooms").document(className);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -353,7 +428,15 @@ public class ChooseClassActivity extends AppCompatActivity {
         });
     }
 
-    private void createClassroom(final String className, final String invitationCode, final String classDescription) {
+    /**
+     * This method creates class taking in the class name,invitation code
+     * and class description.
+     *
+     * @param className        the class name
+     * @param invitationCode   the invitation code
+     * @param classDescription the class description
+     */
+private void createClassroom(final String className, final String invitationCode, final String classDescription) {
 
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("Classrooms").document(className);
         Map<String ,Object> map= new HashMap<>();
@@ -375,7 +458,15 @@ public class ChooseClassActivity extends AppCompatActivity {
         });
     }
 
-    private void createDatabase(final String className, final String invitationCode, final String classDescription) {
+    /**
+     * This method adds the class to the database making the user who created the
+     * class as first CR and the CR2 remains null.
+     *
+     * @param className        the class name
+     * @param invitationCode   the invitation code
+     * @param classDescription the class description
+     */
+private void createDatabase(final String className, final String invitationCode, final String classDescription) {
         Map<String,Object>map=new HashMap<>();
         map.put("invitationCode",invitationCode);
         map.put("description",classDescription);
@@ -414,7 +505,11 @@ public class ChooseClassActivity extends AppCompatActivity {
 
     }
 
-    private void checkforClassroom() {
+    /**
+     * This method checks the current class of the user from the database
+     * and sends to the main activity of the current class.
+     */
+private void checkforClassroom() {
         String email =FirebaseAuth.getInstance().getCurrentUser().getEmail();
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(email);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

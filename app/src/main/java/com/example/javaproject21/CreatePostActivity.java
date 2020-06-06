@@ -37,16 +37,41 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class for Create post activity.
+ */
 public class CreatePostActivity extends AppCompatActivity {
     private static final String TAG = "CreatePostActivity";
 
-    private TextView txtName,txtDate;
-    private CircleImageView profilePic;
-    private EditText edtMessage;
-    private Button btnAddPost;
+    /**
+     * The TextView for name.
+     */
+private TextView txtName;
+    /**
+     * The TextView for date.
+     */
+private TextView txtDate;
+    /**
+     * The CircularImageView for Profile pic.
+     */
+private CircleImageView profilePic;
+    /**
+     * The EditText for message.
+     */
+private EditText edtMessage;
+    /**
+     * The Button for add post.
+     */
+private Button btnAddPost;
 
-    private RequestQueue mRequestQue;
-    private String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The RequestQueue variable.
+     */
+private RequestQueue mRequestQue;
+    /**
+     * The String for Url.
+     */
+private String URL = "https://fcm.googleapis.com/fcm/send";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +107,13 @@ public class CreatePostActivity extends AppCompatActivity {
 
     }
 
-    private void addPost(String msg) {
+    /**
+     * This method creates post by taking an object from the post class
+     * and the post is being added to the database.
+     *
+     * @param msg the message for the post
+     */
+private void addPost(String msg) {
         Log.d(TAG, "addPost: started");
         Calendar calendar = Calendar.getInstance();
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
@@ -122,7 +153,16 @@ public class CreatePostActivity extends AppCompatActivity {
 
     }
 
-    private void sendNotificationData(final String s, String date, long priority, final String message) {
+    /**
+     This method send data to an object of the notification class and another
+     * method is called to send the notification to all the users.
+     *
+     * @param s        the title of the notification
+     * @param date     the date of the notification
+     * @param priority the priority of the notification
+     * @param message  the message of the notification
+     */
+private void sendNotificationData(final String s, String date, long priority, final String message) {
         Notification notification= new Notification(s,date,Utils.getUserName(),Utils.getImageUri(),"TimelineFragment",priority);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
                 .add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -141,7 +181,14 @@ public class CreatePostActivity extends AppCompatActivity {
             }
         });
     }
-    private void sendNotification(String title, String body) {
+
+    /**
+     * This method sends notification to all the users under the classroom.
+     *
+     * @param title the title of the notification
+     * @param body  the body of the notification
+     */
+private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {

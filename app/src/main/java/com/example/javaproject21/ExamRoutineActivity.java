@@ -19,13 +19,34 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+/**
+ * The class for Exam routine activity.
+ */
 public class ExamRoutineActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "ExamRoutineActivity";
+    /**
+     * The Recycler view variable.
+     */
     RecyclerView recyclerView;
-    private ImageButton btnBack;
-    private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("ExamRoutine");
-    private ExamRoutineAdapter adapter;
+    /**
+     * The ImageButton for back.
+     */
+private ImageButton btnBack;
+    /**
+     * The FirebaseFirestore variable.
+     */
+private FirebaseFirestore db= FirebaseFirestore.getInstance();
+    /**
+     * The CollectionReference variable.
+     */
+private CollectionReference ref= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("ExamRoutine");
+    /**
+     * The object of ExamRoutineAdapter.
+     */
+private ExamRoutineAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +64,12 @@ public class ExamRoutineActivity extends AppCompatActivity {
 
     }
 
-    private void setupRecView() {
+    /**
+     * This method attaches the adapter to the recycler view and
+     * on click of a item, an alert dialog appears whether to delete this or not.
+     * If the delete button is pressed then the routine is deleted.
+     */
+private void setupRecView() {
         Query query= ref.orderBy("priority",Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<ExamRoutine> options= new FirestoreRecyclerOptions.Builder<ExamRoutine>()

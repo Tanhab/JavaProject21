@@ -48,13 +48,37 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class for Notification activity.
+ */
 public class NotificationActivity extends AppCompatActivity {
-    private static final String TAG = "NotificationActivity";
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "NotificationActivity";
+    /**
+     * The Button for open dialog.
+     */
     Button btnOpenDialog;
-    private RequestQueue mRequestQue;
-    private String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The RequestQueue variable.
+     */
+private RequestQueue mRequestQue;
+    /**
+     * The String for Url.
+     */
+private String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The RecyclerView variable.
+     */
     RecyclerView recyclerView;
+    /**
+     * The NotificationAdapter variable.
+     */
     NotificationAdapter adapter;
+    /**
+     * The ImageButton for back.
+     */
     ImageButton btnBack;
 
     @Override
@@ -75,7 +99,12 @@ public class NotificationActivity extends AppCompatActivity {
 
 
     }
-    private void initRecView() {
+
+    /**
+     * This method sets adapter with the recycler view on the
+     * notification activity.
+     */
+private void initRecView() {
         Query query=         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
                 .orderBy("priority",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Notification> options=new FirestoreRecyclerOptions.Builder<Notification>()

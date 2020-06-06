@@ -13,14 +13,20 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+/**
+ * The adapter class for document.
+ */
 public class DocumentAdapter extends FirestoreRecyclerAdapter<Document, DocumentAdapter.DocumentHolder> {
-    private OnItemClickListener listener;
+    /**
+     * The object of OnItemClickListener interface.
+     */
+private OnItemClickListener listener;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}** for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public DocumentAdapter(@NonNull FirestoreRecyclerOptions<Document> options) {
         super(options);
@@ -41,14 +47,42 @@ public class DocumentAdapter extends FirestoreRecyclerAdapter<Document, Document
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.document_layout, parent, false);
         return new DocumentHolder(view);
     }
+
+    /**
+     * This method deletes an item from the recycler view.
+     *
+     * @param position the position
+     */
     public void deleteItem(int position){
         getSnapshots().getSnapshot(position).getReference().delete();
     }
 
+    /**
+     * The holder class of Document.
+     */
     class DocumentHolder extends RecyclerView.ViewHolder {
-        TextView docName, docDate, docUploader;
+        /**
+         * The TextView type variable for document name.
+         */
+        TextView docName;
+        /**
+         * The TextView type variable for date.
+         */
+        TextView docDate;
+        /**
+         * The TextView type variable for uploader.
+         */
+        TextView docUploader;
+        /**
+         * The ImageButton type variable for copy link.
+         */
         ImageButton btnCopyLink;
 
+        /**
+         * Instantiates a new Document holder.
+         *
+         * @param itemView the item view
+         */
         public DocumentHolder(@NonNull View itemView) {
             super(itemView);
             docName = itemView.findViewById(R.id.docName);
@@ -76,11 +110,34 @@ public class DocumentAdapter extends FirestoreRecyclerAdapter<Document, Document
         }
     }
 
+    /**
+     * The interface On item click listener.
+     */
     public interface OnItemClickListener {
+        /**
+         * The abstract method onItemClick of the interface which will handle the function of the item
+         * if it is clicked
+         *
+         * @param documentSnapshot the document snapshot
+         * @param position         the position
+         */
         void OnItemClick(DocumentSnapshot documentSnapshot, int position);
+
+        /**
+         * The abstract method onItemClick of the interface which will handle the function
+         * if the copy button is clicked
+         *
+         * @param snapshot the snapshot
+         * @param position the position
+         */
         void onCopyButtonPressed(DocumentSnapshot snapshot, int position);
     }
 
+    /**
+     * Sets on item click listener.
+     *
+     * @param listener the object of inteface OnClickListener
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
 

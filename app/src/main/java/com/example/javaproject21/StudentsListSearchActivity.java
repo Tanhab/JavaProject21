@@ -30,12 +30,33 @@ import com.google.firebase.firestore.Query;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The type Students list search activity.
+ */
 public class StudentsListSearchActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "StudentsListSearchActiv";
-    private EditText mSearchField;
-    private ImageButton mSearchBtn;
-    private RecyclerView recyclerView;
+    /**
+     * The EditText for search field.
+     */
+private EditText mSearchField;
+    /**
+     * The ImageButton for search btn.
+     */
+private ImageButton mSearchBtn;
+    /**
+     * The Recycler view variable.
+     */
+private RecyclerView recyclerView;
+    /**
+     * The ImageButton for back.
+     */
     ImageButton btnBack;
+    /**
+     * The CollectionReference variable.
+     */
     private CollectionReference ref= FirebaseFirestore.getInstance().collection("Users");
 
     @Override
@@ -86,7 +107,14 @@ public class StudentsListSearchActivity extends AppCompatActivity {
 
     }
 
-    private void firebaseUserSearch(String searchText) {
+    /**
+     * This method searches for the name of the student from the database which
+     * matches with the given text mostly and a method is called for showing the
+     * student info.
+     *
+     * @param searchText the search text
+     */
+private void firebaseUserSearch(String searchText) {
         Log.d(TAG, "firebaseUserSearch: started search for "+ searchText);
         Query query= FirebaseFirestore.getInstance().collection("Users").orderBy("name")
                 .whereEqualTo("currentClass",Utils.getClassName()).startAt(searchText).endAt(searchText + "\uf8ff");
@@ -119,7 +147,15 @@ public class StudentsListSearchActivity extends AppCompatActivity {
         recyclerView.setAdapter(studentSearchAdapter);
         studentSearchAdapter.startListening();
 
-    }private void setupRecView() {
+    }
+
+    /**
+     * This method sets up the recycler view by binding the holder to the
+     * adapter and a method is called to show student info on click of a
+     * item.
+     */
+//private
+    void setupRecView() {
         Log.d(TAG, "firebaseUserSearch: started setup ");
         Query query= FirebaseFirestore.getInstance().collection("Users")
                 .whereEqualTo("currentClass",Utils.getClassName());
@@ -153,10 +189,22 @@ public class StudentsListSearchActivity extends AppCompatActivity {
         studentSearchAdapter.startListening();
 
     }
+
+    /**
+     * The holder class of the adapter which extends RecyclerView.ViewHolder .
+     */
     public static class UsersViewHolder extends RecyclerView.ViewHolder {
 
+        /**
+         * The view variable.
+         */
         View mView;
 
+        /**
+         * Instantiates a new Users view holder.
+         *
+         * @param itemView the item view
+         */
         public UsersViewHolder(View itemView) {
             super(itemView);
 
@@ -165,6 +213,14 @@ public class StudentsListSearchActivity extends AppCompatActivity {
 
         }
 
+        /**
+         * This method sets the details of a user to the holder of the recycler adapter.
+         *
+         * @param ctx        the context
+         * @param userName   the user name
+         * @param userStatus the user status
+         * @param userImage  the user image
+         */
         public void setDetails(Context ctx, String userName, String userStatus, String userImage){
 
             TextView user_name = (TextView) mView.findViewById(R.id.name_text);
@@ -184,7 +240,14 @@ public class StudentsListSearchActivity extends AppCompatActivity {
 
 
     }
-    private void showStudentInfo(DocumentSnapshot snapshot) {
+
+    /**
+     * This method shows the info of the student on click of that item
+     * of the recycler view by creating an alert dialog .
+     *
+     * @param snapshot the DocumentSnapshot of the student
+     */
+private void showStudentInfo(DocumentSnapshot snapshot) {
         Student student=snapshot.toObject(Student.class);
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.show_student_info_dialog, null);

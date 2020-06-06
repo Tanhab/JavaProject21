@@ -48,24 +48,119 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class for Profile activity.
+ */
 public class ProfileActivity extends AppCompatActivity {
-    private static final String TAG = "ProfileActivity";
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "ProfileActivity";
 
-    private EditText txtNickname,txtName,txtPhnNo,txtAddress,txtBio,txtHobbies;
-    private TextView txtDateOfBirth;
-    private Button btnOpenGallery,btnSaveProfile;
-    private CircleImageView profilePic;
-    private ImageButton dateButton;
-    private Spinner districtSpinner,bloodGroupSpinner;
-    private Uri imageUri=null;
-    String pastUrl,url;
+    /**
+     * The EditText for nickname.
+     */
+private EditText txtNickname;
+    /**
+     * The EditText for name.
+     */
+private EditText txtName;
+    /**
+     * The EditText for phn no.
+     */
+private EditText txtPhnNo;
+    /**
+     * The EditText for address.
+     */
+private EditText txtAddress;
+    /**
+     * The EditText for bio.
+     */
+private EditText txtBio;
+    /**
+     * The EditText for hobbies.
+     */
+private EditText txtHobbies;
+    /**
+     * The TextView for date of birth.
+     */
+private TextView txtDateOfBirth;
+    /**
+     * The Button for open gallery.
+     */
+private Button btnOpenGallery;
+    /**
+     * The Button for save profile.
+     */
+private Button btnSaveProfile;
+    /**
+     * The CircleImageView for Profile pic.
+     */
+private CircleImageView profilePic;
+    /**
+     * The ImageButton for Date button.
+     */
+private ImageButton dateButton;
+    /**
+     * The spinner for district.
+     */
+private Spinner districtSpinner;
+    /**
+     * The spinner for Blood group.
+     */
+private Spinner bloodGroupSpinner;
+    /**
+     * The uri for image.
+     */
+private Uri imageUri=null;
+    /**
+     * The string for Past url.
+     */
+    String pastUrl;
+    /**
+     * The string for Url.
+     */
+    String url;
+    /**
+     * The constant variable for IMAGE_REQUEST.
+     */
     public static final int IMAGE_REQUEST= 100;
+    /**
+     * The ProgressDialog variable.
+     */
     ProgressDialog pd;
+    /**
+     * The StorageReference variable.
+     */
     StorageReference storageReference;
+    /**
+     * The String for From activity.
+     */
     String fromActivity;
-    String[] districts,bloodGroups;
-    String districtName,bloodGroup;
-    Map<String,Integer> districtKey,bloodKey;
+    /**
+     * The string array for Districts.
+     */
+    String[] districts;
+    /**
+     * The string array for Blood groups.
+     */
+    String[] bloodGroups;
+    /**
+     * The String for District name.
+     */
+    String districtName;
+    /**
+     * The String for Blood group.
+     */
+    String bloodGroup;
+    /**
+     * The map for District key.
+     */
+    Map<String,Integer> districtKey;
+    /**
+     * The map for Blood key.
+     */
+    Map<String,Integer> bloodKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,7 +289,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void saveProfilePic()  {
+    /**
+     * This method calls a method to resize the image when image has been
+     * set otherwise calls another method to add other info the database.
+     */
+private void saveProfilePic()  {
         String imageName= FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.d(TAG, "saveProfilePic: started" +imageUri);
 
@@ -213,7 +312,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void addToDatabase(Uri uri) {
+    /**
+     * This method adds all the info given by the user in the profile activity
+     * in the database.
+     *
+     * @param uri the uri of the image
+     */
+//private
+    void addToDatabase(Uri uri) {
         Log.d(TAG, "addToDatabase: started");
         String mname = txtName.getText().toString().trim();
         String nickName=txtNickname.getText().toString().trim();
@@ -273,7 +379,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    private void handleDateButton() {
+    /**
+     * This method handles the date button by creating date picker dialog.
+     */
+private void handleDateButton() {
         Calendar calendar = Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
         int MONTH = calendar.get(Calendar.MONTH);
@@ -310,12 +419,22 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void openfileChooser() {
+    /**
+     * This method opens the file chooser for image selection.
+     */
+private void openfileChooser() {
         Intent intent= new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,IMAGE_REQUEST);
     }
+
+    /**
+     * This method gets the file extension of the image uploaded.
+     *
+     * @param imageUri the image uri
+     * @return the file extension of the image
+     */
     public String getFileExtension(Uri imageUri)
     {
         ContentResolver contentResolver= getContentResolver();
@@ -323,10 +442,22 @@ public class ProfileActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageUri));
 
     }
+
+    /**
+     * The class for Background image resize.
+     */
     public class BackgroundImageResize extends AsyncTask<Uri, Integer, byte[]> {
 
+        /**
+         * The M bitmap.
+         */
         Bitmap mBitmap;
 
+        /**
+         * Instantiates a new Background image resize.
+         *
+         * @param bitmap the bitmap
+         */
         public BackgroundImageResize(Bitmap bitmap) {
             if(bitmap != null){
                 this.mBitmap = bitmap;
@@ -401,7 +532,14 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public static byte[] getBytesFromBitmap(Bitmap bitmap, int quality){
+    /**
+     * This method gets bytes from bitmap of the image.
+     *
+     * @param bitmap  the bitmap
+     * @param quality the quality
+     * @return the byte [ ]
+     */
+public static byte[] getBytesFromBitmap(Bitmap bitmap, int quality){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality,stream);
         return stream.toByteArray();
@@ -413,7 +551,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private  void checkForData() {
+    /**
+     * This method handles the showing all the information and image of the user
+     * when entered into the profile page in presence of data connection.
+     */
+private void checkForData() {
         pd.setTitle("Please wait..");
         pd.show();
         String email= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();

@@ -19,19 +19,55 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
+/**
+ * The class for Timeline activity.
+ */
 public class TimelineActivity extends AppCompatActivity {
-    private static final String TAG = "TimelineActivity";
-    private TextView mainToolbar;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore firebaseFirestore;
-    private String current_user_id;
-    private FloatingActionButton btnAddPost;
-    private BottomNavigationView mainbottomNav;
-    private ImageButton btnBack;
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "TimelineActivity";
+    /**
+     * The TextView for toolbar.
+     */
+private TextView mainToolbar;
+    /**
+     * The FirebaseAuth variable.
+     */
+private FirebaseAuth mAuth;
+    /**
+     * The FirebaseFirestore variable.
+     */
+private FirebaseFirestore firebaseFirestore;
+    /**
+     * The String for Current user id.
+     */
+private String current_user_id;
+    /**
+     * The Btn add post.
+     */
+private FloatingActionButton btnAddPost;
+    /**
+     * The BottomNavigationView variable.
+     */
+private BottomNavigationView mainbottomNav;
+    /**
+     * The ImageButton for back.
+     */
+private ImageButton btnBack;
 
-    private TimelineFragment timelineFragment;
-    private PollFragment pollFragment;
-    private EventsFragment eventsFragment;
+    /**
+     * Declaration of Timeline fragment.
+     */
+private TimelineFragment timelineFragment;
+    /**
+     * Declaration of Poll fragment.
+     */
+private PollFragment pollFragment;
+    /**
+     * Declaration of Events fragment.
+     */
+private EventsFragment eventsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +157,12 @@ public class TimelineActivity extends AppCompatActivity {
         }
 
     }
-    private void initializeFragment(){
+
+    /**
+     *This method handles the initialization of timeline, poll
+     * and events fragments .
+     */
+private void initializeFragment(){
         Log.d(TAG, "initializeFragment: called");
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -138,7 +179,14 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
-    private void replaceFragment(Fragment fragment, Fragment currentFragment){
+    /**
+     * This method handles the transaction of the fragments.When
+     * one fragment is under view then other fragments are kept hiden.
+     *
+     * @param fragment        the fragment
+     * @param currentFragment the current fragment
+     */
+private void replaceFragment(Fragment fragment, Fragment currentFragment){
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if(fragment == timelineFragment){

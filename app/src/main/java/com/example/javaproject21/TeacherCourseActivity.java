@@ -13,13 +13,31 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+/**
+ * The class for Teacher course activity.
+ */
 public class TeacherCourseActivity extends AppCompatActivity {
-
+    /**
+     * The Recycler view variable.
+     */
     RecyclerView recyclerView;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference teacherCourseRef=FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Teachers&courses");///change kora lagbe
-    private TeacherCourseAdapter teacherCourseAdapter;
-    private ImageButton btnBack;
+
+    /**
+     * The FirebaseFirestore variable.
+     */
+private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    /**
+     * The CollectionReference variable.
+     */
+private CollectionReference teacherCourseRef=FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Teachers&courses");///change kora lagbe
+    /**
+     * The object of TeacherCourseAdapter.
+     */
+private TeacherCourseAdapter teacherCourseAdapter;
+    /**
+     * The ImageButton for back.
+     */
+private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +54,12 @@ public class TeacherCourseActivity extends AppCompatActivity {
         });
     }
 
-    private void setupRecView() {
+
+    /**
+     * This method sets the adapter to the recycler view of the teacherCourseActivity
+     * and priority has been set in such a way that the new ones will at the top.
+     */
+private void setupRecView() {
         Query query= teacherCourseRef.orderBy("priority",Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<TeacherCourse> options= new FirestoreRecyclerOptions.Builder<TeacherCourse>()

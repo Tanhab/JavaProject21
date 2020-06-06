@@ -50,17 +50,82 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class for Create exam routine activity.
+ */
 public class CreateExamRoutineActivity extends AppCompatActivity {
-    private static final String TAG = "CreateExamRoutine";
-    private SpeedDialView exSpeedDialView;
-    private ImageButton btnBack;
-    private Button btnSchedule;
-    private TextView txtRoutineDate,txtSection,txtRoutine;
-    String finalDate,examSection,startTime,finishTime,examName,examSyllabus,finalText="\nExams :\n";
-    private ExamRoutine examRoutine;
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "CreateExamRoutine";
+    /**
+     * The SpeedDialView variable.
+     */
+private SpeedDialView exSpeedDialView;
+    /**
+     * The ImageButton for back.
+     */
+private ImageButton btnBack;
+    /**
+     * The ImageButton for schedule.
+     */
+private Button btnSchedule;
+    /**
+     * The TextView for routine date.
+     */
+private TextView txtRoutineDate;
+    /**
+     * The TextView for section.
+     */
+private TextView txtSection;
+    /**
+     * The TextView for routine.
+     */
+private TextView txtRoutine;
+    /**
+     * The String for Final date.
+     */
+    String finalDate;
+    /**
+     * The String for Exam section.
+     */
+    String examSection;
+    /**
+     * The String for Start time.
+     */
+    String startTime;
+    /**
+     * The String for Finish time.
+     */
+    String finishTime;
+    /**
+     * The String for Exam name.
+     */
+    String examName;
+    /**
+     * The String for Exam syllabus.
+     */
+    String examSyllabus;
+    /**
+     * The String for Final text.
+     */
+    String finalText="\nExams :\n";
+    /**
+     * The Exam routine object.
+     */
+private ExamRoutine examRoutine;
+    /**
+     * The long variable for Priority.
+     */
     long priority;
-    private RequestQueue mRequestQue;
-    private String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The RequestQueue variable.
+     */
+private RequestQueue mRequestQue;
+    /**
+     * The String for Url.
+     */
+private String URL = "https://fcm.googleapis.com/fcm/send";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +169,14 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
     }
 
-    private void initSpeedDial(boolean addActionItems) {
+    /**
+     * This method handles the functionality of the floating action button where speedDial
+     * has been set.2 items: add an exam and edit date are included
+     *
+     * @param addActionItems boolean variable if true the action items will be added
+     */
+//private
+    void initSpeedDial(boolean addActionItems) {
 
         exSpeedDialView = findViewById(R.id.speedDial);
         if (addActionItems) {
@@ -196,7 +268,12 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
         builder.create().show();
     }*/
 
-    private void showDialog() {
+    /**
+     * This method creates an alert dialog for entering the exam with starting time,
+     * finishing time,section,syllabus for the exam
+     * in a certain date for the exam routine.
+     */
+private void showDialog() {
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_exam_alertdialog, null);
@@ -271,8 +348,11 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
     }
 
 
-
-    private void createExamRoutine() {
+    /**
+     * This method  uploads the exam routine to the database by
+     * the date priority and calls a method for sending notification.
+     */
+private void createExamRoutine() {
         Log.d(TAG, "createExamRoutine: started");
 
         examRoutine.setExams(finalText);
@@ -325,7 +405,11 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
     }
 
-    private void setPriority() {
+    /**
+     * This method handles the priority of the exam routine.The new
+     * routine comes first.
+     */
+private void setPriority() {
         Calendar calendar= Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
         int MONTH = calendar.get(Calendar.MONTH);
@@ -335,7 +419,10 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
         examRoutine.setPriority(a);
     }
 
-    private void handleDateButton() {
+    /**
+     * This methods handles the date of the exam routine by creating datePickerDialog.
+     */
+private void handleDateButton() {
         Calendar calendar = Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
         int MONTH = calendar.get(Calendar.MONTH);
@@ -361,7 +448,8 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
 
     }
 
-    /* private void handleTimeButton() {
+
+/* private void handleTimeButton() {
          Calendar calendar = Calendar.getInstance();
          int HOUR = calendar.get(Calendar.HOUR);
          int MINUTE = calendar.get(Calendar.MINUTE);
@@ -382,6 +470,15 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
          timePickerDialog.show();
 
      }*/
+    /**
+     * This method sends the all the data of the exam routine to an object of notification class
+     * and the user is taken to the ExamRoutineActivity
+     *
+     * @param s        the title of the notification for exam routine
+     * @param date     the date of the exam routine
+     * @param priority the priority of the exam routine
+     * @param message  the body of the notification for exam routine
+     */
     private void sendNotificationData(final String s, String date, long priority, final String message) {
         Notification notification= new Notification(s,date,Utils.getUserName(),Utils.getImageUri(),"ExamRoutine",priority);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Notifications")
@@ -401,7 +498,14 @@ public class CreateExamRoutineActivity extends AppCompatActivity {
             }
         });
     }
-    private void sendNotification(String title, String body) {
+
+    /**
+     * This method sends notification to all the users under the classroom.
+     *
+     * @param title the title of the notification
+     * @param body  the body of the notification
+     */
+private void sendNotification(String title, String body) {
 
         JSONObject json = new JSONObject();
         try {

@@ -34,16 +34,28 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class for Poll option recycler adapter.
+ */
 public class PollOptionRecAdapter extends FirestoreRecyclerAdapter<PollOption, PollOptionRecAdapter.PollOptionViewHolder> {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "PollOptionRecAdapter";
-    private Context context;
+    /**
+     * The Context variable.
+     */
+private Context context;
+    /**
+     * The ProgressDialog variable.
+     */
     ProgressDialog pd;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}* for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public PollOptionRecAdapter(@NonNull FirestoreRecyclerOptions<PollOption> options) {
         super(options);
@@ -225,7 +237,13 @@ public class PollOptionRecAdapter extends FirestoreRecyclerAdapter<PollOption, P
 
     }
 
-    private void deleteDoc(String pollId, String email) {
+    /**
+     * This method handles the deletion of a poll .
+     *
+     * @param pollId the poll id
+     * @param email  the email of the user
+     */
+private void deleteDoc(String pollId, String email) {
         Log.d(TAG, "deleteDoc: called for " + email);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
                 .collection("Polls").document(pollId).collection("Votes")
@@ -237,7 +255,15 @@ public class PollOptionRecAdapter extends FirestoreRecyclerAdapter<PollOption, P
         });
     }
 
-    private void updateCounter(final String pollId, final String optionId, final int i) {
+    /**
+     * This method updates the counter of a certain poll option of a poll
+     * in case of selecting the option.
+     *
+     * @param pollId   the poll id
+     * @param optionId the option id
+     * @param i        the value of the counter
+     */
+private void updateCounter(final String pollId, final String optionId, final int i) {
         Log.d(TAG, "updateCounter:  called for "+optionId);
 
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
@@ -270,7 +296,14 @@ public class PollOptionRecAdapter extends FirestoreRecyclerAdapter<PollOption, P
 
     }
 
-    private void changeCounter(String pollId, String optionId, final int c) {
+    /**
+     *This method changes the value of the counter and updates to the database
+     *
+     * @param pollId   the poll id
+     * @param optionId the option id
+     * @param c        the count of the vote
+     */
+private void changeCounter(String pollId, String optionId, final int c) {
         Map<String , Object> map= new HashMap<>();
         map.put("count",c);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
@@ -300,11 +333,29 @@ public class PollOptionRecAdapter extends FirestoreRecyclerAdapter<PollOption, P
         return new PollOptionViewHolder(view);
     }
 
+    /**
+     * The holder class of poll option adapter which extends RecyclerView.ViewHolder.
+     */
     class PollOptionViewHolder extends RecyclerView.ViewHolder{
-        TextView optionName,txtVoteCount;
+        /**
+         * The textView for Option name.
+         */
+        TextView optionName;
+        /**
+         * The TextView for vote count.
+         */
+        TextView txtVoteCount;
+        /**
+         * The ImageView for Check box.
+         */
         public ImageView checkBox;
 
 
+        /**
+         * Instantiates a new Poll option view holder.
+         *
+         * @param itemView the item view
+         */
         public PollOptionViewHolder(@NonNull View itemView) {
             super(itemView);
            optionName= itemView.findViewById(R.id.txtOptionName);

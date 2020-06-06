@@ -21,8 +21,15 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * The class for firebase messaging service.
+ */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    private final String ADMIN_CHANNEL_ID ="admin_channel";
+
+    /**
+     * The String for Admin channel id.
+     */
+private final String ADMIN_CHANNEL_ID ="admin_channel";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -69,6 +76,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(notificationID, notificationBuilder.build());
     }
 
+    /**
+     * This method sets up channels for sending notification.
+     *
+     * @param notificationManager the notification manager
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupChannels(NotificationManager notificationManager){
         CharSequence adminChannelName = "New notification";

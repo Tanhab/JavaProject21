@@ -25,10 +25,25 @@ import com.google.firebase.firestore.Query;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class for Cr settings activity.
+ */
 public class CrSettingsActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "CrSettingsActivity";
+    /**
+     * The Recycler view variable.
+     */
     RecyclerView recyclerView;
+    /**
+     * The StudentAdapter object.
+     */
     StudentAdapter adapter;
+    /**
+     * The ImageButton for back.
+     */
     ImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +60,11 @@ public class CrSettingsActivity extends AppCompatActivity {
         });
 
     }
-    private void initRecView() {
+
+    /**
+     * This method sets the adapter for the recycler view of the students under the classroom.
+     */
+private void initRecView() {
         Query query= FirebaseFirestore.getInstance().collection("Users")
                 .whereEqualTo("currentClass",Utils.getClassName())
                 ;
@@ -63,7 +82,13 @@ public class CrSettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void ChangeCRDialog(final DocumentSnapshot snapshot) {
+    /**
+     * This method creates the alert dialog containing option of adding another CR and
+     * making another one take his place of CRship.
+     *
+     * @param snapshot the snapshot
+     */
+private void ChangeCRDialog(final DocumentSnapshot snapshot) {
         String[]  listItems;
         boolean ck=false;
         Log.d(TAG, "ChangeCRDialog: cr2 = " +Utils.getCR2());
@@ -99,7 +124,18 @@ public class CrSettingsActivity extends AppCompatActivity {
 
     }
 
-    private void DoOperation(int which, DocumentSnapshot snapshot, boolean finalCk) {
+    /**
+     * This method checks whether it is possible to add another CR and on vacancy in place of
+     * CR1 or CR2 ,the selected student is allowed to be added in case of first option.
+     * In case of second option, the current CR is removed from the database and in its place
+     * the new assigned student is updated as new CR.
+     *
+     * @param which    the number of the option
+     * @param snapshot the snapshot of the student
+     * @param finalCk  the boolean for checking if CR2 is null or not
+     */
+//private
+    void DoOperation(int which, DocumentSnapshot snapshot, boolean finalCk) {
         final Student student= snapshot.toObject(Student.class);
         if(which==0&& !finalCk)
         {
@@ -187,7 +223,12 @@ public class CrSettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void addCR1(Student student) {
+    /**
+     * This method adds the selected student as CR1.
+     *
+     * @param student the selected student to be CR1
+     */
+private void addCR1(Student student) {
         Map<String,Object>map= new HashMap<>();
         map.put("currentCR",student.getEmail());
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
@@ -204,6 +245,11 @@ public class CrSettingsActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * This method adds the selected student as CR2.
+     *
+     * @param student the selected student to be CR2
+     */
     private void addCR2(final Student student) {
         Map<String,Object>map= new HashMap<>();
         map.put("currentCR2",student.getEmail());

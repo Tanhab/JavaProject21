@@ -22,13 +22,34 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+/**
+ * The class for  class routine activity.
+ */
 public class ClassRoutineActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "ClassRoutineActivity";
+    /**
+     * The Recycler view variable.
+     */
     RecyclerView recyclerView;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference classRoutineRef=db.collection("Classrooms").document(Utils.getClassName()).collection("ClassRoutines");///change kora lagbe
-    private ClassRoutineAdapter classRoutineAdapter;
-    private ImageButton btnBack;
+    /**
+     * The FirebaseFirestore variable.
+     */
+private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    /**
+     * The CollectionReference for classroutine.
+     */
+private CollectionReference classRoutineRef=db.collection("Classrooms").document(Utils.getClassName()).collection("ClassRoutines");///change kora lagbe
+    /**
+     * The ClassRoutineAdapter object.
+     */
+private ClassRoutineAdapter classRoutineAdapter;
+    /**
+     * The ImageButton for going back.
+     */
+private ImageButton btnBack;
 
 
     @Override
@@ -47,7 +68,12 @@ public class ClassRoutineActivity extends AppCompatActivity {
 
     }
 
-    private void setupRecView() {
+    /**
+     * This method attaches the adapter to the recycler view and
+     * on click of a item, an alert dialog appears whether to delete this or not.
+     * If the delete button is pressed then the routine is deleted.
+     */
+private void setupRecView() {
         Query query= classRoutineRef.orderBy("priority",Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<ClassRoutine> options= new FirestoreRecyclerOptions.Builder<ClassRoutine>()

@@ -34,12 +34,53 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
+/**
+ * The class for Main fragment.
+ */
 public class MainFragment extends Fragment {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "MainFragment";
 
-    private CardView cardClassRoutine,cardExamRoutine,cardNotification,cardResources,cardSocial,cardProfile;
-    private CircleImageView imageView;
-    private TextView txtStudentName;
+    /**
+     * The CardView for class routine.
+     */
+//private
+    CardView cardClassRoutine;
+    /**
+     * The CardView for routine.
+     */
+//private
+    CardView cardExamRoutine;
+    /**
+     * The CardView for notification.
+     */
+//private
+    CardView cardNotification;
+    /**
+     * The CardView for resources.
+     */
+private CardView cardResources;
+    /**
+     * The CardView for social.
+     */
+private CardView cardSocial;
+    /**
+     * The CardView for profile.
+     */
+private CardView cardProfile;
+    /**
+     * The CircularImage for image view.
+     */
+private CircleImageView imageView;
+    /**
+     * The TextView for student name.
+     */
+private TextView txtStudentName;
+    /**
+     * The ImageButton for navigation.
+     */
     ImageButton btnNavigation;
 
     @Override
@@ -124,6 +165,11 @@ public class MainFragment extends Fragment {
         return  view;
     }
 
+    /**
+     * This method checks whether the user is CR or not .
+     *
+     * @return the boolean
+     */
     private boolean isCR() {
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         if(Utils.getCR().equals(email)|| Utils.getCR2().equals(email))
@@ -131,7 +177,13 @@ public class MainFragment extends Fragment {
         else return  false;
     }
 
-    private void setupTopView(final View view) {
+    /**
+     * This method sets up the user profile picture and nickname
+     * at the top left side under the navigation button.
+     *
+     * @param view the view of the fragment main
+     */
+private void setupTopView(final View view) {
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         assert email != null;
         FirebaseFirestore.getInstance().collection("Users").document(email).get()

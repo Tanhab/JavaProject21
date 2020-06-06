@@ -15,11 +15,29 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The adapter class for comment.
+ */
 public class CommentRecViewAdapter extends RecyclerView.Adapter<CommentRecViewAdapter.CommentViewHolder> {
-    private static final String TAG = "CommentRecViewAdapter";
-    private List<Comment> commentList;
-    private Context context;
 
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "CommentRecViewAdapter";
+    /**
+     * The list variable for comments.
+     */
+private List<Comment> commentList;
+    /**
+     * The Context variable.
+     */
+private Context context;
+
+    /**
+     * Instantiates a new Comment rec view adapter.
+     *
+     * @param commentList the comment list
+     */
     public CommentRecViewAdapter(List<Comment> commentList) {
         this.commentList = commentList;
     }
@@ -49,10 +67,32 @@ public class CommentRecViewAdapter extends RecyclerView.Adapter<CommentRecViewAd
         return commentList.size();
     }
 
+    /**
+     * The Holder class for comment.
+     */
     class CommentViewHolder extends RecyclerView.ViewHolder{
+        /**
+         * The CircularImageView variable for userImage.
+         */
         CircleImageView userImage;
-        TextView name,date,message;
+        /**
+         * The TextView variable for Name.
+         */
+        TextView name;
+        /**
+         *  The TextView variable for Date.
+         */
+        TextView date;
+        /**
+         *  The TextView variable for Message.
+         */
+        TextView message;
 
+        /**
+         * Instantiates a new Comment view holder.
+         *
+         * @param itemView the item view
+         */
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             userImage=itemView.findViewById(R.id.commentProfilePic);

@@ -34,14 +34,43 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class handles the adding of folder containing
+ * pdf of particular subject in resource page and further adding
+ * to the database
+ */
 public class ResourcesActivity extends AppCompatActivity {
-    private static final String TAG = "ResourcesActivity";
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "ResourcesActivity";
+    /**
+     * The Recycler view variable.
+     */
     RecyclerView recyclerView;
-    private FloatingActionButton fab;
-    private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    private CollectionReference ref= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Folders");
-    private FolderAdapter adapter;
-    private ProgressDialog pd;
+    /**
+     * The floating action button variable.
+     */
+private FloatingActionButton fab;
+    /**
+     * The FirebaseFirestore variable.
+     */
+private FirebaseFirestore db= FirebaseFirestore.getInstance();
+    /**
+     * The CollectionReference variable for folders.
+     */
+private CollectionReference ref= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).collection("Folders");
+    /**
+     * The FolderAdapter variable.
+     */
+private FolderAdapter adapter;
+    /**
+     * The ProgressDialog variable.
+     */
+private ProgressDialog pd;
+    /**
+     * ImageButton variable for going back.
+     */
     ImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +98,11 @@ public class ResourcesActivity extends AppCompatActivity {
 
     }
 
-    private void addFolder() {
+    /**
+     * This method handles the work of adding a new folder by
+     * creating an alertDialog and adding to the database
+     */
+private void addFolder() {
 
 
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -126,7 +159,14 @@ public class ResourcesActivity extends AppCompatActivity {
 
         }
 
-    private void addToDatabase(String folderName) {
+    /**
+     * This methods updates the new created folder to the
+     * database with date and creator name
+     * and priority to set the new created folder up front
+     *
+     * @param folderName the name of the newly created folder
+     */
+private void addToDatabase(String folderName) {
         Calendar calendar = Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
         int MONTH = calendar.get(Calendar.MONTH);
@@ -155,7 +195,11 @@ public class ResourcesActivity extends AppCompatActivity {
     }
 
 
-    private void setupRecView() {
+    /**
+     * This method sets the recycler view of the resource page
+     * by creating adapter
+     */
+private void setupRecView() {
         Query query= ref.orderBy("priority",Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Folder> options= new FirestoreRecyclerOptions.Builder<Folder>()
@@ -176,7 +220,15 @@ public class ResourcesActivity extends AppCompatActivity {
         });
     }
 
-    private void createPath(final String folderName) {
+    /**
+     * This method helps to create a path in the name of folder in database
+     * and sends the user to another page containing
+     * all the documents under this folder
+     * or a blank page in case of a new folder.
+     *
+     * @param folderName the name of the folder
+     */
+private void createPath(final String folderName) {
         Map<String,Object> map = new HashMap<>();
         map.put("msg","default");
         //db.collection(Utils.getClassName()).document("Documents").collection(folderName).document("default").set(map)

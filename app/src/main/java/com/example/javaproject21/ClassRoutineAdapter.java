@@ -44,18 +44,33 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The type Class routine adapter.
+ */
 public class ClassRoutineAdapter extends FirestoreRecyclerAdapter<ClassRoutine, ClassRoutineAdapter.PostViewHolder> {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "ClassRoutineAdapter";
+    /**
+     * The DocumentReference variable.
+     */
     DocumentReference firebaseFirestore=FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName());
 
+    /**
+     * The Context variable.
+     */
     Context context;
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+    /**
+     * The object of RecycledViewPool  of RecyclerView.
+     */
+private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}* for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public ClassRoutineAdapter(@NonNull FirestoreRecyclerOptions<ClassRoutine> options) {
         super(options);
@@ -326,13 +341,30 @@ public class ClassRoutineAdapter extends FirestoreRecyclerAdapter<ClassRoutine, 
             }
         });
     }
+    /*
+     *The object of ClassListener interface
+     */
     private ClassListener studentListener;
+
+    /**
+     * Sets on item click listener.
+     *
+     * @param listener the object of ClassListener
+     */
     public void setOnItemClickListener(ClassListener listener) {
         this.studentListener = listener;
 
     }
 
+    /**
+     * The interface ClassListener.
+     */
     public interface ClassListener {
+        /**
+         *The abstract method of the interface.
+         *
+         * @param snapshot the DocumentSnapshot of the student
+         */
         public void handleStudent(DocumentSnapshot snapshot);
 
     }
@@ -346,30 +378,96 @@ public class ClassRoutineAdapter extends FirestoreRecyclerAdapter<ClassRoutine, 
         return new PostViewHolder(view);
     }
 
+    /**
+     * The holder class of ClassRoutineAdapter.
+     */
     class PostViewHolder extends RecyclerView.ViewHolder{
-        private View mView;
+        /**
+         * The view variable.
+         */
+private View mView;
 
-        private TextView descView,txtShowAllDocument;;
-        private TextView date;
+        /**
+         * The TextView variable for description.
+         */
+private TextView descView;
+        /**
+         * The TextView variable for show all documents.
+         */
+        private TextView txtShowAllDocument;
+        /**
+         * The TextView variable for Date.
+         */
+private TextView date;
 
-        private TextView userName;
-        private CircleImageView userImage;
+        /**
+         *  TextView variable for User name.
+         */
+private TextView userName;
+        /**
+         * The CircleImageView variable for User image.
+         */
+private CircleImageView userImage;
 
-        private ImageView iconLove;
-        private TextView loveCount;
-        private ImageView iconAngry;
-        private TextView angryCount;
-        private EditText txtComment;
-        private ImageView iconComment;
-        private TextView commentCount;
-        private RecyclerView commentRecView;
-        private ImageView iconSend;
-        private TextView routineDate,section,classes;
+        /**
+         * The ImageView variable for love icon.
+         */
+private ImageView iconLove;
+        /**
+         * The TextView variable for Love count.
+         */
+private TextView loveCount;
+        /**
+         * The ImageView variable for angry icon.
+         */
+private ImageView iconAngry;
+        /**
+         * The TextView variable for Angry count.
+         */
+private TextView angryCount;
+        /**
+         * The EditText variable for comment.
+         */
+private EditText txtComment;
+        /**
+         * The ImageView variable for comment.
+         */
+private ImageView iconComment;
+        /**
+         * The TextView variable for Comment count.
+         */
+private TextView commentCount;
+        /**
+         * The RecyclerView variable for Comment .
+         */
+private RecyclerView commentRecView;
+        /**
+         * The ImageView variable for send.
+         */
+private ImageView iconSend;
+        /**
+         * The TextView variable for Routine date.
+         */
+private TextView routineDate;
+        /**
+         * The TextView variable for Section.
+         */
+private TextView section;
+        /**
+         * The TextView variable for Classes.
+         */
+private TextView classes;
+        /**
+         * The ImageButton variable for delete.
+         */
         ImageButton btnDelete;
 
 
-
-
+        /**
+         * Instantiates a new Post view holder.
+         *
+         * @param itemView the item view
+         */
         PostViewHolder(@NonNull View itemView) {
             super(itemView);
 

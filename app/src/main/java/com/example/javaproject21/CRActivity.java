@@ -23,10 +23,42 @@ import com.google.gson.internal.$Gson$Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class of CR activity.
+ */
 public class CRActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "CRActivity";
-    private CardView cardCreateRoutine,cardCreateExam,cardChangeInvitationCode,cardClassControl,cardCRSettings,cardTeacherCourse;
-    private ImageButton btnBack;
+    /**
+     * The CardView variable for create routine.
+     */
+private CardView cardCreateRoutine;
+    /**
+     * The CardView variable for create exam.
+     */
+private CardView cardCreateExam;
+    /**
+     * The CardView variable for change invitation code.
+     */
+private CardView cardChangeInvitationCode;
+    /**
+     * The CardView variable for class control.
+     */
+private CardView cardClassControl;
+    /**
+     * The CardView variable for cr settings.
+     */
+private CardView cardCRSettings;
+    /**
+     * The CardView variable for teacher course.
+     */
+private CardView cardTeacherCourse;
+    /**
+     * The ImageButton for back.
+     */
+private ImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +116,12 @@ public class CRActivity extends AppCompatActivity {
 
     }
 
-    private void showCodeDialog() {
+    /**
+     * This method creates an alert dialog for giving the new invitation
+     * code as input.If the accept button is pressed then change code
+     * method is called.
+     */
+private void showCodeDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.change_code_dialog, null);
 
@@ -138,7 +175,12 @@ public class CRActivity extends AppCompatActivity {
 
     }
 
-    private void changeCode(String code) {
+    /**
+     * This method changes the code of the classroom and update it to the database.
+     *
+     * @param code the new invitation code
+     */
+private void changeCode(String code) {
         Map<String ,Object> map=new HashMap<>();
         map.put("invitationCode",code);
         FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName()).update(map)

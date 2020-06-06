@@ -11,9 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+/**
+ * The class for Teacher course adapter.
+ */
 public class TeacherCourseAdapter extends FirestoreRecyclerAdapter<TeacherCourse, TeacherCourseAdapter.TeacherCourseHolder> {
 
 
+    /**
+     * Instantiates a new Teacher course adapter.
+     *
+     * @param options the options
+     */
     public TeacherCourseAdapter(@NonNull FirestoreRecyclerOptions<TeacherCourse> options) {
         super(options);
     }
@@ -36,9 +44,36 @@ public class TeacherCourseAdapter extends FirestoreRecyclerAdapter<TeacherCourse
     }
 
 
+    /**
+     * The holder class of TeacherCourseAdapter which extends RecyclerView.ViewHolder.
+     */
     class TeacherCourseHolder extends RecyclerView.ViewHolder{
-        TextView txtCourseName,txtCourseTeacher,txtCourseCode,txtCourseCredit,txtDesignation;
+        /**
+         * The TextView for course name.
+         */
+        TextView txtCourseName;
+        /**
+         * The TextView for course teacher.
+         */
+        TextView txtCourseTeacher;
+        /**
+         * The TextView for course code.
+         */
+        TextView txtCourseCode;
+        /**
+         *The TextView for course credit.
+         */
+        TextView txtCourseCredit;
+        /**
+         * The TextView for designation.
+         */
+        TextView txtDesignation;
 
+        /**
+         * Instantiates a new Teacher course holder.
+         *
+         * @param itemView the item view
+         */
         public TeacherCourseHolder(@NonNull View itemView) {
             super(itemView);
             txtCourseName=itemView.findViewById(R.id.courseName);

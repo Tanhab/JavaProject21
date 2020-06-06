@@ -16,15 +16,24 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class Notification adapter.
+ */
 public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, NotificationAdapter.NotificationViewHolder> {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "NotificationAdapter";
+    /**
+     * The Context variable.
+     */
     Context context;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}* for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public NotificationAdapter(@NonNull FirestoreRecyclerOptions<Notification> options) {
         super(options);
@@ -47,10 +56,32 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
         return new NotificationViewHolder(view);
     }
 
+    /**
+     * The holder class of Notification which extends view holder of recycler view.
+     */
     class NotificationViewHolder extends RecyclerView.ViewHolder{
-        TextView txtMsg,txtDate,txtSender;
+        /**
+         * The Textview for message.
+         */
+        TextView txtMsg;
+        /**
+         * The Textview for date.
+         */
+        TextView txtDate;
+        /**
+         * TThe Textview for sender.
+         */
+        TextView txtSender;
+        /**
+         * The  CircleImageView for Profile pic.
+         */
         CircleImageView profilePic;
 
+        /**
+         * Instantiates a new Notification view holder.
+         *
+         * @param itemView the item view
+         */
         public NotificationViewHolder(@NonNull final View itemView) {
             super(itemView);
 

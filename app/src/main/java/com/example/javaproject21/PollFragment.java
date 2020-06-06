@@ -28,14 +28,31 @@ import java.util.Calendar;
 import java.util.List;
 
 
+/**
+ * The class for Poll fragment.
+ */
 public class PollFragment extends Fragment {
-    private static final String TAG = "PollFragment";
-    private RecyclerView pollRecView;
-    private PollRecyclerAdapter pollRecyclerAdapter;
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "PollFragment";
+    /**
+     * The Recycler view variable.
+     */
+private RecyclerView pollRecView;
+    /**
+     * The object of PollRecyclerAdapter.
+     */
+private PollRecyclerAdapter pollRecyclerAdapter;
+    /**
+     * The FloatingActionButton variable.
+     */
     FloatingActionButton fab;
 
 
-
+    /**
+     * Instantiates a new Poll fragment.
+     */
     public PollFragment() {
         // Required empty public constructor
     }
@@ -96,7 +113,11 @@ public class PollFragment extends Fragment {
 
         return view;
     }
-    private void cratePoll(){
+
+    /**
+     * This method creates poll.
+     */
+private void cratePoll(){
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         String msg="This is a poll.\nChoose the greatest fokinni .";
         Calendar calendar = Calendar.getInstance();
@@ -144,7 +165,13 @@ public class PollFragment extends Fragment {
     }
 
 
-    private void updatePollOptions(List<PollOption> pollOptions, String pollId) {
+    /**
+     * This method updates poll options to the assigned poll.
+     *
+     * @param pollOptions the poll options
+     * @param pollId      the poll id
+     */
+private void updatePollOptions(List<PollOption> pollOptions, String pollId) {
         for (PollOption p : pollOptions){
             FirebaseFirestore.getInstance().collection("Polls").document(pollId).collection("Options")
                     .document(p.getOptionId()).set(p)

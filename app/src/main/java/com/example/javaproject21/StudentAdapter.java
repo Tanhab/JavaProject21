@@ -17,14 +17,20 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class for Student adapter.
+ */
 public class StudentAdapter extends FirestoreRecyclerAdapter<Student, StudentAdapter.StudentViewHolder> {
-
+    /**
+     * The Context variable.
+     */
 private Context context;
+
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}* for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public StudentAdapter(@NonNull FirestoreRecyclerOptions<Student> options) {
 
@@ -46,14 +52,31 @@ private Context context;
        context=parent.getContext();
        return new StudentViewHolder(view);
     }
+
+    /**
+     * This method handles the deletion of an item.
+     *
+     * @param snapshot the snapshot of the item to be deleted
+     */
     public void deleteItem(DocumentSnapshot snapshot){
         snapshot.getReference().delete();
     }
 
+    /**
+     * The holder class of StudentAdapter which extends RecyclerView.ViewHolder .
+     */
     class StudentViewHolder extends RecyclerView.ViewHolder{
 
+        /**
+         * The view variable.
+         */
         View mView;
 
+        /**
+         * Instantiates a new Student view holder.
+         *
+         * @param itemView the item view
+         */
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
             mView=itemView;
@@ -68,6 +91,15 @@ private Context context;
             });
 
         }
+
+        /**
+         * This method sets the details of a user to the holder of the recycler adapter.
+         *
+         * @param ctx        the context
+         * @param userName   the user name
+         * @param userStatus the user status
+         * @param userImage  the user image
+         */
         public void setDetails(Context ctx, String userName, String userStatus, String userImage){
 
             TextView user_name = (TextView) mView.findViewById(R.id.name_text);
@@ -88,13 +120,30 @@ private Context context;
 
     }
 
+    /*
+     *The object of StudentListener
+     */
     private StudentListener studentListener;
+
+    /**
+     * Sets on item click listener.
+     *
+     * @param listener the object of StudentListener
+     */
     public void setOnItemClickListener(StudentListener listener) {
         this.studentListener = listener;
 
     }
 
+    /**
+     * The interface StudentListener.
+     */
     public interface StudentListener {
+        /**
+         * The abstract method of the interface.
+         *
+         * @param snapshot the snapshot of the student
+         */
         public void handleStudent(DocumentSnapshot snapshot);
 
     }

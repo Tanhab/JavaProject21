@@ -27,11 +27,27 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class for controlling class .
+ */
 public class ClassControlActivity extends AppCompatActivity {
-    private static final String TAG = "ClassControlActivity";
+    /**
+     * The constant variable for logcat.
+     */
+private  static final String TAG = "ClassControlActivity";
+    /**
+     * The Recycler view variable.
+     */
     RecyclerView recyclerView;
+    /**
+     * The object of StudentAdapter.
+     */
     StudentAdapter adapter;
+    /**
+     * The ImageButton for going back.
+     */
     ImageButton btnBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +62,12 @@ public class ClassControlActivity extends AppCompatActivity {
             }
         });
     }
-    private void initRecView() {
+
+    /**
+     * This method attaches the adapter to the recycler view and
+     * calls another method for kicking out an user on click of an item.
+     */
+private void initRecView() {
         Query query= FirebaseFirestore.getInstance().collection("Users")
                 .whereEqualTo("currentClass",Utils.getClassName())
                 ;
@@ -64,7 +85,13 @@ public class ClassControlActivity extends AppCompatActivity {
         });
     }
 
-    private void kickOutUserDialog(final DocumentSnapshot snapshot) {
+    /**
+     * This method creates an alert dialog for confirming whether the user
+     * needs to be kicked out or not.
+     *
+     * @param snapshot the document snapshot of the user to be kicked out
+     */
+private void kickOutUserDialog(final DocumentSnapshot snapshot) {
         Student student=snapshot.toObject(Student.class);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ClassControlActivity.this);
         alertDialogBuilder.setTitle("Kick out this user").setMessage("Are you sure ?\nOnce deleted it cannot be undone.")
@@ -82,7 +109,13 @@ public class ClassControlActivity extends AppCompatActivity {
 
     }
 
-    private void kickOutUSer(DocumentSnapshot snapshot) {
+    /**
+     * This method kicks out the user from the current class.
+     *
+     * @param snapshot the document snapshot of the user to be kicked out
+     */
+//private
+    void kickOutUSer(DocumentSnapshot snapshot) {
         Student student=snapshot.toObject(Student.class);
         Map<String,Object> map= new HashMap<>();
         map.put("currentClass","empty");

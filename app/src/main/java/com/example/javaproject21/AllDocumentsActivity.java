@@ -44,19 +44,59 @@ import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.Calendar;
 
+/**
+ * This class handles the affairs of all the documents
+ * under a folder.
+ */
 public class AllDocumentsActivity extends AppCompatActivity {
-    private static final String TAG = "AllDocumentsActivity";
-    private static final int ADD_ACTION_POSITION = 4;
-    private SpeedDialView mSpeedDialView;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference ref;
-    private ImageButton btnBack;
-    //= db.collection("cse18").document("Data").collection("Folders");
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "AllDocumentsActivity";
+    /**
+     * The constant ADD_ACTION_POSITION.
+     */
+private static final int ADD_ACTION_POSITION = 4;
+    /**
+     * The SpeedDialView variable.
+     */
+private SpeedDialView mSpeedDialView;
+    /**
+     * The FirebaseFirestore variable
+     */
+private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    /**
+     * The CollectionReference variable.
+     */
+private CollectionReference ref;
+    /**
+     * The ImageButton for going back.
+     */
+private ImageButton btnBack;
+    /**
+     * The Query variable.
+     */
+//= db.collection("cse18").document("Data").collection("Folders");
     Query query;
+    /**
+     * The DocumentAdapter variable.
+     */
     DocumentAdapter adapter;
-    private RecyclerView recyclerView;
+    /**
+     * The Recycler view variable.
+     */
+private RecyclerView recyclerView;
+    /**
+     * The TextView variable for folder name.
+     */
     TextView txtFolderName;
+    /**
+     * The String type variable for folder name.
+     */
     String folderName;
+    /**
+     * The progress dialog variable.
+     */
     ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +124,14 @@ public class AllDocumentsActivity extends AppCompatActivity {
 
     }
 
-    private void setupRecView() {
+    /**
+     * This method sets the recycler view of the resource page
+     * by creating adapter.
+     * It handles the deleting of a document by swiping right,
+     * coping the link of the document by pressing the copy button
+     * and show the webview of the document onclick.
+     */
+private void setupRecView() {
 
 
         FirestoreRecyclerOptions<Document> options = new FirestoreRecyclerOptions.Builder<Document>()
@@ -143,13 +190,23 @@ public class AllDocumentsActivity extends AppCompatActivity {
         });
     }
 
-    private void startWebView(String url) {
+    /**
+     * This method handles the showing of web view of the document
+     *
+     * @param url the url of the web page of the document
+     */
+private void startWebView(String url) {
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
         intent.putExtra("Url", url);
         startActivity(intent);
     }
-
+/**
+ * This method handles the functionality of the floating action button where speedDial
+ * has been set.3 items: sort by name, sort by date and adding document are included
+ *
+ * @param addActionItems boolean variable if true the action items will be added
+ */
     private void initSpeedDial(boolean addActionItems) {
         mSpeedDialView = findViewById(R.id.speedDial);
 
@@ -233,19 +290,30 @@ public class AllDocumentsActivity extends AppCompatActivity {
 
     }
 
-    private void sortByName() {
+    /**
+     * This method sorts the documents by name
+     */
+private void sortByName() {
         query=ref.orderBy("name", Query.Direction.DESCENDING);
 
         adapter.notifyDataSetChanged();
     }
 
-    private void sortByDate() {
+    /**
+     * This method sorts the documents by date
+     */
+private void sortByDate() {
         query=ref.orderBy("priority", Query.Direction.DESCENDING);
         adapter.notifyDataSetChanged();
 
     }
 
-    private void addDocument() {
+    /**
+     * This method handles the adding of a new document in the folder by receiving the name of
+     * the document and the url of the web page in an alertdialog
+     */
+//private
+    void addDocument() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_document_dialog, null);
 
@@ -300,7 +368,15 @@ public class AllDocumentsActivity extends AppCompatActivity {
 
     }
 
-    private void addToDatabase(String docName, String url) {
+    /**
+     * This method handles the adding of the newly created document to the database
+     * and priority has set by the date so the newly added document comes first.
+     *
+     * @param docName the name of the document
+     * @param url     the url of the document
+     */
+//private
+    void addToDatabase(String docName, String url) {
         Calendar calendar = Calendar.getInstance();
         int YEAR = calendar.get(Calendar.YEAR);
         int MONTH = calendar.get(Calendar.MONTH);

@@ -37,12 +37,30 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
+/**
+ * The class for Main activity.
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-    private static final String TAG = "MainActivity";
-    private DrawerLayout drawer;
-    private NavigationView navigationView;
-    private FrameLayout frameLayout;
-    private ProgressDialog pd;
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "MainActivity";
+    /**
+     * The DrawerLayout variable.
+     */
+private DrawerLayout drawer;
+    /**
+     * The NavigationView variable.
+     */
+private NavigationView navigationView;
+    /**
+     * The FrameLayout variable.
+     */
+private FrameLayout frameLayout;
+    /**
+     * The ProgressDialog variable.
+     */
+private ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +94,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void checkForClassName() {
+    /**
+     * This method checks whether the user is included in a class or not.If the class name is empty the
+     * user is taken to choose class activity otherwise if the user has not filled his profile,
+     * he is taken to the profile activity.
+     */
+private void checkForClassName() {
             String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
             DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(email);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -135,7 +158,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
 
     }
-    private void init(){
+
+    /**
+     * This method finds the navigation drawer,view and frame layout variable.
+     */
+private void init(){
         Log.d(TAG, "init: mainactivity started");
         drawer=findViewById(R.id.drawer);
         navigationView= findViewById(R.id.navigationLayer);
@@ -178,7 +205,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    private void logout() {
+    /**
+     * This method handles the logging out of the user.The user is taken
+     * back to the login activity.
+     */
+private void logout() {
         FirebaseAuth.getInstance().signOut();
         Utils.setCR(null);
         Utils.setClassName(null);
@@ -193,7 +224,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void checkForCR() {
+    /**
+     * This method checks for the CR of the class.
+     */
+private void checkForCR() {
         Log.d(TAG, "checkForCR: started");
         if(Utils.getCR()==null){
 
@@ -232,7 +266,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         }
 
-    private void checkForNames() {
+    /**
+     * This method checks whether the user has filled up the name and nickname
+     * of the profile activity.Subscription to class is called if those are filled.
+     */
+private void checkForNames() {
 
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(email);
@@ -276,6 +314,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     });
     }
 
+    /**
+     * This method converts the class name into a unique hash value.
+     *
+     * @param s the class name
+     * @return the string of the hashed value
+     */
     String  compute_hash(String s) {
      int p = 31;
      int m =(int) 1e9 + 9;
@@ -291,6 +335,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return String.valueOf(hash_value);
     }
 
+    /*
+     *This method handles subscription to a class and sends a message to the user informing the success or failure of
+     * subscription to a particular task.
+     */
     private void subscribeToClass(){
         String topic=compute_hash(Utils.getClassName());
         Log.d(TAG, "subscribeToClass: topic "+ topic);
@@ -310,7 +358,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                        // Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-    }  private void unsubscribeToClass(){
+    }
+
+
+    /**
+     * This method handles the unsubscribe from a class and sends message informing
+     * about it.
+     */
+private void unsubscribeToClass(){
         String topic=Utils.getTopic();
         Log.d(TAG, "unsubscribeToClass: topic "+ topic);
 
@@ -331,8 +386,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
     }
+
+    /**
+     * This method checks the net connection type of the user.
+     *
+     * @param context the context
+     * @return the connection type
+     */
     @IntRange(from = 0, to = 2)
-    public static int getConnectionType(Context context) {
+    //public
+    static int getConnectionType(Context context) {
         int result = 0; // Returns connection type. 0: none; 1: mobile data; 2: wifi
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -361,7 +424,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return result;
     }
-    private boolean isCR() {
+
+    /**
+     * This method checks whether the user is CR or not .
+     *
+     * @return the boolean
+     */
+private boolean isCR() {
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         if(Utils.getCR().equals(email)|| Utils.getCR2().equals(email))
             return  true;

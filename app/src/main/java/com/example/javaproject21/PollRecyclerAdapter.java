@@ -44,20 +44,41 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The type Poll recycler adapter.
+ */
 public class PollRecyclerAdapter extends FirestoreRecyclerAdapter<Poll, PollRecyclerAdapter.PollViewHolder> {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "PollRecyclerAdapter";
-    private DocumentReference firebaseFirestore= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName());
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-    private RecyclerView.RecycledViewPool viewPool2=new RecyclerView.RecycledViewPool();
-    private PollOptionRecAdapter pollOptionRecAdapter;
+    /**
+     * The DocumentReference variable.
+     */
+private DocumentReference firebaseFirestore= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName());
+    /**
+     * The object of RecyclerView.RecycledViewPool.
+     */
+private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+    /**
+     * The object of RecyclerView.RecycledViewPool.
+     */
+private RecyclerView.RecycledViewPool viewPool2=new RecyclerView.RecycledViewPool();
+    /**
+     * The object of PollOptionRecAdapter.
+     */
+private PollOptionRecAdapter pollOptionRecAdapter;
 
-    private Context context;
+    /**
+     * The Context variable.
+     */
+private Context context;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}* for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public PollRecyclerAdapter(@NonNull FirestoreRecyclerOptions<Poll> options) {
         super(options);
@@ -351,13 +372,31 @@ public class PollRecyclerAdapter extends FirestoreRecyclerAdapter<Poll, PollRecy
 
 
     }
-    private PollListener pollListener;
+
+    /**
+     * The object of The Poll listener.
+     */
+private PollListener pollListener;
+
+    /**
+     * Sets on item click listener.
+     *
+     * @param listener the object of PollListener
+     */
     public void setOnItemClickListener(PollListener listener) {
         this.pollListener = listener;
 
     }
 
+    /**
+     * The interface Poll listener.
+     */
     public interface PollListener {
+        /**
+         * The abstract method of the interface.
+         *
+         * @param snapshot the snapshot
+         */
         public void handleStudent(DocumentSnapshot snapshot);
 
     }
@@ -371,29 +410,87 @@ public class PollRecyclerAdapter extends FirestoreRecyclerAdapter<Poll, PollRecy
         return new PollViewHolder(view);
     }
 
+    /**
+     * The holder class of PollRecyclerAdapter.
+     */
     class PollViewHolder extends RecyclerView.ViewHolder{
+        /**
+         * The view variable.
+         */
         private View mView;
 
-        private TextView descView,txtShowAllDocument;;
+        /**
+         * The TextView variable for description.
+         */
+        private TextView descView;
+        /**
+         * The TextView variable for show all documents.
+         */
+        private TextView txtShowAllDocument;
+        /**
+         * The TextView variable for Date.
+         */
         private TextView date;
-
+        /**
+         *  TextView variable for User name.
+         */
         private TextView userName;
+        /**
+         * The CircleImageView variable for User image.
+         */
         private CircleImageView userImage;
 
+        /**
+         * The ImageView variable for love icon.
+         */
         private ImageView iconLove;
+        /**
+         * The TextView variable for Love count.
+         */
         private TextView loveCount;
+        /**
+         * The ImageView variable for angry icon.
+         */
         private ImageView iconAngry;
+        /**
+         * The TextView variable for Angry count.
+         */
         private TextView angryCount;
+        /**
+         * The EditText variable for comment.
+         */
         private EditText txtComment;
+        /**
+         * The ImageView variable for comment.
+         */
         private ImageView iconComment;
+        /**
+         * The TextView variable for Comment count.
+         */
         private TextView commentCount;
-        private RecyclerView commentRecView,optionRecView;
+        /**
+         * The RecyclerView variable for Comment .
+         */
+        private RecyclerView commentRecView;
+        /**
+         * The RecyclerView variable optionRecView .
+         */
+        private RecyclerView optionRecView;
+        /**
+         * The ImageView variable for send.
+         */
         private ImageView iconSend;
+        /**
+         * The ImageButton variable for delete.
+         */
         ImageButton btnDelete;
 
 
-
-
+        /**
+         * Instantiates a new Poll view holder.
+         *
+         * @param itemView the item view
+         */
         public PollViewHolder(@NonNull View itemView) {
             super(itemView);
             btnDelete=itemView.findViewById(R.id.btnDelete);

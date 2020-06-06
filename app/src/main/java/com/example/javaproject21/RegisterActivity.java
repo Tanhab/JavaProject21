@@ -25,13 +25,43 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class handles the register of a new user
+ * and adding all the information to the database
+ */
 public class RegisterActivity extends AppCompatActivity {
-    private static final String TAG = "RegisterActivity";
+    /**
+     * The constant variable for logcat
+     */
+private static final String TAG = "RegisterActivity";
 
-    EditText txtEmail,txtPassword,txtConfirmPassword;
+    /**
+     * EditText type variable for email.
+     */
+    EditText txtEmail;
+    /**
+     * EditText type variable for password.
+     */
+    EditText txtPassword;
+    /**
+     * EditText type variable for confirm password.
+     */
+    EditText txtConfirmPassword;
+    /**
+     * Button type variable for register.
+     */
     Button btnRegister;
+    /**
+     * TextView type variable for login.
+     */
     TextView txtLoginGo;
-    private FirebaseAuth mAuth;
+    /**
+     * FirebaseAuth variable.
+     */
+private FirebaseAuth mAuth;
+    /**
+     * ProgressDialog variable.
+     */
     ProgressDialog pd;
 
     @Override
@@ -84,7 +114,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void RegisterUser(String email, String password) {
+    /**
+     * This method handles the register of a new user
+     * If the sign up is successful then the user info is been added
+     * to the database otherwise a message is displayed of Authentication Failed
+     *
+     * @param email    the email address of the registered user
+     * @param password the password of the registered user
+     */
+private void RegisterUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -110,7 +148,12 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void addtoDatabase() {
+    /**
+     *This method updates the information of a new user signed in
+     * to the database and takes the user to
+     * the Profile Activity to update his profile
+     */
+private void addtoDatabase() {
         Log.d(TAG, "addtoDatabase: started");
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Map<String,Object> map= new HashMap<>();

@@ -37,16 +37,56 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class handles the login of a registered user,
+ * recovery of forgot password and
+ * google sign in
+ */
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "LoginActivity";
+    /**
+     * The constant variable for logcat
+     */
+private  static final String TAG = "LoginActivity";
 
-    private EditText txtEmail,txtPassword;
-    private Button btnLogin;
-    private TextView txtReg,txtForgotPassword;
-    private FirebaseAuth mAuth;
+    /**
+     * EditText type variable for email.
+     */
+private EditText txtEmail;
+/**
+     * EditText type variable for password.
+     */
+private EditText  txtPassword;
+    /**
+     * Button type variable for login.
+     */
+private Button btnLogin;
+    /**
+     * TextView type variable for register.
+     */
+private TextView txtReg;
+/**
+     * TextView type variable for forgot password.
+     */
+private TextView  txtForgotPassword;
+    /**
+     * FirebaseAuth variable.
+     */
+private FirebaseAuth mAuth;
+    /**
+     * Button type variable for google signin.
+     */
     SignInButton btnGoogle;
+    /**
+     * GoogleSignInClient variable.
+     */
     GoogleSignInClient googleSignInClient;
-    private int RC_SIGN_IN= 001;
+    /**
+     * The request code for google signin
+     */
+ private int RC_SIGN_IN= 001;
+    /**
+     * ProgressDialog variable.
+     */
     ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +157,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void showForgotDialog() {
+    /**
+     * This method is used for showing an alert dialog where
+     * a user will provide his email address to recover his password
+     * of his account
+     */
+private void showForgotDialog() {
         AlertDialog.Builder builder= new AlertDialog.Builder(this);
         builder.setTitle("Recover Password");
         LinearLayout linearLayout= new LinearLayout(this);
@@ -145,7 +190,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void beginRecovery(String email) {
+    /**
+     * This method is used to recover the password of a user
+     * @param email the email of the user needed to recover password
+     */
+ private  void beginRecovery(String email) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -184,7 +233,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+
+    /**
+     * This method handles the signing in with google account
+     *
+     * @param acct get an ID token from the GoogleSignInAccount object,
+     * exchange it for a Firebase credential, and authenticate with Firebase
+     * using the Firebase credential
+     */
+private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -219,7 +276,16 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void loginUser(String email, String password) {
+
+    /**
+     * This method handles the login of a user
+     * If the authentication is successful then the user is brought to the main activity
+     * otherwise a message is displayed of Authentication Failed
+     *
+     * @param email    the email address of the user
+     * @param password the password of the user
+     */
+  private  void loginUser(String email, String password) {
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -256,7 +322,13 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
-    private void addtoDatabase() {
+
+    /**
+     *This method updates the information of a new user signed in
+     * with google signin to the database and takes the user to
+     * the Profile Activity to update his account profile
+     */
+ private  void addtoDatabase() {
         Log.d(TAG, "addtoDatabase: started");
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Map<String,Object> map= new HashMap<>();

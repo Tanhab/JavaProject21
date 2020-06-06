@@ -44,20 +44,33 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The type Event adapter.
+ */
 public class EventAdapter extends FirestoreRecyclerAdapter<Event, EventAdapter.EventviewHolder> {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "EventAdapter";
+    /**
+     * The DocumentReference variable.
+     */
     DocumentReference firebaseFirestore= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName());
+    /**
+     * The Context variable.
+     */
     Context context;
-    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-
-
+    /**
+     * The object of RecycledViewPool of RecyclerView.
+     */
+private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
+     * FirestoreRecyclerOptions}* for configuration options.
      *
-     * @param options
+     * @param options the options
      */
     public EventAdapter(@NonNull FirestoreRecyclerOptions<Event> options) {
         super(options);
@@ -489,13 +502,31 @@ public class EventAdapter extends FirestoreRecyclerAdapter<Event, EventAdapter.E
             }
         });
     }
-    private EventsListener studentListener;
+
+    /**
+     * The object of EventsListener.
+     */
+private EventsListener studentListener;
+
+    /**
+     * Sets on item click listener.
+     *
+     * @param listener the object of EventsListener
+     */
     public void setOnItemClickListener(EventsListener listener) {
         this.studentListener = listener;
 
     }
 
+    /**
+     * The interface EventsListener with abstract method.
+     */
     public interface EventsListener {
+        /**
+         * The abstract method handleStudent.
+         *
+         * @param snapshot the documents of the student
+         */
         public void handleStudent(DocumentSnapshot snapshot);
 
     }
@@ -507,29 +538,124 @@ public class EventAdapter extends FirestoreRecyclerAdapter<Event, EventAdapter.E
         return  new EventviewHolder(view);
     }
 
+    /**
+     * The holder class which extends RecyclerView.ViewHolder.
+     */
     class EventviewHolder extends RecyclerView.ViewHolder{
-        private View mView;
+        /**
+         * The View varible.
+         */
+private View mView;
 
-        private TextView descView,txtShowAllDocument;;
-        private TextView date;
+        /**
+         * The TextView for Desc view.
+         */
+private TextView descView;
+        /**
+         * The TextView for show all document.
+         */
+private TextView txtShowAllDocument;;
+        /**
+         * The TextView for Date.
+         */
+private TextView date;
 
-        private TextView userName;
-        private CircleImageView userImage;
+        /**
+         * The TextView for User name.
+         */
+private TextView userName;
+        /**
+         * The CircularImage variable image.
+         */
+private CircleImageView userImage;
 
-        private ImageView iconLove;
-        private TextView loveCount;
-        private ImageView iconAngry;
-        private TextView angryCount;
-        private EditText txtComment;
-        private ImageView iconComment;
-        private TextView commentCount;
-        private RecyclerView commentRecView;
-        private ImageView iconSend;
-        private TextView section,classes;
-        private TextView eventName,eventDate,eventTime,txtGoingCount,txtNotGoingCount,eventPlace;
-        ImageView goingBox,notGoingBox;
+        /**
+         * The ImageView for love.
+         */
+private ImageView iconLove;
+        /**
+         * The TextView for Love count.
+         */
+private TextView loveCount;
+        /**
+         * The ImageView for Icon angry.
+         */
+private ImageView iconAngry;
+        /**
+         * The TextView for Angry count.
+         */
+private TextView angryCount;
+        /**
+         * The EditText for comment.
+         */
+private EditText txtComment;
+        /**
+         * The ImageView for Icon comment.
+         */
+private ImageView iconComment;
+        /**
+         * The TextView for Comment count.
+         */
+private TextView commentCount;
+        /**
+         * The RecyclerView variable.
+         */
+private RecyclerView commentRecView;
+        /**
+         * The ImageView for Icon send.
+         */
+private ImageView iconSend;
+        /**
+         * The TextView for Section.
+         */
+private TextView section;
+        /**
+         * The TextView for Classes.
+         */
+private TextView classes;
+        /**
+         * The TextView for Event name.
+         */
+private TextView eventName;
+        /**
+         * The TextView for Event date.
+         */
+private TextView eventDate;
+        /**
+         * The TextView for Event time.
+         */
+private TextView eventTime;
+        /**
+         * The TextView for going count.
+         */
+private TextView txtGoingCount;
+        /**
+         * The TextView for not going count.
+         */
+private TextView txtNotGoingCount;
+        /**
+         * The TextView for Event place.
+         */
+private
+        TextView eventPlace;
+        /**
+         * The ImageView for Going box.
+         */
+        ImageView goingBox;
+        /**
+         * The ImageView for Not going box.
+         */
+        ImageView notGoingBox;
+        /**
+         * The ImageButton for delete.
+         */
         ImageButton btnDelete;
 
+        /**
+         * Instantiates a new Eventview holder.
+         *
+         * @param itemView the item view
+         */
         public EventviewHolder(@NonNull View itemView) {
             super(itemView);
 

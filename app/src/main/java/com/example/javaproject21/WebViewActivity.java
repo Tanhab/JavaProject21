@@ -12,10 +12,21 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 
+/**
+ * The class for Web view activity.
+ */
 public class WebViewActivity extends AppCompatActivity {
+    /**
+     * The constant variable for logcat.
+     */
     private static final String TAG = "WebViewActivity";
-
+    /**
+     * The WebView variable.
+     */
     private WebView webView;
+    /**
+     * ImageButton for back.
+     */
     ImageButton btnBack;
 
     @Override

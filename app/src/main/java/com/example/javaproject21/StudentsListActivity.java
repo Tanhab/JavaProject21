@@ -22,11 +22,26 @@ import com.google.firebase.firestore.Query;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * The class for Students list activity.
+ */
 public class StudentsListActivity extends AppCompatActivity  {
-    private static final String TAG = "StudentsListActivity";
-        RecyclerView recyclerView;
-        StudentAdapter adapter;
-        ImageButton btnBack;
+    /**
+     * The constant variable for logcat.
+     */
+private static final String TAG = "StudentsListActivity";
+    /**
+     * The Recycler view variable.
+     */
+    RecyclerView recyclerView;
+    /**
+     * The object of StudentAdapter.
+     */
+    StudentAdapter adapter;
+    /**
+     * The ImageButton for back.
+     */
+    ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +60,11 @@ public class StudentsListActivity extends AppCompatActivity  {
 
     }
 
-    private void initRecView() {
+    /**
+     * This method sets the adapter to the recycler view of the student
+     * list and calls a method on clicking an item.
+     */
+private void initRecView() {
         Query query= FirebaseFirestore.getInstance().collection("Users")
                 .whereEqualTo("currentClass",Utils.getClassName())
                 ;
@@ -66,7 +85,13 @@ public class StudentsListActivity extends AppCompatActivity  {
 
     }
 
-    private void showStudentInfo(DocumentSnapshot snapshot) {
+    /**
+     * This method shows the info of the student on click of that item
+     * of the recycler view by creating an alert dialog .
+     *
+     * @param snapshot the DocumentSnapshot of the student
+     */
+private void showStudentInfo(DocumentSnapshot snapshot) {
         Student student=snapshot.toObject(Student.class);
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.show_student_info_dialog, null);

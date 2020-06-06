@@ -28,11 +28,35 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type My classroom activity.
+ */
 public class MyClassroomActivity extends AppCompatActivity {
-    private static final String TAG = "MyClassroomActivity";
+    /**
+     * The constant variable for logcat .
+     */
+private static final String TAG = "MyClassroomActivity";
 
-    private CardView cardLeave,cardClassInfo,cardClassmates,cardTeachers;
-    private ImageButton btnBack;
+    /**
+     * The cardView for leave.
+     */
+private CardView cardLeave;
+    /**
+     * The cardView for class info.
+     */
+private CardView cardClassInfo;
+    /**
+     * The cardView for classmates.
+     */
+private CardView cardClassmates;
+    /**
+     * The cardView for teachers.
+     */
+private CardView cardTeachers;
+    /**
+     * The ImageButton for back.
+     */
+private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +104,11 @@ public class MyClassroomActivity extends AppCompatActivity {
 
     }
 
-    private void confirmLeave() {
+    /**
+     * This method creates an alert dialog for conforming leave
+     * from the classroom.
+     */
+private void confirmLeave() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.leave_confirmity_dialog, null);
 
@@ -111,7 +139,12 @@ public class MyClassroomActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void showCrChangeDialog() {
+    /**
+     * If Cr wants to leave from the classroom , then he is taken back to CR settings
+     * activity to pass this rank to another classmate.
+     */
+private
+    void showCrChangeDialog() {
         final AlertDialog alertDialog;
         alertDialog=new AlertDialog.Builder(this)
                 .setTitle("Caution")
@@ -133,7 +166,11 @@ public class MyClassroomActivity extends AppCompatActivity {
 
     }
 
-    private void openDialog() {
+    /**
+     * This method creates an alert dialog about the information about the class
+     * the user is in.It includes the class name,CR name,description.
+     */
+private void openDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.classroom_info_dialog, null);
 
@@ -170,7 +207,11 @@ public class MyClassroomActivity extends AppCompatActivity {
 
     }
 
-    private void clearClassnameFromDatabase() {
+    /**
+     * This method clears the user from the database on confirmation
+     * of leaving the class .
+     */
+private void clearClassnameFromDatabase() {
         String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Map<String,Object> map=new HashMap<>();
         map.put("currentClass","empty");
@@ -201,7 +242,13 @@ public class MyClassroomActivity extends AppCompatActivity {
             }
         });
     }
-    private void unsubscribeToClass(){
+
+    /**
+     * This method unsubscribes the user from the class on confirmation
+     * of leaving the class .
+     */
+//private
+    void unsubscribeToClass(){
         String topic=Utils.getTopic();
         Log.d(TAG, "unsubscribeToClass: topic "+ topic);
 
