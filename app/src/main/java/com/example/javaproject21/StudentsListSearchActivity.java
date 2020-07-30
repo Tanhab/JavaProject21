@@ -154,8 +154,7 @@ private void firebaseUserSearch(String searchText) {
      * adapter and a method is called to show student info on click of a
      * item.
      */
-//private
-    void setupRecView() {
+private void setupRecView() {
         Log.d(TAG, "firebaseUserSearch: started setup ");
         Query query= FirebaseFirestore.getInstance().collection("Users")
                 .whereEqualTo("currentClass",Utils.getClassName());
@@ -247,7 +246,7 @@ private void firebaseUserSearch(String searchText) {
      *
      * @param snapshot the DocumentSnapshot of the student
      */
-private void showStudentInfo(DocumentSnapshot snapshot) {
+        private void showStudentInfo(DocumentSnapshot snapshot) {
         Student student=snapshot.toObject(Student.class);
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.show_student_info_dialog, null);

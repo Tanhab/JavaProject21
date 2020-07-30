@@ -89,7 +89,7 @@ private ImageButton btnBack;
         cardClassmates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),StudentsListSearchActivity.class));
+                startActivity(new Intent(getApplicationContext(),StudentListSearchActivity2.class));
 
 
             }

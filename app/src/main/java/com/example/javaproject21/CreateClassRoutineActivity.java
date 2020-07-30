@@ -513,8 +513,6 @@ private void sendNotification(String title, String body) {
             JSONObject extraData = new JSONObject();
             extraData.put("category","classRoutine");
 
-
-
             json.put("notification",notificationObj);
             json.put("data",extraData);
 

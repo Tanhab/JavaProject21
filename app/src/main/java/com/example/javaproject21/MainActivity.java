@@ -69,7 +69,7 @@ private ProgressDialog pd;
         pd.setTitle("Please wait...");
         pd.setCancelable(false);
         init();
-        ActionBarDrawerToggle toggle=   new ActionBarDrawerToggle(this,drawer,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,
                 R.string.drawer_oprn,R.string.drawer_closed);
         drawer.addDrawerListener(toggle);
         toggle.syncState();

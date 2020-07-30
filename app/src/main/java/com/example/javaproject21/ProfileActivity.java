@@ -318,8 +318,7 @@ private void saveProfilePic()  {
      *
      * @param uri the uri of the image
      */
-//private
-    void addToDatabase(Uri uri) {
+private void addToDatabase(Uri uri) {
         Log.d(TAG, "addToDatabase: started");
         String mname = txtName.getText().toString().trim();
         String nickName=txtNickname.getText().toString().trim();
