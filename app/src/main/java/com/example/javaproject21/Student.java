@@ -52,7 +52,24 @@ public class Student {
     /**
      * Instantiates a new Student.
      */
+    String Uid,currentClass;
     public Student() {
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
+    }
+
+    public String getCurrentClass() {
+        return currentClass;
+    }
+
+    public void setCurrentClass(String currentClass) {
+        this.currentClass = currentClass;
     }
 
     /**

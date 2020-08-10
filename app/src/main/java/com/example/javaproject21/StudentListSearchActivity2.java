@@ -1,55 +1,50 @@
 package com.example.javaproject21;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.Objects;
 
 public class StudentListSearchActivity2 extends AppCompatActivity {
-    private static final String TAG ="StudentList" ;
+    private static final String TAG = "StudentList";
     private Chip nameChip, districtChip, bloogGrpChip;
     private Button btnSearch;
     private ChipsInput districtChipInput, bloodGroupChipInput;
     private String[] districts, bloodgrps;
-    private String nameS="";
+    private String nameS = "";
     private TextInputEditText textInputEditText;
     private TextInputLayout textField;
     private RecyclerView recyclerView;
+    static List<Student> fullList;
+    List<Student> showList;
+    private Context context;
+    private StudentSearchManualAdapter manualAdapter;
     ImageButton btnBack;
 
 
@@ -64,13 +59,14 @@ public class StudentListSearchActivity2 extends AppCompatActivity {
         districtChipInput = findViewById(R.id.chips_district_id);
         bloodGroupChipInput = findViewById(R.id.chips_bloodgrp_id);
         btnSearch = findViewById(R.id.button);
-        textField=findViewById(R.id.textfieldId);
-        textInputEditText=findViewById(R.id.nameId);
+        textField = findViewById(R.id.textfieldId);
+        textInputEditText = findViewById(R.id.nameId);
+        context = getApplicationContext();
 
-        recyclerView=findViewById(R.id.result_list);
-        btnBack=findViewById(R.id.btnBack);
+        recyclerView = findViewById(R.id.result_list);
+        btnBack = findViewById(R.id.btnBack);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        setupRecView();
+        //setupRecView();
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,13 +78,43 @@ public class StudentListSearchActivity2 extends AppCompatActivity {
         districtChipInput.setVisibility(View.GONE);
         bloodGroupChipInput.setVisibility(View.GONE);
 
+
+        fullList = new ArrayList<>();
+        Query query = FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("currentClass", Utils.getClassName())
+                .orderBy("name", Query.Direction.ASCENDING);
+
+        FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("currentClass", Utils.getClassName())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                // Log.d(TAG, document.getId() + " => " + document.getData());
+                                Student s = document.toObject(Student.class);
+                                Log.d(TAG, "student : " + s.toString());
+                                fullList.add(s);
+                                Log.d(TAG, "fulllist update " + fullList.size());
+                            }
+                            showList = new ArrayList<>();
+                            showList = fullList;
+                            manualAdapter = new StudentSearchManualAdapter(showList);
+                            recyclerView.setAdapter(manualAdapter);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
+                try {
                     searchStudents();
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     Log.d(TAG, "onClick: " + e);
                 }
             }
@@ -112,13 +138,10 @@ public class StudentListSearchActivity2 extends AppCompatActivity {
         nameChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
+                if (isChecked) {
                     textField.setVisibility(View.VISIBLE);
                     textInputEditText.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     textInputEditText.setText("");
                     textField.setVisibility(View.GONE);
                     textInputEditText.setVisibility(View.GONE);
@@ -128,15 +151,12 @@ public class StudentListSearchActivity2 extends AppCompatActivity {
         districtChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
+                if (isChecked) {
                     districtChipInput.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    List<DistrictChips> districtSelectedChipsList = (List<DistrictChips>)districtChipInput.getSelectedChipList();
+                } else {
+                    List<DistrictChips> districtSelectedChipsList = (List<DistrictChips>) districtChipInput.getSelectedChipList();
 
-                    for(DistrictChips tem: districtSelectedChipsList){
+                    for (DistrictChips tem : districtSelectedChipsList) {
                         districtChipInput.removeChipByInfo(tem.getInfo());
                     }
 
@@ -147,15 +167,13 @@ public class StudentListSearchActivity2 extends AppCompatActivity {
         bloogGrpChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     bloodGroupChipInput.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
 
-                    List<BloodGrpChips> bloodGroupSelectedChipsList = (List<BloodGrpChips>)bloodGroupChipInput.getSelectedChipList();
+                    List<BloodGrpChips> bloodGroupSelectedChipsList = (List<BloodGrpChips>) bloodGroupChipInput.getSelectedChipList();
 
-                    for(BloodGrpChips tem: bloodGroupSelectedChipsList){
+                    for (BloodGrpChips tem : bloodGroupSelectedChipsList) {
                         bloodGroupChipInput.removeChipByInfo(tem.getInfo());
                     }
                     bloodGroupChipInput.setVisibility(View.GONE);
@@ -163,284 +181,167 @@ public class StudentListSearchActivity2 extends AppCompatActivity {
             }
         });
     }
-// THIS IS INCOMPLETE
+
+    // THIS IS INCOMPLETE
+    private void updateFullList() {
+        FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("currentClass", Utils.getClassName())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                // Log.d(TAG, document.getId() + " => " + document.getData());
+                                Student s = document.toObject(Student.class);
+                                Log.d(TAG, "student : " + s.toString());
+                                fullList.add(s);
+                                Log.d(TAG, "fulllist update " + fullList.size());
+                            }
+                            searchStudents();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
     private void searchStudents() {
 
         //incase name diye search dile ekhane ashbe
-        nameS=textInputEditText.getText().toString().trim();
+        nameS = Objects.requireNonNull(textInputEditText.getText()).toString().trim().toLowerCase();
 
         //incase district/blood group diye search dile ekhane ashbe
-        List<DistrictChips> districtSelectedChipsList = (List<DistrictChips>)districtChipInput.getSelectedChipList();
-        List<BloodGrpChips> bloodGroupSelectedChipsList = (List<BloodGrpChips>)bloodGroupChipInput.getSelectedChipList();
+        List<DistrictChips> districtSelectedChipsList = (List<DistrictChips>) districtChipInput.getSelectedChipList();
+        List<BloodGrpChips> bloodGroupSelectedChipsList = (List<BloodGrpChips>) bloodGroupChipInput.getSelectedChipList();
 
         List<String> districtSelectedChipsStringList = new ArrayList<>();
         List<String> bloodGroupSelectedChipsStringList = new ArrayList<>();
 
-        for(DistrictChips t: districtSelectedChipsList){
+        for (DistrictChips t : districtSelectedChipsList) {
             districtSelectedChipsStringList.add(t.getInfo());
         }
-        if(bloodGroupSelectedChipsList.size() == 0){
 
-            for(String i: bloodgrps)
-            {
-                bloodGroupSelectedChipsStringList.add(i);
-            }
 
-        }else
         {
-            for(BloodGrpChips t: bloodGroupSelectedChipsList)
-            {
+            for (BloodGrpChips t : bloodGroupSelectedChipsList) {
                 bloodGroupSelectedChipsStringList.add(t.getInfo());
             }
         }
-// whereIn diye try korechilm bt wherein matro ekta deya jay...so i failed
-        Query query;
-        if(districtSelectedChipsStringList.isEmpty()){
-            query = FirebaseFirestore.getInstance().collection("Users")
-                    .whereEqualTo("currentClass",Utils.getClassName())
-                    .whereIn("BloodGroup", bloodGroupSelectedChipsStringList);
+        Log.d(TAG, "searchStudents: bloodgroup " + bloodGroupSelectedChipsStringList.toString());
+        Log.d(TAG, "searchStudents: district " + districtSelectedChipsStringList.toString());
+        Log.d(TAG, "searchStudents: fullList " + fullList.toString());
+        for (Student s : fullList) {
+            Log.d(TAG, "Student " + s.district);
         }
-        else {
-            query = FirebaseFirestore.getInstance().collection("Users")
-                    .whereEqualTo("currentClass",Utils.getClassName())
-                    .whereIn("BloodGroup", bloodGroupSelectedChipsStringList)
-                    .whereIn("district",districtSelectedChipsStringList );
+        List<Student> temp = new ArrayList<>();
+        if (nameS.length() == 0 && bloodGroupSelectedChipsStringList.size() == 0 && districtSelectedChipsStringList.size() == 0) {
+            temp.addAll(fullList);
         }
+        //name
+        if (nameS.length() > 0) {
+            for (Student s : fullList) {
+                String ck = s.name.toLowerCase();
+                if (ck.contains(nameS.toLowerCase())) {
+                    temp.add(s);
+                }
 
-        FirestoreRecyclerOptions<Student> options=new FirestoreRecyclerOptions.Builder<Student>()
-                .setQuery(query,Student.class).build();
-
-
-        FirestoreRecyclerAdapter<Student, UsersViewHolder> studentSearchAdapter= new FirestoreRecyclerAdapter<Student,UsersViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull UsersViewHolder holder, final int position, @NonNull Student model) {
-                holder.setDetails(getApplicationContext(),model.getName(),model.getBio(),model.getImageUri());
-                holder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
-                        showStudentInfo(snapshot);
-
-                    }
-                });
             }
-
-            @NonNull
-            @Override
-            public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.search_student_item,parent,false);
-                return new UsersViewHolder(view);
-            }
-        };
-
-        recyclerView.setAdapter(studentSearchAdapter);
-        studentSearchAdapter.startListening();
-
-    }
-
-    private void setupRecView() {
-        Query query= FirebaseFirestore.getInstance().collection("Users")
-                .whereEqualTo("currentClass",Utils.getClassName());
-
-        FirestoreRecyclerOptions<Student> options=new FirestoreRecyclerOptions.Builder<Student>()
-                .setQuery(query,Student.class)
-                .build();
-
-        FirestoreRecyclerAdapter<Student, UsersViewHolder> studentSearchAdapter= new FirestoreRecyclerAdapter<Student, UsersViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull UsersViewHolder holder, final int position, @NonNull Student model) {
-                holder.setDetails(getApplicationContext(),model.getName(),model.getBio(),model.getImageUri());
-                holder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
-                        showStudentInfo(snapshot);
-
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.search_student_item,parent,false);
-                return new UsersViewHolder(view);
-            }
-        };
-        recyclerView.setAdapter(studentSearchAdapter);
-        studentSearchAdapter.startListening();
-
-    }
-
-
-    /**
-     * The holder class of the adapter which extends RecyclerView.ViewHolder .
-     */
-    public static class UsersViewHolder extends RecyclerView.ViewHolder {
-
-        /**
-         * The view variable.
-         */
-        View mView;
-
-        /**
-         * Instantiates a new Users view holder.
-         *
-         * @param itemView the item view
-         */
-        public UsersViewHolder(View itemView) {
-            super(itemView);
-
-            mView = itemView;
-
-
         }
-
-        /**
-         * This method sets the details of a user to the holder of the recycler adapter.
-         *
-         * @param ctx        the context
-         * @param userName   the user name
-         * @param userStatus the user status
-         * @param userImage  the user image
-         */
-        public void setDetails(Context ctx, String userName, String userStatus, String userImage ){
-
-            TextView user_name = (TextView) mView.findViewById(R.id.name_text);
-            TextView user_status = (TextView) mView.findViewById(R.id.status_text);
-            ImageView user_image = (ImageView) mView.findViewById(R.id.profile_image);
-
-
-            user_name.setText(userName);
-            user_status.setText(userStatus);
-
-            Glide.with(ctx).load(userImage).placeholder(R.drawable.prof).into(user_image);
-
+        //district
+        Log.d(TAG, "fulllist size = " + fullList.size());
+        Log.d(TAG, "districtlist size = " + districtSelectedChipsStringList.size());
+        for (String d : districtSelectedChipsStringList) {
+            for (Student s : fullList) {
+                Log.d(TAG, "student district = " + s.district);
+                if (d.toLowerCase().contains(s.district.toLowerCase())) {
+                    temp.add(s);
+                }
+            }
         }
-
-
-
-
-    }
-
-
-    private void showStudentInfo(DocumentSnapshot snapshot) {
-        Student student=snapshot.toObject(Student.class);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.show_student_info_dialog, null);
-
-        TextView txtName,txtEmail,txtBlood,txtPhoneNo,txtNickName,txtHobbies,txtAddress,txtBDay,txtHomeTown;
-        CircleImageView profilePic;
-        txtBlood=view.findViewById(R.id.txtBloodGroup);
-        txtEmail=view.findViewById(R.id.txtEmail);
-        txtName=view.findViewById(R.id.txtName);
-        txtPhoneNo=view.findViewById(R.id.txtPhoneNo);
-        profilePic=view.findViewById(R.id.profilePic);
-        txtAddress=view.findViewById(R.id.txtAddress);
-        txtBDay=view.findViewById(R.id.txtBirthday);
-        txtHobbies=view.findViewById(R.id.txtHobbies);
-        txtNickName=view.findViewById(R.id.txtNickname);
-        txtHomeTown=view.findViewById(R.id.txtHometown);
-
-
-        if(student!=null) {
-            if (student.getBloodGroup() != null) txtBlood.setText(student.getBloodGroup());
-            if (student.getEmail() != null) txtEmail.setText(student.getEmail());
-            if (student.getName() != null) txtName.setText(student.getName());
-            if (student.getPhoneNo() != null) txtPhoneNo.setText(student.getPhoneNo());
-            if(student.getAddress()!=null) txtAddress.setText(student.getAddress());
-            if(student.getDistrict()!=null) txtHomeTown.setText(student.getDistrict());
-            if(student.getDateOfBirth()!=null) txtBDay.setText(student.getDateOfBirth());
-            if(student.getNickName()!=null) txtNickName.setText(student.getNickName());
-            if(student.getHobbies()!=null) txtHobbies.setText(student.getHobbies());
-
-            Glide.with(view).load(student.getImageUri()).placeholder(R.drawable.prof).into(profilePic);
+        //bloodgroup
+        for (String blood : bloodGroupSelectedChipsStringList) {
+            for (Student s : fullList) {
+                if (blood.equals(s.getBloodGroup())) {
+                    temp.add(s);
+                }
+            }
         }
+        Log.d(TAG, "showlist " + temp.toString());
+        manualAdapter.update(temp);
 
-
-        final AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .create();
-        alertDialog.show();
 
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 }
+    //egula chipInput implement er jonno legeche
+    class DistrictChips implements ChipInterface {
 
+        String district;
 
-//egula chipInput implement er jonno legeche
-class DistrictChips implements ChipInterface {
+        public DistrictChips(String district) {
+            this.district = district;
+        }
 
-    String district;
+        @Override
+        public Object getId() {
+            return null;
+        }
 
-    public DistrictChips(String district) {
-        this.district = district;
+        @Override
+        public Uri getAvatarUri() {
+            return null;
+        }
+
+        @Override
+        public Drawable getAvatarDrawable() {
+            return null;
+        }
+
+        @Override
+        public String getLabel() {
+            return district;
+        }
+
+        @Override
+        public String getInfo() {
+            return district.trim();
+        }
     }
 
-    @Override
-    public Object getId() {
-        return null;
+    class BloodGrpChips implements ChipInterface {
+
+        String bloodGroup;
+
+        public BloodGrpChips(String bloodGroup) {
+            this.bloodGroup = bloodGroup;
+        }
+
+        @Override
+        public Object getId() {
+            return null;
+        }
+
+        @Override
+        public Uri getAvatarUri() {
+            return null;
+        }
+
+        @Override
+        public Drawable getAvatarDrawable() {
+            return null;
+        }
+
+        @Override
+        public String getLabel() {
+            return bloodGroup;
+        }
+
+        @Override
+        public String getInfo() {
+            return bloodGroup.trim();
+        }
     }
 
-    @Override
-    public Uri getAvatarUri() {
-        return null;
-    }
-
-    @Override
-    public Drawable getAvatarDrawable() {
-        return null;
-    }
-
-    @Override
-    public String getLabel() {
-        return district;
-    }
-
-    @Override
-    public String getInfo() {
-        return district.trim();
-    }
-}
-
-class BloodGrpChips implements ChipInterface {
-
-    String bloodGroup;
-
-    public BloodGrpChips(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
-    }
-
-    @Override
-    public Object getId() {
-        return null;
-    }
-
-    @Override
-    public Uri getAvatarUri() {
-        return null;
-    }
-
-    @Override
-    public Drawable getAvatarDrawable() {
-        return null;
-    }
-
-    @Override
-    public String getLabel() {
-        return bloodGroup;
-    }
-
-    @Override
-    public String getInfo() {
-        return bloodGroup.trim();
-    }
-}
 
 
