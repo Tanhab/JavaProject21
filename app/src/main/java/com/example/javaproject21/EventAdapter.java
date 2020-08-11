@@ -1,6 +1,7 @@
 package com.example.javaproject21;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -64,7 +65,8 @@ public class EventAdapter extends FirestoreRecyclerAdapter<Event, EventAdapter.E
      * The object of RecycledViewPool of RecyclerView.
      */
 private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-
+private RecyclerView recyclerView;
+private VoterRecAdapter voterRecAdapter;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -315,6 +317,80 @@ private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPo
             }
         });
 
+        holder.txtGoingCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View view = inflater.inflate(R.layout.poll_checkedlist_dialog, null);
+                ImageButton cancelButton = view.findViewById(R.id.closeBtnId);
+                RecyclerView recyclerView =view.findViewById(R.id.stdlistRecId);
+                recyclerView.setLayoutManager(new LinearLayoutManager( context));
+
+
+                Query query= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
+                        .collection("Events").document(postId).collection("Choices")
+                        .whereEqualTo("choice","going");
+                FirestoreRecyclerOptions<Student> options=new FirestoreRecyclerOptions.Builder<Student>()
+                        .setQuery(query,Student.class)
+                        .build();
+                voterRecAdapter = new VoterRecAdapter(options);
+                recyclerView.setAdapter(voterRecAdapter);
+                voterRecAdapter.startListening();
+
+                final AlertDialog alertDialog = new AlertDialog.Builder(context)
+                        .setView(view)
+                        .create();
+
+
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.e(TAG, "onClick: cancel button" );
+                        alertDialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
+            }
+        });
+
+        holder.txtNotGoingCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View view = inflater.inflate(R.layout.poll_checkedlist_dialog, null);
+                ImageButton cancelButton = view.findViewById(R.id.closeBtnId);
+                RecyclerView recyclerView =view.findViewById(R.id.stdlistRecId);
+                recyclerView.setLayoutManager(new LinearLayoutManager( context));
+
+
+                Query query= FirebaseFirestore.getInstance().collection("Classrooms").document(Utils.getClassName())
+                        .collection("Events").document(postId).collection("Choices")
+                        .whereEqualTo("choice","notGoing");
+                FirestoreRecyclerOptions<Student> options=new FirestoreRecyclerOptions.Builder<Student>()
+                        .setQuery(query,Student.class)
+                        .build();
+                voterRecAdapter = new VoterRecAdapter(options);
+                recyclerView.setAdapter(voterRecAdapter);
+                voterRecAdapter.startListening();
+
+                final AlertDialog alertDialog = new AlertDialog.Builder(context)
+                        .setView(view)
+                        .create();
+
+
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.e(TAG, "onClick: cancel button" );
+                        alertDialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
+            }
+        });
+
         holder.goingBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -378,6 +454,8 @@ private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPo
                 });
             }
         });
+
+
 
 
         //done

@@ -1,10 +1,12 @@
 package com.example.javaproject21;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +60,7 @@ private PollRecyclerAdapter pollRecyclerAdapter;
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,10 +89,9 @@ private PollRecyclerAdapter pollRecyclerAdapter;
         });
         pollRecyclerAdapter.setOnItemClickListener(new PollRecyclerAdapter.PollListener() {
             @Override
-            public void handleStudent(final DocumentSnapshot snapshot) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                alertDialogBuilder.setTitle("Delete this Document").setMessage("Are you sure ?").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+          public void handleStudent(final DocumentSnapshot snapshot) { AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+               alertDialogBuilder.setTitle("Delete this Document").setMessage("Are you sure ?").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int which) {
                         snapshot.getReference().delete().addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -99,13 +101,13 @@ private PollRecyclerAdapter pollRecyclerAdapter;
 
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+                   public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        pollRecyclerAdapter.notifyDataSetChanged();
+                       pollRecyclerAdapter.notifyDataSetChanged();
                     }
                 }).show();
-            }
-        });
+           }
+       });
 
 
 
@@ -193,6 +195,6 @@ private void updatePollOptions(List<PollOption> pollOptions, String pollId) {
     @Override
     public void onStop() {
         super.onStop();
-        pollRecyclerAdapter.stopListening();
+        if(pollRecyclerAdapter!=null)pollRecyclerAdapter.stopListening();
     }
 }

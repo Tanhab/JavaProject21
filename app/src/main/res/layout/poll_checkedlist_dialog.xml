@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/textId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Students who voted for this option:"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:textSize="15sp"
+        android:textColor="@color/colorPrimary"
+        />
+
+    <ImageButton
+        android:id="@+id/closeBtnId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="0dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_baseline_close_24"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/stdlistRecId"
+       android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"/>
+
+</RelativeLayout>

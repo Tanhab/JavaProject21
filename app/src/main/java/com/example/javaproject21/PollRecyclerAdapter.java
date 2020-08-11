@@ -79,9 +79,11 @@ private Context context;
      * FirestoreRecyclerOptions}* for configuration options.
      *
      * @param options the options
+
      */
     public PollRecyclerAdapter(@NonNull FirestoreRecyclerOptions<Poll> options) {
         super(options);
+
     }
 
     @Override
