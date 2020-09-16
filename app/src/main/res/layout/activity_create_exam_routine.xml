@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D995F1"
+    android:background="@drawable/exam_r_try"
 
     tools:context=".CreateExamRoutineActivity">
 
@@ -20,12 +20,12 @@
         >
 
 
-        <ImageView
+       <!-- <ImageView
             android:layout_width="match_parent"
             android:layout_height="630dp"
             android:background="@drawable/exam_routine_bg"
             />
-
+-->
 
 
     </RelativeLayout>
@@ -120,20 +120,23 @@
         app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
         app:sdExpansionMode="top"
         app:sdMainFabAnimationRotateAngle="90"
-        app:sdMainFabClosedBackgroundColor="#3165F3"
+        app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
         app:sdMainFabClosedSrc="@drawable/ic_add"
         app:sdMainFabOpenedBackgroundColor="@color/colorPrimaryDark"
         app:sdMainFabOpenedSrc="@drawable/ic_back"
         app:sdOverlayLayout="@id/overlay" />
+
     <ImageButton
+        android:id="@+id/backButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/backButton"
-        android:layout_margin="10dp"
-        android:background="@drawable/back"
-        />
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/ic_baseline_arrow_back_24" />
 
     <TextView
         android:layout_width="match_parent"
@@ -144,12 +147,12 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="20sp"
-        android:textColor="#1842AE"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -157,7 +160,7 @@
         android:textColor="@android:color/white"
         android:id="@+id/btnSendRoutine"
         android:layout_marginBottom="25dp"
-        android:background="#EF54E5"
+        android:background="@color/colorPrimary"
         />
 
 

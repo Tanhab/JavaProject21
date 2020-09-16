@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    android:background="@drawable/dialog_background"
+    android:background="@drawable/dia_try"
     android:padding="30dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add A Document"
         android:layout_gravity="center"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         />
@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
+            app:boxBackgroundColor="@android:color/white"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:hint="Enter document Name">
             <com.google.android.material.textfield.TextInputEditText
@@ -43,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
+            app:boxBackgroundColor="@android:color/white"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:hint="Enter document Link/Url from Google drive">
             <com.google.android.material.textfield.TextInputEditText
@@ -67,7 +69,7 @@
             android:id="@+id/btnAddNewDoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/buttonshape"
+            android:background="@color/colorPrimary"
             android:shadowColor="#A8A8A8"
             android:shadowDx="0"
             android:shadowDy="0"
@@ -80,7 +82,7 @@
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/buttonshape"
+            android:background="@color/colorPrimary"
             android:shadowColor="#A8A8A8"
             android:shadowDx="0"
             android:shadowDy="0"

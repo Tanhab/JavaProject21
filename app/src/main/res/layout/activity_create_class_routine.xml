@@ -8,17 +8,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#3498db"
+        android:background="@drawable/exam_r_try"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Create Class Routine"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorPrimary"
             android:textSize="26sp"
             android:textStyle="bold"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             />
 
 
@@ -29,11 +29,11 @@
             android:layout_centerInParent="true"
             android:orientation="vertical"
             >
-            <ImageView
+           <!-- <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
                 android:background="@drawable/clipboard"
-                />
+                />-->
 
         </RelativeLayout>
         <LinearLayout
@@ -48,7 +48,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_gravity="center_horizontal"
                 android:text="Preview of Class Routine:"
                 android:textSize="18sp"
@@ -246,14 +246,15 @@
          </LinearLayout>-->
 
         <ImageButton
+            android:id="@+id/btnBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/btnBack"
-            android:layout_margin="10dp"
-            android:background="@drawable/back"
-            />
+           android:layout_margin="10dp"
+
+            android:background="@drawable/ic_baseline_arrow_back_24"
+            android:backgroundTint="@color/colorPrimary" />
 
 
     </RelativeLayout>
@@ -274,20 +275,21 @@
         app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
         app:sdExpansionMode="top"
         app:sdMainFabAnimationRotateAngle="90"
-        app:sdMainFabClosedBackgroundColor="#f1c40f"
+        app:sdMainFabClosedBackgroundColor="@color/colorPrimary"
         app:sdMainFabOpenedBackgroundColor="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorPrimary"
         app:sdMainFabClosedSrc="@drawable/ic_add"
         app:sdMainFabOpenedSrc="@drawable/ic_back"
         app:sdOverlayLayout="@id/overlay" />
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="170dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Publish Routine"
         android:textColor="@android:color/white"
         android:id="@+id/btnSendRoutine"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="25dp"
-        android:background="#8e44ad"
+        android:background="@color/colorPrimary"
         />
 
 

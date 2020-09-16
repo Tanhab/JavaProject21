@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#BCD6ED"
+
         >
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_post_btn"
@@ -19,6 +19,7 @@
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
+            android:backgroundTint="@color/colorPrimary"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
 

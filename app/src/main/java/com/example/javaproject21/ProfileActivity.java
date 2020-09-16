@@ -587,7 +587,7 @@ private void checkForData() {
                         if(student.getDateOfBirth()!=null) txtDateOfBirth.setText(student.getDateOfBirth());
                         txtPhnNo.setText(student.getPhoneNo());
                         pastUrl=student.getImageUri();
-                        Glide.with(getApplicationContext()).load(student.getImageUri()).placeholder(R.drawable.prof).into(profilePic);
+                        Glide.with(getApplicationContext()).load(student.getImageUri()).placeholder(R.drawable.classicon).into(profilePic);
                         pd.dismiss();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

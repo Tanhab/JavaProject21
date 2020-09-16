@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="#BCD6ED"
+    android:background="@drawable/class_try"
     tools:context=".MyClassroomActivity">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,19 +20,19 @@
         android:text="My Classroom"
         android:fontFamily="@font/nunito_sans_semibold"
         android:textSize="24sp"
-        android:textColor="@android:color/black"
+        android:textColor="#0467B5"
         android:gravity="center_horizontal"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:id="@+id/heading_label"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/permanent_marker"
         android:gravity="center_horizontal"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:padding="10dp"
         android:layout_below="@+id/heading_label"
         android:text="I consider the world, this Earth, to be like a school, and our life the classrooms."
@@ -44,10 +44,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/btnBack"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
         android:background="@drawable/back_white2"
-        android:backgroundTint="@android:color/black"
+        android:backgroundTint="#0467B5"
         />
 
     <!--<ImageView

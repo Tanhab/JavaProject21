@@ -195,7 +195,7 @@ private void setupTopView(final View view) {
                         txtStudentName.setText(name);
                         Uri uri=Uri.parse(imageUrl);
                         StorageReference ref= FirebaseStorage.getInstance().getReference().child(imageUrl);
-                        Glide.with(view).setDefaultRequestOptions(new RequestOptions().timeout(30*1000)).load(uri).placeholder(R.drawable.classroom).into(imageView);
+                        Glide.with(view).setDefaultRequestOptions(new RequestOptions().timeout(30*1000)).load(uri).placeholder(R.drawable.classicon).into(imageView);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
