@@ -20,7 +20,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@mipmap/person_four" />
+            android:src="@drawable/avatar" />
 
         <TextView
             android:id="@+id/name_text"

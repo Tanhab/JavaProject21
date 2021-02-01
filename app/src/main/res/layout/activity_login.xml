@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     android:orientation="vertical"
-    android:background="@drawable/log_try"
+    android:background="@drawable/classu1"
     android:gravity="center_horizontal"
     android:weightSum="1"
     >
@@ -51,6 +51,7 @@
         app:startIconTint="@color/colorPrimary"
         app:errorEnabled="true"
         android:layout_marginTop="10dp"
+        app:boxStrokeColor="@color/colorPrimary"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Enter your Email">
 
@@ -58,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtEmailInput"
+
             android:textColor="@android:color/black"
             android:inputType="textWebEmailAddress"
             >
@@ -69,6 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:startIconDrawable="@drawable/ic_vpn_key_black_24dp"
+        app:boxStrokeColor="@color/colorPrimary"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Enter your password"
         app:startIconTint="@color/colorPrimary"
@@ -92,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimary"
         android:fontFamily="@font/nunito_sans_semibold"
         android:text="Forgot password? Reset here"/>
 
@@ -103,14 +106,15 @@
         android:layout_height="wrap_content"
         android:background="@drawable/buttonshape"
         android:text="Login"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:textStyle="bold"
         android:id="@+id/btnLogin"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-----------------Or-----------------"
+        android:text="----------------------Or----------------------"
+        android:textColor="@color/colorPrimary"
         android:layout_marginTop="5dp"/>
     <com.google.android.gms.common.SignInButton
         android:layout_width="wrap_content"
@@ -140,7 +144,7 @@
             android:text="Create one here "
             android:textSize="17sp"
             android:textColorHighlight="@android:color/holo_blue_bright"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorPrimary"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
 
