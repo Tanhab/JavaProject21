@@ -278,16 +278,18 @@ private void showDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_exam_alertdialog, null);
 
+    ImageButton startTimeB = view.findViewById(R.id.startTime);
+    ImageButton finishTimeB = view.findViewById(R.id.finishTime);
         Button acceptButton = view.findViewById(R.id.btnAddNewExam);
         Button cancelButton = view.findViewById(R.id.btnCancel);
         final EditText edtExamName,edtSyllabus,edtSection;
-        final EditText edtStartTime,edtFinishTime;
+
         edtExamName=view.findViewById(R.id.txtClassInput);
         edtSection=view.findViewById(R.id.txtSectionInput);
         edtSyllabus=view.findViewById(R.id.txtSyllabusInput);
        // edtRes=view.findViewById(R.id.txtResInput);
-        edtStartTime=view.findViewById(R.id.edtStartingTime);
-        edtFinishTime=view.findViewById(R.id.edtFinishingTime);
+    final TextView srtTimeTv = view.findViewById(R.id.startTimeTv);
+    final TextView fshTimeTv = view.findViewById(R.id.finishTimeTv);
         final AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
@@ -299,12 +301,12 @@ private void showDialog() {
             @Override
             public void onClick(View view) {
                 Log.e(TAG, "onClick: accept button");
-                if(edtStartTime.getText().toString().length()<1)
+                if(srtTimeTv.getText().toString().length()<1)
                 {
-                    edtStartTime.setError("Can't be empty");
-                }else if(edtFinishTime.getText().toString().length()<1)
+                    Toast.makeText(CreateExamRoutineActivity.this, "Please select exam starting time.", Toast.LENGTH_SHORT).show();
+                }else if(fshTimeTv.getText().toString().length()<1)
                 {
-                    edtFinishTime.setError("Can't be empty");
+                    Toast.makeText(CreateExamRoutineActivity.this, "Please select exam finishing time.", Toast.LENGTH_SHORT).show();
                 }else if(edtExamName.getText().toString().length()<1)
                 {
                     edtExamName.setError("Can't be empty");
@@ -318,8 +320,8 @@ private void showDialog() {
                     examSyllabus=edtSyllabus.getText().toString().trim();
 
                     examSection=edtSection.getText().toString().trim();
-                    startTime=edtStartTime.getText().toString().trim();
-                    finishTime=edtFinishTime.getText().toString().trim();
+                    startTime=srtTimeTv.getText().toString().trim();
+                    finishTime=fshTimeTv.getText().toString().trim();
                     finalText= finalText+ startTime+" - "+finishTime+" : " + examName +"\n"  + "Section: "+examSection +"\n" + "Syllabus: " +examSyllabus + "\n";
                     txtRoutine.setText(finalText);
                     /*List<String> tempClasses= classRoutine.getClasses();
@@ -333,6 +335,58 @@ private void showDialog() {
 
             }
         });
+    startTimeB.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Calendar calendar = Calendar.getInstance();
+            int HOUR = calendar.get(Calendar.HOUR);
+            int MINUTE = calendar.get(Calendar.MINUTE);
+            boolean is24HourFormat = DateFormat.is24HourFormat(CreateExamRoutineActivity.this);
+
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(CreateExamRoutineActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                    Log.i(TAG, "onTimeSet: " + hour + minute);
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.set(Calendar.HOUR, hour);
+                    calendar1.set(Calendar.MINUTE, minute);
+                    String time = DateFormat.format("h:mm a", calendar1).toString();
+                    srtTimeTv.setText(time);
+
+                }
+            }, HOUR, MINUTE, is24HourFormat);
+
+            timePickerDialog.show();
+
+
+        }
+    });
+    finishTimeB.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Calendar calendar = Calendar.getInstance();
+            int HOUR = calendar.get(Calendar.HOUR);
+            int MINUTE = calendar.get(Calendar.MINUTE);
+            boolean is24HourFormat = DateFormat.is24HourFormat(CreateExamRoutineActivity.this);
+
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(CreateExamRoutineActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                    Log.i(TAG, "onTimeSet: " + hour + minute);
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.set(Calendar.HOUR, hour);
+                    calendar1.set(Calendar.MINUTE, minute);
+                    fshTimeTv.setText(DateFormat.format("h:mm a", calendar1).toString());
+
+                }
+            }, HOUR, MINUTE, is24HourFormat);
+
+            timePickerDialog.show();
+
+        }
+    });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override

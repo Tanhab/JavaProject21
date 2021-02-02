@@ -21,25 +21,23 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true"
         android:layout_marginTop="20dp"
-        app:hintTextColor="@android:color/black"
-app:boxBackgroundColor="@android:color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:errorEnabled="true"
+        app:boxBackgroundColor="@android:color/white"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:hint="Enter the name of the exam">
 
-        android:hint="Enter Exam Name">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtClassInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtClassInput"
-            android:textColor="@android:color/black"
 
             >
 
         </com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>
-
+<!--
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,12 +57,12 @@ app:boxBackgroundColor="@android:color/white"
 
         </com.google.android.material.textfield.TextInputEditText>
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>-->
 
 
 
 
-    <LinearLayout
+<!--    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -92,20 +90,22 @@ app:boxBackgroundColor="@android:color/white"
         </com.google.android.material.textfield.TextInputLayout>
 
 
-    </LinearLayout>
+    </LinearLayout>-->
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         app:errorEnabled="true"
-        app:hintTextColor="@android:color/black"
         app:boxBackgroundColor="@android:color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Enter Section">
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:hint="Enter section">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/txtSectionInput"
-            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
             >
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -116,22 +116,78 @@ app:boxBackgroundColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
-        app:hintTextColor="@android:color/black"
         app:boxBackgroundColor="@android:color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Enter Exam Syllabus">
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:hint="Enter syllabus">
+
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtSyllabusInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtSyllabusInput"
-            android:inputType="text"
+
             >
 
         </com.google.android.material.textfield.TextInputEditText>
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STARTING TIME:"
+            android:textSize="17sp"
+            android:textColor="@android:color/black"/>
 
+        <ImageButton
+            android:id="@+id/startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_access_time_24"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/startTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/black"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FINISHING TIME:"
+            android:textSize="17sp"
+            android:textColor="@android:color/black"/>
+
+        <ImageButton
+            android:id="@+id/finishTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_access_time_24"
+            android:layout_marginLeft="21dp"/>
+
+        <TextView
+            android:id="@+id/finishTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/black"/>
+
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

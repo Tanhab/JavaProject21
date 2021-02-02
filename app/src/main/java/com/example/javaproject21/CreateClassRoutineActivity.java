@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.format.DateFormat;
@@ -196,7 +197,7 @@ private void initSpeedDial(boolean addActionItems) {{
             mSpeedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
                     .fab_add_document, drawable)
                     .setFabImageTintColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryDark, getTheme()))
-                    .setLabel("Edit Classes")
+                    .setLabel("Add a class")
                     .setLabelColor(Color.WHITE)
                     .setLabelBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent,
                             getTheme()))
@@ -407,13 +408,16 @@ private void handleDateButton() {
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_class_alertdialog, null);
+        ImageButton startTimeB = view.findViewById(R.id.startTime);
+        ImageButton finishTimeB = view.findViewById(R.id.finishTime);
 
+        final TextView srtTimeTv = view.findViewById(R.id.startTimeTv);
+        final TextView fshTimeTv = view.findViewById(R.id.finishTimeTv);
         Button acceptButton = view.findViewById(R.id.btnAddNewClass);
         Button cancelButton = view.findViewById(R.id.btnCancel);
         final EditText edtClasses;
-      //  edtClassName=view.findViewById(R.id.txtClassInput);
-      //  edtDesc=view.findViewById(R.id.txtDescInput);
-       // edtStartTime=view.findViewById(R.id.edtStartingTime);
+
+
        edtClasses=view.findViewById(R.id.txtAllCLasses);
         final AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setView(view)
@@ -428,19 +432,23 @@ private void handleDateButton() {
                 if(edtClasses.getText().toString().length()<1)
                 {
                     edtClasses.setError("Can't be empty");
-                }else
+                }else if(srtTimeTv.getText().toString().length()<1)
                 {
-                    /*className=edtClassName.getText().toString().trim();
-                    classDescription=edtDesc.getText().toString().trim();
-                    startTime=edtStartTime.getText().toString().trim();
-                    finishTime=edtFinishTime.getText().toString().trim();
-                    if(classDescription.length()>0)
-                        finalText= finalText+ startTime+" - "+finishTime+" : " + className +" ["+classDescription+"]\n";
-                    else finalText= finalText+ startTime+" - "+finishTime+" : " + className +"\n";*/
-                    finalText=edtClasses.getText().toString();
+                    Toast.makeText(CreateClassRoutineActivity.this, "Please select class starting time.", Toast.LENGTH_SHORT).show();
+                }else if(fshTimeTv.getText().toString().length()<1)
+                {
+                    Toast.makeText(CreateClassRoutineActivity.this, "Please select class finishing time.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
 
+                    startTime=srtTimeTv.getText().toString().trim();
+                    finishTime=fshTimeTv.getText().toString().trim();
+                    className=edtClasses.getText().toString().trim();
+                    finalText= finalText+ startTime+" - "+finishTime+" : " + className +"\n";
+                    
                     txtRoutine.setText(finalText);
-                    /*List<String> tempClasses= classRoutine.getClasses();
+                   /* List<String> tempClasses= classRoutine.getClasses();
                     tempClasses.add(finalText);
                     classRoutine.setClasses(tempClasses);*/
                     Log.d(TAG, "onClick: started final text= "+finalText);
@@ -449,6 +457,59 @@ private void handleDateButton() {
 
                 }
 
+
+            }
+        });
+
+        startTimeB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int HOUR = calendar.get(Calendar.HOUR);
+                int MINUTE = calendar.get(Calendar.MINUTE);
+                boolean is24HourFormat = DateFormat.is24HourFormat(CreateClassRoutineActivity.this);
+
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateClassRoutineActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        Log.i(TAG, "onTimeSet: " + hour + minute);
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.set(Calendar.HOUR, hour);
+                        calendar1.set(Calendar.MINUTE, minute);
+                        String time = DateFormat.format("h:mm a", calendar1).toString();
+                        srtTimeTv.setText(time);
+
+                    }
+                }, HOUR, MINUTE, is24HourFormat);
+
+                timePickerDialog.show();
+
+
+            }
+        });
+        finishTimeB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int HOUR = calendar.get(Calendar.HOUR);
+                int MINUTE = calendar.get(Calendar.MINUTE);
+                boolean is24HourFormat = DateFormat.is24HourFormat(CreateClassRoutineActivity.this);
+
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateClassRoutineActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        Log.i(TAG, "onTimeSet: " + hour + minute);
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.set(Calendar.HOUR, hour);
+                        calendar1.set(Calendar.MINUTE, minute);
+                        fshTimeTv.setText(DateFormat.format("h:mm a", calendar1).toString());
+
+                    }
+                }, HOUR, MINUTE, is24HourFormat);
+
+                timePickerDialog.show();
 
             }
         });
@@ -465,6 +526,8 @@ private void handleDateButton() {
         alertDialog.show();
 
     }
+
+
 
     /**
      * This method sends the all the data of the class routine to an object of notification class
