@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".ClassRoutineActivity"
     ><TextView
     android:layout_width="match_parent"
@@ -12,9 +13,9 @@
     android:textSize="20sp"
     android:textStyle="bold"
     android:padding="10dp"
-    android:textColor="@android:color/white"
-    android:fontFamily="@font/nunito_sans_semibold"
-    android:background="@color/colorPrimary"
+    android:textColor="@color/colorPrimary"
+
+
     android:id="@+id/text1"
     android:gravity="center_horizontal"
     />
@@ -25,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+
+        android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/back_white2" />
     <!--<ImageView
         android:layout_width="match_parent"
@@ -55,16 +56,13 @@
         />-->
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/routineRecView"
-
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:fadeScrollbars="true"
         android:layout_below="@+id/text1"
         android:layout_marginTop="20dp"
         android:focusableInTouchMode="true"
-        android:padding="15dp"
+
         />
 
 

@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class AlarmActivity extends AppCompatActivity implements AlarmAdapter.CallBack {
@@ -19,7 +21,7 @@ public class AlarmActivity extends AppCompatActivity implements AlarmAdapter.Cal
     RecyclerView recyclerView;
     AlarmAdapter alarmAdapter;
     DataBaseManager dataBaseManager;
-    Button btnCreateReminder;
+    FloatingActionButton btnCreateReminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

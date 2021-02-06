@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+
 public class AlarmOffActivity extends AppCompatActivity {
     Button btnStop;
     TextView txtTitle;
@@ -21,6 +23,7 @@ public class AlarmOffActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_off);
         btnStop=findViewById(R.id.btnStop);
         txtTitle= findViewById(R.id.txtTitle);
+
         dataBaseManager= new DataBaseManager(this);
         String title = getIntent().getStringExtra("title");
         final int alarmId =  getIntent().getIntExtra("AlarmId",0);
