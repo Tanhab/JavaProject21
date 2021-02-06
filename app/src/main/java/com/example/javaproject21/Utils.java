@@ -210,4 +210,16 @@ public class Utils {
     public static void setUserName(String userName) {
         UserName = userName;
     }
+
+    // alarm constants
+    // this use for startActivity for result when user presses edit
+    public static final int REQUEST_EDIT = 0;
+    // this use for startActivity for result when user presses add button "+"
+    public static final int REQUEST_ADD = 1;
+    // this use for setResult when user click back button "<"
+    public static final int RESULT_CANCEL = 2;
+    // this use for alarm trigger time
+    public static final String ADD_INTENT = "com.example.alarmtest.ADD_INTENT";
+    // / this use for cancel alarm time
+    public static final String OFF_INTENT = "com.example.alarmtest.OFF_INTENT";
 }

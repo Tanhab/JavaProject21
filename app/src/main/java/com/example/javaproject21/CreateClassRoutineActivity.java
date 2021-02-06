@@ -49,11 +49,13 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The class for Create class routine activity.
@@ -102,23 +104,23 @@ private TextView txtRoutineDate;
     /**
      * The String for Final date.
      */
-    String finalDate;
+    String finalDate="";
     /**
      * The String for Section.
      */
-    String section;
+    String section="";
     /**
      * The String for Start time.
      */
-    String startTime;
+    String startTime="";
     /**
      * The String for Finish time.
      */
-    String finishTime;
+    String finishTime="";
     /**
      * The String for Class name.
      */
-    String className;
+    String className="";
     /**
      * The String for Class description.
      */
@@ -138,7 +140,16 @@ private RequestQueue mRequestQue;
     /**
      * The String for Url.
      */
-private String URL = "https://fcm.googleapis.com/fcm/send";
+
+private final String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The list of Alarms to send
+     */
+    ArrayList<Alarm> alarms;
+    /**
+     * Calender where Date will be saved
+     */
+    Calendar dateCalender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +164,8 @@ private String URL = "https://fcm.googleapis.com/fcm/send";
         txtRoutine=findViewById(R.id.txtRoutine);
         btnSendRoutine=findViewById(R.id.btnSendRoutine);
         classRoutine= new ClassRoutine();
+        dateCalender= Calendar.getInstance();
+        alarms = new ArrayList<>();
         btnBack=findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,10 +316,9 @@ androidx.appcompat.app.AlertDialog.Builder builder= new androidx.appcompat.app.A
      */
 private void uploadRoutine() {
         Log.d(TAG, "uploadRoutine: started");
-        //TODO: cse18 er bodole class name ber kora lagbe
         classRoutine.setClasses(finalText);
         Calendar calendar = Calendar.getInstance();
-        String email= FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String email= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
         int HOUR = calendar.get(Calendar.HOUR);
         int MINUTE = calendar.get(Calendar.MINUTE);
         int YEAR = calendar.get(Calendar.YEAR);
@@ -334,7 +346,7 @@ private void uploadRoutine() {
             @Override
             public void onSuccess(Void aVoid) {
                 sendNotificationData("Class Routine for "+classRoutine.getDate(), finalDate1, finalA,finalText);
-
+                postAlarms();
                 section="";
                 finalText="Classes: \n";
                 finalDate="";
@@ -345,6 +357,7 @@ private void uploadRoutine() {
                 txtRoutine.setText(finalText);
                 txtRoutineDate.setText("Date");
                 txtSection.setText("Section");
+                //alarms.clear();
                 Toast.makeText(CreateClassRoutineActivity.this, "Class Routine Added.", Toast.LENGTH_SHORT).show();
 
 
@@ -393,6 +406,7 @@ private void handleDateButton() {
                 txtRoutineDate.setText(dateText);
                 classRoutine.setDate(dateText);
                 finalDate=dateText;
+                dateCalender=calendar1;// setting it as date for this class
             }
         }, YEAR, MONTH, DATE);
 
@@ -448,9 +462,23 @@ private void handleDateButton() {
                     finalText= finalText+ startTime+" - "+finishTime+" : " + className +"\n";
                     
                     txtRoutine.setText(finalText);
-                   /* List<String> tempClasses= classRoutine.getClasses();
-                    tempClasses.add(finalText);
-                    classRoutine.setClasses(tempClasses);*/
+
+                   // add the alarm for this class in List
+                    int MONTH = dateCalender.get(Calendar.MONTH);
+                    int DATE = dateCalender.get(Calendar.DATE);
+                    int HOUR = dateCalender.get(Calendar.HOUR_OF_DAY);
+                    int MINUTE = dateCalender.get(Calendar.MINUTE);
+                    int alarmId= MONTH;
+                    alarmId=alarmId*100+DATE;
+                    alarmId=alarmId*100+HOUR;
+                    alarmId=alarmId*100+MINUTE;
+
+                    long l=dateCalender.getTimeInMillis();
+                    String  s= DateFormat.format("EEEE, MMM d, yyyy", dateCalender).toString()+" " +DateFormat.format("h:mm a", dateCalender).toString();
+
+                    Alarm alarm= new Alarm(alarmId,l,className,1,s);
+                    alarms.add(alarm);
+                    Log.d(TAG, "Alarm added for " + alarm.toString());
                     Log.d(TAG, "onClick: started final text= "+finalText);
                     alertDialog.dismiss();
 
@@ -465,7 +493,7 @@ private void handleDateButton() {
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
-                int HOUR = calendar.get(Calendar.HOUR);
+                int HOUR = calendar.get(Calendar.HOUR_OF_DAY);
                 int MINUTE = calendar.get(Calendar.MINUTE);
                 boolean is24HourFormat = DateFormat.is24HourFormat(CreateClassRoutineActivity.this);
 
@@ -475,10 +503,12 @@ private void handleDateButton() {
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                         Log.i(TAG, "onTimeSet: " + hour + minute);
                         Calendar calendar1 = Calendar.getInstance();
-                        calendar1.set(Calendar.HOUR, hour);
+                        calendar1.set(Calendar.HOUR_OF_DAY, hour);
                         calendar1.set(Calendar.MINUTE, minute);
                         String time = DateFormat.format("h:mm a", calendar1).toString();
                         srtTimeTv.setText(time);
+                        dateCalender.set(Calendar.HOUR_OF_DAY,hour);
+                        dateCalender.set(Calendar.MINUTE,minute);
 
                     }
                 }, HOUR, MINUTE, is24HourFormat);
@@ -492,7 +522,7 @@ private void handleDateButton() {
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
-                int HOUR = calendar.get(Calendar.HOUR);
+                int HOUR = calendar.get(Calendar.HOUR_OF_DAY);
                 int MINUTE = calendar.get(Calendar.MINUTE);
                 boolean is24HourFormat = DateFormat.is24HourFormat(CreateClassRoutineActivity.this);
 
@@ -502,7 +532,7 @@ private void handleDateButton() {
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                         Log.i(TAG, "onTimeSet: " + hour + minute);
                         Calendar calendar1 = Calendar.getInstance();
-                        calendar1.set(Calendar.HOUR, hour);
+                        calendar1.set(Calendar.HOUR_OF_DAY, hour);
                         calendar1.set(Calendar.MINUTE, minute);
                         fshTimeTv.setText(DateFormat.format("h:mm a", calendar1).toString());
 
@@ -524,6 +554,17 @@ private void handleDateButton() {
         });
 
         alertDialog.show();
+
+    }
+    private void postAlarms()
+    {
+        for (Alarm alarm : alarms)
+        {
+           sendAlarmNotification(alarm);
+
+        }
+        alarms.clear();
+
 
     }
 
@@ -610,6 +651,57 @@ private void sendNotification(String title, String body) {
         {
             e.printStackTrace();
         }
+    }
+    private void sendAlarmNotification(Alarm alarm) {
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("to","/topics/"+Utils.getTopic());
+            /*JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title",title);
+            notificationObj.put("body",body);*/
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","alarm");
+            extraData.put("alarm",alarm.toString());
+
+
+
+
+            json.put("data",extraData);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("MUR", "onError: "+error.networkResponse);
+                }
+            }
+            ){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AIzaSyBJDuo2BaJ9bjqLpnGcE_BY4oD282gF64M");
+                    return header;
+                }
+            };
+            mRequestQue.add(request);
+        }
+        catch (JSONException e)
+
+        {
+            e.printStackTrace();
+        }
+
     }
 }
 

@@ -46,6 +46,7 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,27 +86,27 @@ private TextView txtRoutine;
     /**
      * The String for Final date.
      */
-    String finalDate;
+    String finalDate="";
     /**
      * The String for Exam section.
      */
-    String examSection;
+    String examSection="";
     /**
      * The String for Start time.
      */
-    String startTime;
+    String startTime="";
     /**
      * The String for Finish time.
      */
-    String finishTime;
+    String finishTime="";
     /**
      * The String for Exam name.
      */
-    String examName;
+    String examName="";
     /**
      * The String for Exam syllabus.
      */
-    String examSyllabus;
+    String examSyllabus="";
     /**
      * The String for Final text.
      */
@@ -125,7 +126,17 @@ private RequestQueue mRequestQue;
     /**
      * The String for Url.
      */
-private String URL = "https://fcm.googleapis.com/fcm/send";
+private final String URL = "https://fcm.googleapis.com/fcm/send";
+    /**
+     * The list of Alarms to send
+     */
+    ArrayList<Alarm> alarms;
+    /**
+     * Calender where Date will be saved
+     */
+    Calendar dateCalender;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +150,9 @@ private String URL = "https://fcm.googleapis.com/fcm/send";
         btnSchedule=findViewById(R.id.btnSendRoutine);
         examRoutine= new ExamRoutine();
         btnBack=findViewById(R.id.backButton);
+
+        dateCalender= Calendar.getInstance();
+        alarms = new ArrayList<>();
 
 
 
@@ -324,9 +338,23 @@ private void showDialog() {
                     finishTime=fshTimeTv.getText().toString().trim();
                     finalText= finalText+ startTime+" - "+finishTime+" : " + examName +"\n"  + "Section: "+examSection +"\n" + "Syllabus: " +examSyllabus + "\n";
                     txtRoutine.setText(finalText);
-                    /*List<String> tempClasses= classRoutine.getClasses();
-                    tempClasses.add(finalText);
-                    classRoutine.setClasses(tempClasses);*/
+
+                    // add the alarm for this class in List
+                    int MONTH = dateCalender.get(Calendar.MONTH);
+                    int DATE = dateCalender.get(Calendar.DATE);
+                    int HOUR = dateCalender.get(Calendar.HOUR);
+                    int MINUTE = dateCalender.get(Calendar.MINUTE);
+                    int alarmId= MONTH;
+                    alarmId=alarmId*100+DATE;
+                    alarmId=alarmId*100+HOUR;
+                    alarmId=alarmId*100+MINUTE;
+
+                    long l=dateCalender.getTimeInMillis();
+                    String  s= DateFormat.format("EEEE, MMM d, yyyy", dateCalender).toString()+" " +DateFormat.format("h:mm a", dateCalender).toString();
+
+                    Alarm alarm= new Alarm(alarmId,l,examName,1,s);
+                    alarms.add(alarm);
+
                     Log.d(TAG, "onClick: started final text= "+finalText);
                     alertDialog.dismiss();
 
@@ -339,7 +367,7 @@ private void showDialog() {
         @Override
         public void onClick(View v) {
             Calendar calendar = Calendar.getInstance();
-            int HOUR = calendar.get(Calendar.HOUR);
+            int HOUR = calendar.get(Calendar.HOUR_OF_DAY);
             int MINUTE = calendar.get(Calendar.MINUTE);
             boolean is24HourFormat = DateFormat.is24HourFormat(CreateExamRoutineActivity.this);
 
@@ -349,10 +377,12 @@ private void showDialog() {
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                     Log.i(TAG, "onTimeSet: " + hour + minute);
                     Calendar calendar1 = Calendar.getInstance();
-                    calendar1.set(Calendar.HOUR, hour);
+                    calendar1.set(Calendar.HOUR_OF_DAY, hour);
                     calendar1.set(Calendar.MINUTE, minute);
                     String time = DateFormat.format("h:mm a", calendar1).toString();
                     srtTimeTv.setText(time);
+                    dateCalender.set(Calendar.HOUR_OF_DAY,hour);
+                    dateCalender.set(Calendar.MINUTE,minute);
 
                 }
             }, HOUR, MINUTE, is24HourFormat);
@@ -366,7 +396,7 @@ private void showDialog() {
         @Override
         public void onClick(View v) {
             Calendar calendar = Calendar.getInstance();
-            int HOUR = calendar.get(Calendar.HOUR);
+            int HOUR = calendar.get(Calendar.HOUR_OF_DAY);
             int MINUTE = calendar.get(Calendar.MINUTE);
             boolean is24HourFormat = DateFormat.is24HourFormat(CreateExamRoutineActivity.this);
 
@@ -376,7 +406,7 @@ private void showDialog() {
                 public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                     Log.i(TAG, "onTimeSet: " + hour + minute);
                     Calendar calendar1 = Calendar.getInstance();
-                    calendar1.set(Calendar.HOUR, hour);
+                    calendar1.set(Calendar.HOUR_OF_DAY, hour);
                     calendar1.set(Calendar.MINUTE, minute);
                     fshTimeTv.setText(DateFormat.format("h:mm a", calendar1).toString());
 
@@ -438,6 +468,7 @@ private void createExamRoutine() {
                 Toast.makeText(CreateExamRoutineActivity.this, "Exam Schedule Updated.", Toast.LENGTH_SHORT).show();
                 sendNotificationData(" Exam routine for "+ examRoutine.getExamDate(),finalDate,priority,finalText);
 
+                postAlarms();
                 finalText="Exams: \n";
                 finalDate="";
                 examRoutine.setExams("");
@@ -494,6 +525,7 @@ private void handleDateButton() {
                 txtRoutineDate.setText(dateText);
                 examRoutine.setExamDate(dateText);
                 finalDate=dateText;
+                dateCalender=calendar1;
             }
         }, YEAR, MONTH, DATE);
 
@@ -607,5 +639,66 @@ private void sendNotification(String title, String body) {
         {
             e.printStackTrace();
         }
+    }
+    private void postAlarms()
+    {
+        for (Alarm alarm : alarms)
+        {
+            sendAlarmNotification(alarm);
+
+        }
+        alarms.clear();
+
+    }
+    private void sendAlarmNotification(Alarm alarm) {
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("to","/topics/"+Utils.getTopic());
+            /*JSONObject notificationObj = new JSONObject();
+            notificationObj.put("title",title);
+            notificationObj.put("body",body);*/
+
+            JSONObject extraData = new JSONObject();
+            extraData.put("category","alarm");
+            extraData.put("alarm",alarm.toString());
+
+
+
+
+            json.put("data",extraData);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            Log.d("MUR", "onResponse: ");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("MUR", "onError: "+error.networkResponse);
+                }
+            }
+            ){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header = new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AIzaSyBJDuo2BaJ9bjqLpnGcE_BY4oD282gF64M");
+                    return header;
+                }
+            };
+            mRequestQue.add(request);
+        }
+        catch (JSONException e)
+
+        {
+            e.printStackTrace();
+        }
+
     }
 }

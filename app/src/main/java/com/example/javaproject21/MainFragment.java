@@ -10,19 +10,16 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -57,7 +54,7 @@ public class MainFragment extends Fragment {
      * The CardView for notification.
      */
 //private
-    CardView cardNotification;
+    CardView cardAlarm;
     /**
      * The CardView for resources.
      */
@@ -92,7 +89,7 @@ private TextView txtStudentName;
         cardClassRoutine=view.findViewById(R.id.cardClassRoutine);
         cardSocial=view.findViewById(R.id.cardSocial);
         cardExamRoutine=view.findViewById(R.id.cardExamRoutine);
-        cardNotification=view.findViewById(R.id.cardNotification);
+        cardAlarm =view.findViewById(R.id.cardNotification);
         cardResources=view.findViewById(R.id.cardResources);
         cardProfile=view.findViewById(R.id.cardProfile);
         imageView=view.findViewById(R.id.imageProfile);
@@ -121,10 +118,10 @@ private TextView txtStudentName;
                 startActivity(new Intent(view.getContext(),ResourcesActivity.class));
             }
         });
-        cardNotification.setOnClickListener(new View.OnClickListener() {
+        cardAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(view.getContext(),NotificationActivity.class));
+                startActivity(new Intent(view.getContext(),AlarmActivity.class));
 
             }
         });

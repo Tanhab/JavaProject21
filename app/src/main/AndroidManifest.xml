@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +16,7 @@
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CreateAlarmActivity"></activity>
         <activity android:name=".StudentListSearchActivity2" />
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".StudentsListSearchActivity" />
@@ -36,6 +41,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".AlarmActivity" />
+        <activity android:name=".AlarmOffActivity" />
         <activity
             android:name=".TimelineActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -46,6 +53,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".AlarmForegroundService"
+            android:enabled="true" />
+
+        <receiver
+            android:name=".AlertReceiver"
+            android:enabled="true" />
 
         <service
             android:name=".MyFirebaseMessagingService"
