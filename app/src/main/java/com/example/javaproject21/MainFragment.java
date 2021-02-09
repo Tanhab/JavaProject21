@@ -78,7 +78,8 @@ private TextView txtStudentName;
     /**
      * The ImageButton for navigation.
      */
-    ImageButton btnNavigation;
+    ImageButton btnNavigation,btnNotification;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,7 +96,7 @@ private TextView txtStudentName;
         imageView=view.findViewById(R.id.imageProfile);
         txtStudentName=view.findViewById(R.id.studentName);
         btnNavigation=view.findViewById(R.id.btnNavigation);
-
+        btnNotification=view.findViewById(R.id.notificationBtn);
         setupTopView(view);
 
         cardClassRoutine.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +149,12 @@ private TextView txtStudentName;
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        btnNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(view.getContext(),NotificationActivity.class));
             }
         });
         btnNavigation.setOnClickListener(new View.OnClickListener() {

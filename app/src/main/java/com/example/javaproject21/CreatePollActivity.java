@@ -48,7 +48,7 @@ public class CreatePollActivity extends AppCompatActivity {
      * The constant variable for logcat.
      */
     private static final String TAG = "CreatePollActivity";
-
+private ImageButton backBtn;
     /**
      * The TextView for name.
      */
@@ -123,6 +123,7 @@ private String URL = "https://fcm.googleapis.com/fcm/send";
         setContentView(R.layout.activity_create_poll);
         txtDate=findViewById(R.id.txtDate);
         txtName=findViewById(R.id.txtName);
+        backBtn=findViewById(R.id.backButton);
         mRequestQue = Volley.newRequestQueue(this);
         pd=new ProgressDialog(this);
         pd.setCancelable(false);
@@ -158,6 +159,13 @@ private String URL = "https://fcm.googleapis.com/fcm/send";
         txtName.setText(Utils.getUserName());
         txtDate.setText(date);
         Glide.with(this).load(Utils.getImageUri()).placeholder(R.drawable.ic_profile_empty).into(profilePic);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         btnAddPost.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,8 +14,9 @@
         android:layout_gravity="center"
 
         android:text="Add a class schedule"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
         android:textSize="20sp"
+
         android:textStyle="bold" />
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -42,6 +43,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class CreatePostActivity extends AppCompatActivity {
     private static final String TAG = "CreatePostActivity";
+    private ImageButton backBtn;
 
     /**
      * The TextView for name.
@@ -81,6 +83,7 @@ private String URL = "https://fcm.googleapis.com/fcm/send";
         profilePic=findViewById(R.id.postProfilePic);
         edtMessage=findViewById(R.id.edtMessage);
         btnAddPost=findViewById(R.id.btnPost);
+        backBtn=findViewById(R.id.backButton);
         mRequestQue = Volley.newRequestQueue(this);
         Calendar calendar = Calendar.getInstance();
         int HOUR = calendar.get(Calendar.HOUR);
@@ -103,7 +106,12 @@ private String URL = "https://fcm.googleapis.com/fcm/send";
                 addPost(msg);
             }
         });
-
+backBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        onBackPressed();
+    }
+});
 
     }
 

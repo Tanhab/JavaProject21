@@ -12,8 +12,9 @@
         android:layout_height="wrap_content"
         android:text="Change Invitation Code"
         android:layout_gravity="center"
+
         android:textSize="20sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
         android:textStyle="bold"
         />
     <LinearLayout

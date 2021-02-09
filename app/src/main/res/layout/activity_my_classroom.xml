@@ -19,7 +19,9 @@
         android:layout_height="wrap_content"
         android:text="My Classroom"
     android:textStyle="bold"
-        android:textSize="24sp"
+        android:textSize="25sp"
+        android:padding="10dp"
+        android:fontFamily="@font/voltaire"
         android:textColor="#0467B5"
         android:gravity="center_horizontal"
         android:layout_margin="20dp"
@@ -29,8 +31,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/permanent_marker"
+        android:layout_marginTop="5dp"
+      android:textStyle="bold|italic"
         android:gravity="center_horizontal"
         android:textColor="@android:color/white"
         android:padding="10dp"
@@ -96,7 +98,12 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.airbnb.lottie.LottieAnimationView
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_information"/>
+
+                       <!-- <com.airbnb.lottie.LottieAnimationView
 
                             android:layout_width="120dp"
                             android:layout_height="120dp"
@@ -104,12 +111,13 @@
                             android:scrollbarSize="40dp"
                             app:lottie_autoPlay="true"
                             app:lottie_fileName="info.json"
-                            app:lottie_loop="true" />
+                            app:lottie_loop="true" />-->
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Classroom Info"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/nunito_sans_semibold"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
@@ -131,7 +139,12 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.airbnb.lottie.LottieAnimationView
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_presentation"/>
+
+                        <!--<com.airbnb.lottie.LottieAnimationView
 
                             android:layout_width="120dp"
                             android:layout_height="120dp"
@@ -140,11 +153,12 @@
                             app:lottie_autoPlay="true"
                             app:lottie_fileName="teacher.json"
                             app:lottie_loop="true" />
-
+-->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Teachers &amp; courses"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/nunito_sans_semibold"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
@@ -178,7 +192,12 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.airbnb.lottie.LottieAnimationView
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_friends"/>
+
+                     <!--   <com.airbnb.lottie.LottieAnimationView
 
                             android:layout_width="120dp"
                             android:layout_height="120dp"
@@ -186,12 +205,13 @@
                             android:scrollbarSize="40dp"
                             app:lottie_autoPlay="true"
                             app:lottie_fileName="classmates.json"
-                            app:lottie_loop="true" />
+                            app:lottie_loop="true" />-->
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="classmates"
+                            android:text="Classmates"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/nunito_sans_semibold"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />
@@ -213,19 +233,25 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.airbnb.lottie.LottieAnimationView
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_exit"/>
+
+                       <!-- <com.airbnb.lottie.LottieAnimationView
                             android:layout_width="120dp"
                             android:layout_height="120dp"
                             android:layout_gravity="center"
                             android:scrollbarSize="40dp"
                             app:lottie_autoPlay="true"
                             app:lottie_fileName="leave.json"
-                            app:lottie_loop="true" />
+                            app:lottie_loop="true" />-->
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Leave classroom"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/nunito_sans_semibold"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold" />

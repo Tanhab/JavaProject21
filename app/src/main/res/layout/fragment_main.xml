@@ -20,8 +20,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="55dp"
             android:src="@drawable/classicon"
             android:id="@+id/imageProfile"
             />
@@ -29,8 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/imageProfile"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
+
+            android:layout_marginTop="55dp"
             android:padding="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="135dp"
+        android:layout_marginTop="140dp"
         android:fontFamily="@font/black_ops_one"
         android:text="Class Update"
         android:textAllCaps="true"
@@ -122,7 +122,12 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.airbnb.lottie.LottieAnimationView
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_classrountine"/>
+
+                         <!--   <com.airbnb.lottie.LottieAnimationView
 
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
@@ -131,11 +136,13 @@
                                 app:lottie_autoPlay="true"
                                 app:lottie_fileName="classr.json"
                                 app:lottie_loop="true" />
-
+-->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Class routine"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="10dp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -156,20 +163,27 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.airbnb.lottie.LottieAnimationView
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_examroutine" />
 
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
-                                android:layout_gravity="center"
-                                android:scrollbarSize="40dp"
-                                app:lottie_autoPlay="true"
-                                app:lottie_fileName="exam.json"
-                                app:lottie_loop="true" />
+                            <!-- <com.airbnb.lottie.LottieAnimationView
 
+                                 android:layout_width="80dp"
+                                 android:layout_height="80dp"
+                                 android:layout_gravity="center"
+                                 android:scrollbarSize="40dp"
+                                 app:lottie_autoPlay="true"
+                                 app:lottie_fileName="exam.json"
+                                 app:lottie_loop="true" />
+ -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Exam routine"
+                                android:layout_marginTop="10dp"
+                                android:textColor="@android:color/black"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -190,7 +204,12 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.airbnb.lottie.LottieAnimationView
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_alarm"/>
+
+                          <!--  <com.airbnb.lottie.LottieAnimationView
 
                                 android:layout_width="80dp"
                                 android:layout_height="85dp"
@@ -199,11 +218,13 @@
                                 app:lottie_autoPlay="true"
                                 app:lottie_fileName="notification.json"
                                 app:lottie_loop="true" />
-
+-->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Reminders"
+                                android:layout_marginTop="10dp"
+                                android:textColor="@android:color/black"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -233,7 +254,11 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.airbnb.lottie.LottieAnimationView
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_share"/>
+                           <!-- <com.airbnb.lottie.LottieAnimationView
 
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
@@ -241,12 +266,14 @@
                                 android:scrollbarSize="40dp"
                                 app:lottie_autoPlay="true"
                                 app:lottie_fileName="social.json"
-                                app:lottie_loop="true" />
+                                app:lottie_loop="true" />-->
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Social"
+                                android:text="Timeline"
+                                android:layout_marginTop="10dp"
+                                android:textColor="@android:color/black"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -267,19 +294,26 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.airbnb.lottie.LottieAnimationView
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_books"/>
+
+                           <!-- <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_gravity="center"
                                 android:scrollbarSize="40dp"
                                 app:lottie_autoPlay="true"
                                 app:lottie_fileName="resources1.json"
-                                app:lottie_loop="true" />
+                                app:lottie_loop="true" />-->
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Resources"
+                                android:layout_marginTop="10dp"
+                                android:textColor="@android:color/black"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -299,20 +333,26 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_classroom"/>
 
-                            <com.airbnb.lottie.LottieAnimationView
+                         <!--   <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_gravity="center"
                                 android:scrollbarSize="40dp"
                                 app:lottie_autoPlay="true"
                                 app:lottie_fileName="myclassroom.json"
-                                app:lottie_loop="true" />
+                                app:lottie_loop="true" />-->
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="My Classroom "
+                                android:layout_marginTop="10dp"
+                                android:textColor="@android:color/black"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -324,14 +364,24 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
     <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/btnNavigation"
-        android:layout_margin="5dp"
-
-        android:background="@drawable/ic_baseline_menu_24"
+        android:background="@drawable/ic_menu"
         />
+
+    <ImageButton
+        android:id="@+id/notificationBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+       android:background="@drawable/ic_notification"
+       />
 
 </RelativeLayout>

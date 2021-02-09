@@ -17,8 +17,9 @@
             android:layout_centerHorizontal="true"
             android:text="Create Class Routine"
             android:layout_margin="20dp"
+            android:fontFamily="@font/voltaire"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:padding="10dp"
             />

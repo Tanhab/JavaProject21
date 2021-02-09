@@ -51,7 +51,7 @@ public class CreateEventActivity extends AppCompatActivity {
      */
     private static final String TAG = "CreateEventActivity";
 
-
+private ImageButton backBtn;
     /**
      * The Edit Text for event name.
      */
@@ -142,6 +142,14 @@ public class CreateEventActivity extends AppCompatActivity {
         btnDate=findViewById(R.id.btnDatePicker);
         btnTime=findViewById(R.id.btnTimePicker);
         btnPost=findViewById(R.id.btnPost);
+        backBtn=findViewById(R.id.backButton);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         username.setText(Utils.getUserName());
         Calendar calendar = Calendar.getInstance();

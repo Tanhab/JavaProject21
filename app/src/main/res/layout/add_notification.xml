@@ -16,9 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send Notification"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorAccent"
             android:textStyle="bold"
             android:textSize="20sp"
+
             />
             <EditText
                 android:layout_width="match_parent"
