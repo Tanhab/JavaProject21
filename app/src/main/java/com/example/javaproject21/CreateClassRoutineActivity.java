@@ -446,10 +446,10 @@ private void handleDateButton() {
                 if(edtClasses.getText().toString().length()<1)
                 {
                     edtClasses.setError("Can't be empty");
-                }else if(srtTimeTv.getText().toString().length()<1)
+                }else if(srtTimeTv.getText().toString()=="Select a starting time")
                 {
                     Toast.makeText(CreateClassRoutineActivity.this, "Please select class starting time.", Toast.LENGTH_SHORT).show();
-                }else if(fshTimeTv.getText().toString().length()<1)
+                }else if(fshTimeTv.getText().toString()=="Select a finishing time")
                 {
                     Toast.makeText(CreateClassRoutineActivity.this, "Please select class finishing time.", Toast.LENGTH_SHORT).show();
                 }
@@ -489,6 +489,34 @@ private void handleDateButton() {
             }
         });
 
+        srtTimeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int HOUR = calendar.get(Calendar.HOUR_OF_DAY);
+                int MINUTE = calendar.get(Calendar.MINUTE);
+                boolean is24HourFormat = DateFormat.is24HourFormat(CreateClassRoutineActivity.this);
+
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateClassRoutineActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        Log.i(TAG, "onTimeSet: " + hour + minute);
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.set(Calendar.HOUR_OF_DAY, hour);
+                        calendar1.set(Calendar.MINUTE, minute);
+                        String time = DateFormat.format("h:mm a", calendar1).toString();
+                        srtTimeTv.setText(time);
+                        dateCalender.set(Calendar.HOUR_OF_DAY,hour);
+                        dateCalender.set(Calendar.MINUTE,minute);
+
+                    }
+                }, HOUR, MINUTE, is24HourFormat);
+
+                timePickerDialog.show();
+            }
+        });
+
         startTimeB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -516,6 +544,31 @@ private void handleDateButton() {
                 timePickerDialog.show();
 
 
+            }
+        });
+
+        fshTimeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int HOUR = calendar.get(Calendar.HOUR_OF_DAY);
+                int MINUTE = calendar.get(Calendar.MINUTE);
+                boolean is24HourFormat = DateFormat.is24HourFormat(CreateClassRoutineActivity.this);
+
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateClassRoutineActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        Log.i(TAG, "onTimeSet: " + hour + minute);
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.set(Calendar.HOUR_OF_DAY, hour);
+                        calendar1.set(Calendar.MINUTE, minute);
+                        fshTimeTv.setText(DateFormat.format("h:mm a", calendar1).toString());
+
+                    }
+                }, HOUR, MINUTE, is24HourFormat);
+
+                timePickerDialog.show();
             }
         });
         finishTimeB.setOnClickListener(new View.OnClickListener() {

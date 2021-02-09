@@ -13,15 +13,40 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtTitle"
         android:text="Name"
-        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+
         />
-  
-    <Button
+    <com.skyfishjy.library.RippleBackground
+        android:id="@+id/stopAlarm"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:rb_color="@color/colorPrimary"
+        app:rb_duration="3000"
+        app:rb_radius="32dp"
+        app:rb_rippleAmount="6"
+        app:rb_scale="6">
+
+        <TextView
+            android:id="@+id/alarm_stop_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="STOP"
+            android:clickable="true"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold">
+
+        </TextView>
+    </com.skyfishjy.library.RippleBackground>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop"
-        android:id="@+id/btnStop"
-        />
+        android:layout_marginTop="10dp"
+        android:text="Tap the stop button to dismiss the alarm!"/>
 
 
 </LinearLayout>

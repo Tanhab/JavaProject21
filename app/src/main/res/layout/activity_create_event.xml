@@ -6,28 +6,24 @@
     android:layout_height="match_parent"
 
     tools:context=".CreatePostActivity">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
-        android:id="@+id/view1"
-        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Plan A Event"
-        android:textSize="28sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         android:gravity="center_horizontal"
-        android:fontFamily="@font/nunito_sans_semibold"
-        android:layout_marginTop="10dp"
+
+        android:layout_marginTop="20dp"
         android:id="@+id/text1"
         />
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_marginTop="55dp"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view1"
+
 
         >
         <RelativeLayout

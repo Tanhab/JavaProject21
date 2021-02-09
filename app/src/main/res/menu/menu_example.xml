@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/auto_alarmID"
+        android:title="Auto Alarm" />
+    <item android:id="@+id/arekta_kichuId"
+        android:title="Arekta kichu"
+       />
+
+</menu>

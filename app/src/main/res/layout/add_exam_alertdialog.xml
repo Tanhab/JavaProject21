@@ -13,7 +13,6 @@
         android:text="Add A Exam Schedule"
         android:textColor="@android:color/white"
         android:layout_gravity="center"
-        android:fontFamily="@font/nunito_sans_semibold"
         android:textSize="20sp"
         android:textStyle="bold"
         />
@@ -131,29 +130,32 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+ <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Schedule:"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"/>
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="STARTING TIME:"
-            android:textSize="17sp"
-            android:textColor="@android:color/black"/>
 
         <ImageButton
             android:id="@+id/startTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
             android:background="@drawable/ic_baseline_access_time_24"
-            android:layout_marginLeft="20dp"/>
+      />
 
         <TextView
             android:id="@+id/startTimeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Select a starting time"
             android:layout_marginLeft="20dp"
             android:textColor="@android:color/black"/>
 
@@ -164,25 +166,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FINISHING TIME:"
-            android:textSize="17sp"
-            android:textColor="@android:color/black"/>
+
 
         <ImageButton
             android:id="@+id/finishTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
             android:background="@drawable/ic_baseline_access_time_24"
-            android:layout_marginLeft="21dp"/>
+          />
 
         <TextView
             android:id="@+id/finishTimeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Select a finishing time"
             android:layout_marginLeft="20dp"
             android:textColor="@android:color/black"/>
 

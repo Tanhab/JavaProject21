@@ -10,20 +10,22 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.skyfishjy.library.RippleBackground;
 
 
 public class AlarmOffActivity extends AppCompatActivity {
-    Button btnStop;
-    TextView txtTitle;
+
+    TextView txtTitle,btnStop;
     DataBaseManager dataBaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_off);
-        btnStop=findViewById(R.id.btnStop);
+        btnStop=findViewById(R.id.alarm_stop_tv);
         txtTitle= findViewById(R.id.txtTitle);
-
+        RippleBackground rippleBackground = findViewById(R.id.stopAlarm);
+        rippleBackground.startRippleAnimation();
         dataBaseManager= new DataBaseManager(this);
         String title = getIntent().getStringExtra("title");
         final int alarmId =  getIntent().getIntExtra("AlarmId",0);

@@ -44,7 +44,7 @@
 
 
         android:backgroundTint="@color/colorPrimary"
-        android:background="@drawable/back_white2" />
+        android:background="@drawable/ic_baseline_arrow_back_ios_24" />
 
 
 

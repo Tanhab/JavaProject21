@@ -16,7 +16,7 @@
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateAlarmActivity"></activity>
+        <activity android:name=".CreateAlarmActivity" />
         <activity android:name=".StudentListSearchActivity2" />
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".StudentsListSearchActivity" />
