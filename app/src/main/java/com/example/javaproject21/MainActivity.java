@@ -195,8 +195,7 @@ private void init(){
                 startActivity(intent);
                 break;
             case R.id.contact:
-                Toast.makeText(this, "About us selected", Toast.LENGTH_SHORT).show();
-
+                startActivity(new Intent(getApplicationContext(),AboutUsActivity.class));
                 break;
 
             default:
